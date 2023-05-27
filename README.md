@@ -12,3 +12,5 @@
 ## 参与贡献
 
 @Telegram HuskyDG巨佬贡献的Magisk安装到/system分区的方案和他的Magisk-Delta
+
+## ©2023~Now
