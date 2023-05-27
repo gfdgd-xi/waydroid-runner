@@ -11,6 +11,7 @@ import traceback
 import PyQt5.QtGui as QtGui
 import PyQt5.QtCore as QtCore
 import PyQt5.QtWidgets as QtWidgets
+from Model import *
 
 # 读取文本文档
 def readtxt(path: "路径")->"读取文本文档":
@@ -114,7 +115,8 @@ windowTitle = f"Waydroid 运行器 {version}"
 app = QtWidgets.QApplication(sys.argv)
 # 环境检测
 if os.system("which waydroid"):
-    if QtWidgets.QMessageBox.question(None, "提示", "您还未安装 Waydroid，是否继续？") == QtWidgets.QMessageBox.No:
+    if QtWidgets.QMessageBox.question(None, "提示", "您还未安装 Waydroid，是否立即安装？") == QtWidgets.QMessageBox.Yes:
+        OpenTerminal(f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'")
         sys.exit()
 mainwindow = QtWidgets.QMainWindow()
 widget = QtWidgets.QWidget()
