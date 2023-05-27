@@ -105,7 +105,7 @@ about = f'''<p align="center"><img width=256 src="{iconPath}"/></p>
 <p>程序官网：{programUrl}</p>
 <p>系统版本：{SystemVersion}</p>
 <p>安装包构建时间：{information['Time']}</p>
-<h1>©2021-{time.strftime("%Y")}</h1>'''
+<h1>©2023-{time.strftime("%Y")}</h1>'''
 tips = ""
 contribute = ""
 iconPath = f"{programPath}"
