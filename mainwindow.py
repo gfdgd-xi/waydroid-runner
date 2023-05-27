@@ -2,8 +2,10 @@
 # 基于 GPLV3 开源
 import os
 import sys
+#from torch import *
+import torch
+#import pynvml
 import PyQt5.QtWidgets as QtWidgets
-
 app = QtWidgets.QApplication(sys.argv)
 mainwindow = QtWidgets.QMainWindow()
 widget = QtWidgets.QWidget()
@@ -24,9 +26,9 @@ apkInstallLayout.addWidget(installButton)
 gpuDevice = QtWidgets.QLabel("当前工作GPU：AMD Raven Ridge")
 gpuChooser = QtWidgets.QPushButton("选择")
 waydroidStatus = QtWidgets.QLabel("Waydroid：已安装")
-magiskDeltoInstallStatus = QtWidgets.QLabel("Magisk Delto：已安装")
-libkoudiniInstallStatus = QtWidgets.QLabel("Libkoudini：已安装")
-lsPosedInstallStatus = QtWidgets.QLabel("LSPased：已安装")
+magiskDeltoInstallStatus = QtWidgets.QLabel("Magisk Delta：已安装")
+libkoudiniInstallStatus = QtWidgets.QLabel("Libhoudini：已安装")
+lsPosedInstallStatus = QtWidgets.QLabel("LSPosed：已安装")
 diskUsing = QtWidgets.QLabel("存储占用：8.56GB")
 memoryUsing = QtWidgets.QLabel("内存占用：850MB")
 # layout
@@ -75,9 +77,18 @@ helpMenu.addAction(aboutThisProgramAction)
 # mainwindow.setWindowIcon("")
 mainwindow.show()
 
+# 检测显卡型号
+ng = torch.cuda.device_count()
+print("Devices:%d" %ng)
+infos = [torch.cuda.get_device_properties(i) for i in range(ng)]
+print(infos)
+#print(pynvml.nvmlDeviceGetCount())
+#gpuDevice.setText(f"GPU 型号：{pynvml.nvmlDeviceGetName(pynvml.nvmlDeviceGetHandleByIndex(0))}")
+#deviceCount = pynvml.nvmlDeviceGetCount()
+
 # 检测 Waydroid 是否存在
 if os.system("which waydroid"):
     waydroidStatus.setText("Waydroid：未安装")
-    
+
 
 sys.exit(app.exec_())
