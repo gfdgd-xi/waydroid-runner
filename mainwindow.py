@@ -2,11 +2,120 @@
 # 基于 GPLV3 开源
 import os
 import sys
+import time
+import json
 #from torch import *
 import torch
 #import pynvml
+import traceback
+import PyQt5.QtGui as QtGui
+import PyQt5.QtCore as QtCore
 import PyQt5.QtWidgets as QtWidgets
+
+# 读取文本文档
+def readtxt(path: "路径")->"读取文本文档":
+    f = open(path, "r")  # 设置文件对象
+    str = f.read()  # 获取内容
+    f.close()  # 关闭文本对象
+    return str  # 返回结果
+
+def GetSystemVersion():
+    systemInformation = readtxt("/etc/os-release")
+    for systemInformation in systemInformation.split('\n'):
+        if "PRETTY_NAME=" in systemInformation:
+            return systemInformation.replace("PRETTY_NAME=", "").replace('"', '')
+
+# 关于窗口
+helpWindow = None
+def showhelp():
+    global helpWindow
+    helpWindow = QtWidgets.QMainWindow()
+    helpWidget = QtWidgets.QWidget()
+    helpLayout = QtWidgets.QGridLayout()
+
+    def ChgLog():
+        HelpStr.setHtml(updateThingsString)
+    def ChgAbout(event):
+        HelpStr.setHtml(about)
+    def ChgCon():
+        HelpStr.setHtml(contribute)
+    def ChgTips():
+        HelpStr.setHtml(tips)
+    
+    def ChgGPLV3():
+        try:
+            with open(f"{programPath}/LICENSE", "r") as file:
+                things = file.read()
+                try:
+                    HelpStr.setMarkdown(things)
+                except:
+                    # 旧版 QT 不支持 Markdown
+                    traceback.print_exc()
+                    HelpStr.setText(things)
+        except:
+            traceback.print_exc()
+            HelpStr.setText(traceback.print_exc())
+    
+    BtnReadme = QtWidgets.QPushButton("使用说明")
+    BtnLog = QtWidgets.QPushButton("更新内容")
+    BtnGongxian = QtWidgets.QPushButton("谢明列表")
+    BtnAbout = QtWidgets.QPushButton("关于")
+    BtnGPLV3 = QtWidgets.QPushButton("程序开源许可证")
+    HelpStr = QtWidgets.QTextBrowser()
+    # 此功能从 2.0.0 后不再隐藏
+    #BtnDownN.setEnabled("--彩蛋" in sys.argv)
+    BtnReadme.clicked.connect(ChgTips)
+    BtnLog.clicked.connect(ChgLog)
+    BtnGongxian.clicked.connect(ChgCon)
+    BtnAbout.clicked.connect(ChgAbout)
+    BtnGPLV3.clicked.connect(ChgGPLV3)
+
+    ChgTips()
+
+    helpLayout.addWidget(BtnReadme, 0, 0, 1, 1)
+    helpLayout.addWidget(BtnLog, 1, 0, 1, 1)
+    helpLayout.addWidget(BtnGongxian, 2, 0, 1, 1)
+    helpLayout.addWidget(BtnGPLV3, 3, 0, 1, 1)
+    helpLayout.addWidget(BtnAbout, 4, 0, 1, 1)
+    helpLayout.addWidget(HelpStr, 0, 1, 10, 1)
+
+    helpWidget.setLayout(helpLayout)
+    helpWindow.setCentralWidget(helpWidget)
+    helpWindow.setFixedSize(int(helpWindow.frameSize().width() * 0.9), int(helpWindow.frameSize().height() * 1.5))
+    helpWindow.setWindowTitle(f"{windowTitle}——帮助")
+    helpWindow.setWindowIcon(QtGui.QIcon(iconPath))
+    helpWindow.show()
+    return
+
+# 环境变量
+programPath = os.path.split(os.path.realpath(__file__))[0]  # 返回 string
+information = json.loads(readtxt(programPath + "/information.json"))
+SystemVersion = GetSystemVersion()
+programUrl = information["Url"][0]
+version = information["Version"]
+goodRunSystem = information["System"]
+iconPath = "{}/runner.svg".format(os.path.split(os.path.realpath(__file__))[0])
+updateThingsString = ""
+about = f'''<p align="center"><img width=256 src="{iconPath}"/></p>
+<p>介绍：</p>
+<p>程序开源许可证：GPLV3</p>
+<p>版本：{version}</p>
+<p>适用平台：{goodRunSystem}</p>
+<p>Qt 版本：{QtCore.qVersion()}</p>
+<p>程序官网：{programUrl}</p>
+<p>系统版本：{SystemVersion}</p>
+<p>安装包构建时间：{information['Time']}</p>
+<h1>©2021-{time.strftime("%Y")}</h1>'''
+tips = ""
+contribute = ""
+iconPath = f"{programPath}"
+windowTitle = f"Waydroid 运行器 {version}"
+
 app = QtWidgets.QApplication(sys.argv)
+# 环境检测
+if os.system("which waydroid"):
+    if QtWidgets.QMessageBox.question(None, "提示", "您还未安装 Waydroid，是否继续？") == QtWidgets.QMessageBox.No:
+        sys.exit()
 mainwindow = QtWidgets.QMainWindow()
 widget = QtWidgets.QWidget()
 widgetLayout = QtWidgets.QGridLayout()
@@ -47,7 +156,7 @@ widgetLayout.addLayout(apkInstallLayout, 2, 0)
 widgetLayout.addLayout(infoLayout, 3, 0)
 
 widget.setLayout(widgetLayout)
-mainwindow.setWindowTitle("Waydroid 运行器 1.0.0")
+mainwindow.setWindowTitle(windowTitle)
 mainwindow.setCentralWidget(widget)
 ## 菜单栏
 menu = mainwindow.menuBar()
@@ -68,20 +177,23 @@ waydroidMenu.addAction(gpuChooseAction)
 helpAction = QtWidgets.QAction("程序帮助")
 uploadBugAction = QtWidgets.QAction("问题反馈")
 aboutThisProgramAction = QtWidgets.QAction("关于本程序(&A)")
+helpAction.triggered.connect(showhelp)
+aboutThisProgramAction.triggered.connect(showhelp)
 helpMenu.addAction(helpAction)
 helpMenu.addAction(uploadBugAction)
 helpMenu.addAction(aboutThisProgramAction)
 
 ## 窗口属性
-# 图标待定
-# mainwindow.setWindowIcon("")
+mainwindow.setWindowIcon(QtGui.QIcon(iconPath))
+
 mainwindow.show()
+mainwindow.resize(mainwindow.frameGeometry().width() * 1.8, mainwindow.frameGeometry().height())
 
 # 检测显卡型号
-ng = torch.cuda.device_count()
-print("Devices:%d" %ng)
-infos = [torch.cuda.get_device_properties(i) for i in range(ng)]
-print(infos)
+#ng = torch.cuda.device_count()
+#print("Devices:%d" %ng)
+#infos = [torch.cuda.get_device_properties(i) for i in range(ng)]
+#print(infos)
 #print(pynvml.nvmlDeviceGetCount())
 #gpuDevice.setText(f"GPU 型号：{pynvml.nvmlDeviceGetName(pynvml.nvmlDeviceGetHandleByIndex(0))}")
 #deviceCount = pynvml.nvmlDeviceGetCount()
