@@ -39,8 +39,31 @@ widgetLayout.addLayout(apkInstallLayout, 2, 0)
 widgetLayout.addLayout(infoLayout, 3, 0)
 
 widget.setLayout(widgetLayout)
-mainwindow.setWindowTitle("Waydroid 运行器")
+mainwindow.setWindowTitle("Waydroid 运行器 1.0.0")
 mainwindow.setCentralWidget(widget)
+## 菜单栏
+menu = mainwindow.menuBar()
+programMenu = menu.addMenu("程序(&W)")
+waydroidMenu = menu.addMenu("Waydroid(&W)")
+configMenu = menu.addMenu("配置(&C)")
+settingMenu = menu.addMenu("设置(&S)")
+helpMenu = menu.addMenu("帮助(&H)")
+# 程序栏
+exitProgramAction = QtWidgets.QAction("退出程序")
+programMenu.addAction(exitProgramAction)
+exitProgramAction.triggered.connect(sys.exit)
+# Waydroid 栏
+gpuChooseAction = QtWidgets.QAction("GPU 选择")
+waydroidMenu.addAction(gpuChooseAction)
+# 帮助 栏
+helpAction = QtWidgets.QAction("程序帮助")
+uploadBugAction = QtWidgets.QAction("问题反馈")
+aboutThisProgramAction = QtWidgets.QAction("关于本程序(&A)")
+helpMenu.addAction(helpAction)
+helpMenu.addAction(uploadBugAction)
+helpMenu.addAction(aboutThisProgramAction)
+
+## 窗口属性
 # 图标待定
 # mainwindow.setWindowIcon("")
 mainwindow.show()
