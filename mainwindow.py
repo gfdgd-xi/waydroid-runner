@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
+# 基于 GPLV3 开源
+import os
 import sys
 import PyQt5.QtWidgets as QtWidgets
+
 app = QtWidgets.QApplication(sys.argv)
 mainwindow = QtWidgets.QMainWindow()
 widget = QtWidgets.QWidget()
@@ -8,12 +11,14 @@ widgetLayout = QtWidgets.QGridLayout()
 ### 创建控件
 ## 安装 apk
 apkPath = QtWidgets.QComboBox()
+apkPathBrowser = QtWidgets.QPushButton("浏览")
 installButton = QtWidgets.QPushButton("安装")
 # 设置属性
 apkPath.setEditable(True)
 # layout
 apkInstallLayout = QtWidgets.QHBoxLayout()
 apkInstallLayout.addWidget(apkPath)
+apkInstallLayout.addWidget(apkPathBrowser)
 apkInstallLayout.addWidget(installButton)
 ## info
 gpuDevice = QtWidgets.QLabel("当前工作GPU：AMD Raven Ridge")
@@ -26,13 +31,14 @@ diskUsing = QtWidgets.QLabel("存储占用：8.56GB")
 memoryUsing = QtWidgets.QLabel("内存占用：850MB")
 # layout
 infoLayout = QtWidgets.QGridLayout()
-infoLayout.addWidget(gpuDevice, 0, 0, 1, 2)
-infoLayout.addWidget(gpuChooser, 0, 3)
-infoLayout.addWidget(magiskDeltoInstallStatus, 1, 0)
-infoLayout.addWidget(libkoudiniInstallStatus, 2, 0)
-infoLayout.addWidget(diskUsing, 2, 1)
-infoLayout.addWidget(lsPosedInstallStatus, 3, 0)
-infoLayout.addWidget(memoryUsing, 3, 1)
+infoLayout.addWidget(waydroidStatus, 0, 0, 1, 2)
+infoLayout.addWidget(gpuDevice, 1, 0, 1, 2)
+infoLayout.addWidget(gpuChooser, 1, 3)
+infoLayout.addWidget(magiskDeltoInstallStatus, 2, 0)
+infoLayout.addWidget(libkoudiniInstallStatus, 3, 0)
+infoLayout.addWidget(diskUsing, 3, 1)
+infoLayout.addWidget(lsPosedInstallStatus, 4, 0)
+infoLayout.addWidget(memoryUsing, 4, 1)
 
 ## 大 layout
 widgetLayout.addLayout(apkInstallLayout, 2, 0)
@@ -45,11 +51,12 @@ mainwindow.setCentralWidget(widget)
 menu = mainwindow.menuBar()
 programMenu = menu.addMenu("程序(&W)")
 waydroidMenu = menu.addMenu("Waydroid(&W)")
-configMenu = menu.addMenu("配置(&C)")
-settingMenu = menu.addMenu("设置(&S)")
+configMenu = menu.addMenu("容器配置(&C)")
 helpMenu = menu.addMenu("帮助(&H)")
 # 程序栏
+settingProgramAction = QtWidgets.QAction("设置程序")
 exitProgramAction = QtWidgets.QAction("退出程序")
+programMenu.addAction(settingProgramAction)
 programMenu.addAction(exitProgramAction)
 exitProgramAction.triggered.connect(sys.exit)
 # Waydroid 栏
@@ -67,4 +74,10 @@ helpMenu.addAction(aboutThisProgramAction)
 # 图标待定
 # mainwindow.setWindowIcon("")
 mainwindow.show()
+
+# 检测 Waydroid 是否存在
+if os.system("which waydroid"):
+    waydroidStatus.setText("Waydroid：未安装")
+    
+
 sys.exit(app.exec_())
