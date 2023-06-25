@@ -173,7 +173,7 @@ programMenu.addAction(settingProgramAction)
 programMenu.addAction(exitProgramAction)
 exitProgramAction.triggered.connect(sys.exit)
 # Waydroid 栏
-installWaydroidAction = QtWidgets.QAction("安装 Waydroid")
+installWaydroidAction = QtWidgets.QAction("安装 Waydroid 本体")
 gpuChooseAction = QtWidgets.QAction("GPU 选择")
 installWaydroidAction.triggered.connect(lambda: OpenTerminal(f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'"))
 waydroidMenu.addAction(installWaydroidAction)
