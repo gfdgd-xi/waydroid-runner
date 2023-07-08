@@ -12,8 +12,8 @@ jobs:
           sudo apt update
           sudo apt install curl -y
           curl https://repo.waydro.id | sudo bash
-          apt download waydroid python3-gbinder
-          apt depends python3-gbinder
+          apt download waydroid python3-gbinder libgbinder
+          apt depends libgbinder
 
 
       
