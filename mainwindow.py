@@ -26,6 +26,12 @@ def GetSystemVersion():
         if "PRETTY_NAME=" in systemInformation:
             return systemInformation.replace("PRETTY_NAME=", "").replace('"', '')
 
+def BrowserApk():
+    path = QtWidgets.QFileDialog.getOpenFileName(mainwindow, "选择APK", homePath, "APK 文件(*.apk);;所有文件(*.*)")
+    if path[0] == "":
+        return
+    apkPath.setCurrentText(path[0])
+
 # 关于窗口
 helpWindow = None
 def showhelp():
@@ -97,6 +103,7 @@ version = information["Version"]
 goodRunSystem = information["System"]
 iconPath = "{}/runner.svg".format(os.path.split(os.path.realpath(__file__))[0])
 updateThingsString = ""
+homePath = os.getenv("HOME")
 about = f'''<p align="center"><img width=256 src="{iconPath}"/></p>
 <p>介绍：</p>
 <p>程序开源许可证：GPLV3</p>
@@ -118,9 +125,14 @@ if os.system("which waydroid"):
     if QtWidgets.QMessageBox.question(None, "提示", "您还未安装 Waydroid，是否立即安装？") == QtWidgets.QMessageBox.Yes:
         OpenTerminal(f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'")
         sys.exit()
+
+# 窗口
 mainwindow = QtWidgets.QMainWindow()
 widget = QtWidgets.QWidget()
 widgetLayout = QtWidgets.QGridLayout()
+# 权重
+size = QtWidgets.QSizePolicy()
+size.setHorizontalPolicy(0)
 ### 创建控件
 ## 安装 apk
 apkPath = QtWidgets.QComboBox()
@@ -128,6 +140,9 @@ apkPathBrowser = QtWidgets.QPushButton("浏览")
 installButton = QtWidgets.QPushButton("安装")
 # 设置属性
 apkPath.setEditable(True)
+apkPathBrowser.clicked.connect(BrowserApk)
+apkPathBrowser.setSizePolicy(size)
+installButton.setSizePolicy(size)
 # layout
 apkInstallLayout = QtWidgets.QHBoxLayout()
 apkInstallLayout.addWidget(apkPath)
