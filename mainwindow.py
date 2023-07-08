@@ -4,10 +4,10 @@ import os
 import sys
 import time
 import json
-#from torch import *
 import torch
-#import pynvml
+import threading
 import traceback
+import updatekiller
 import PyQt5.QtGui as QtGui
 import PyQt5.QtCore as QtCore
 import PyQt5.QtWidgets as QtWidgets
@@ -193,6 +193,10 @@ gpuChooseAction = QtWidgets.QAction("GPU 选择")
 installWaydroidAction.triggered.connect(lambda: OpenTerminal(f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'"))
 waydroidMenu.addAction(installWaydroidAction)
 waydroidMenu.addAction(gpuChooseAction)
+# 容器配置栏
+magiskInstall = QtWidgets.QAction("安装 Magisk")
+configMenu.addAction(magiskInstall)
+magiskInstall.triggered.connect(lambda: threading.Thread(target=OpenTerminal, args=[f"bash '{programPath}/Runner_tools/Magisk_Installer/Magisk.py'"]))
 # 帮助 栏
 helpAction = QtWidgets.QAction("程序帮助")
 uploadBugAction = QtWidgets.QAction("问题反馈")
