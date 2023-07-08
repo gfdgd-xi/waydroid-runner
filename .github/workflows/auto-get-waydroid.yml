@@ -7,13 +7,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get
+        env: 
+          PASSWORD: ${{ secrets.PASSWORD }}
         run: |
           # 配置环境
           sudo apt update
-          sudo apt install curl -y
+          sudo apt install curl git -y
           curl https://repo.waydro.id | sudo bash
-          apt download waydroid python3-gbinder libgbinder
-          apt depends libgbinder
+          apt download waydroid python3-gbinder libgbinder libglibutil
+          git clone https://gfdgd-xi:$PASSWORD@github.com/gfdgd-xi/waydroid-deb
+          cd waydroid-deb
+          cp ../*.deb .
+          git add .
+          git config --global user.email 3025613752@qq.com
+          git config --global user.name gfdgd-xi
+          git commit -m 更新waydroid
+          git push
+
 
 
       
