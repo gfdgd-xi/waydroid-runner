@@ -13,6 +13,13 @@ import PyQt5.QtCore as QtCore
 import PyQt5.QtWidgets as QtWidgets
 from Model import *
 
+
+def ReadWaydroidLog():
+    if not os.path.exists("/var/lib/waydroid/waydroid.log"):
+        QtWidgets.QMessageBox.critical(mainwindow, "错误", "无法正确读取 Waydroid 日志文件，请检查是否正常安装 Waydroid")
+        return
+    QtWidgets.QInputDialog.getMultiLineText(mainwindow, "Waydroid 日志", "", readtxt("/var/lib/waydroid/waydroid.log"))
+
 # 读取文本文档
 def readtxt(path: "路径")->"读取文本文档":
     f = open(path, "r")  # 设置文件对象
@@ -189,9 +196,12 @@ programMenu.addAction(exitProgramAction)
 exitProgramAction.triggered.connect(sys.exit)
 # Waydroid 栏
 installWaydroidAction = QtWidgets.QAction("安装 Waydroid 本体")
+waydroidLog = QtWidgets.QAction("查看 Waydroid 日志")
 gpuChooseAction = QtWidgets.QAction("GPU 选择")
 installWaydroidAction.triggered.connect(lambda: OpenTerminal(f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'"))
+waydroidLog.triggered.connect(ReadWaydroidLog)
 waydroidMenu.addAction(installWaydroidAction)
+waydroidMenu.addAction(waydroidLog)
 waydroidMenu.addAction(gpuChooseAction)
 # 容器配置栏
 magiskInstall = QtWidgets.QAction("安装 Magisk")
