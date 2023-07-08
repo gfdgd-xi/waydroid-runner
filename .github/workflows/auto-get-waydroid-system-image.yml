@@ -1,5 +1,5 @@
-name: Auto Get Waydroid
-run-name: ${{ github.actor }} Auto Get Waydroid 🚀
+name: Auto Get Waydroid Image
+run-name: ${{ github.actor }} Auto Get Waydroid Image 🚀
 on:
 #  schedule:
 #    - cron: '0 0 * * *'
@@ -15,7 +15,12 @@ jobs:
           sudo apt install aria2 -y
           aria2c -x 16 -s 16 https://sourceforge.net/projects/waydroid/files/images/vendor/waydroid_x86_64/lineage-18.1-20230422-MAINLINE-waydroid_x86_64-vendor.zip/download
 
-
+      - name: upload result
+        uses: actions/upload-artifact@v1
+        with:
+          name: waydroid-image
+          path: /home/runner/work/waydroid-runner/waydroid-runner/lineage-18.1-20230422-MAINLINE-waydroid_x86_64-vendor.zip
+  
 
       
     
