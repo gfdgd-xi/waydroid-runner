@@ -12,14 +12,23 @@ jobs:
         run: |
           # 配置环境
           sudo apt update
-          sudo apt install aria2 -y
-          aria2c -x 16 -s 16 https://sourceforge.net/projects/waydroid/files/images/system/lineage/waydroid_x86_64/lineage-18.1-20230422-GAPPS-waydroid_x86_64-system.zip/download
+          sudo apt install aria2 curl -y
+          curl https://repo.waydro.id | sudo bash
+          sudo apt install waydroid -y
+          waydroid init -s GAPPS -f
 
-      - name: upload result
+          #aria2c -x 16 -s 16 https://sourceforge.net/projects/waydroid/files/images/system/lineage/waydroid_x86_64/lineage-18.1-20230422-GAPPS-waydroid_x86_64-system.zip/download
+          
+      - name: upload result(system.img)
         uses: actions/upload-artifact@v1
         with:
-          name: waydroid-image
-          path: /home/runner/work/waydroid-runner/waydroid-runner/lineage-18.1-20230422-GAPPS-waydroid_x86_64-system.zip
+          name: system.img
+          path: /usr/share/waydroid-extra/images/system.img
+      - name: upload result(vendor.img)
+        uses: actions/upload-artifact@v1
+        with:
+          name: vendor.img
+          path: /usr/share/waydroid-extra/images/vendor.img
   
 
       
