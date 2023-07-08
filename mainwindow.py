@@ -192,7 +192,7 @@ helpMenu.addAction(aboutThisProgramAction)
 mainwindow.setWindowIcon(QtGui.QIcon(iconPath))
 
 mainwindow.show()
-mainwindow.resize(mainwindow.frameGeometry().width() * 1.8, mainwindow.frameGeometry().height())
+mainwindow.resize(int(mainwindow.frameGeometry().width() * 1.8), int(mainwindow.frameGeometry().height()))
 
 # 检测显卡型号
 #ng = torch.cuda.device_count()
