@@ -5,6 +5,7 @@ import sys
 import time
 import json
 import torch
+import random
 import threading
 import traceback
 import updatekiller
@@ -27,11 +28,27 @@ def readtxt(path: "路径")->"读取文本文档":
     f.close()  # 关闭文本对象
     return str  # 返回结果
 
+def WriteTxt(path: str, things: str):
+    with open(path, "w") as file:
+        file.write(things)
+
 def GetSystemVersion():
     systemInformation = readtxt("/etc/os-release")
     for systemInformation in systemInformation.split('\n'):
         if "PRETTY_NAME=" in systemInformation:
             return systemInformation.replace("PRETTY_NAME=", "").replace('"', '')
+
+def RunBash(bashCommand: str):
+    # 因为 Terminal 读取的返回值肯定有问题，所以得用折中的方案
+    tmpBashPath = f"/tmp/waydroid-runner-{random.randint(0, 1000)}.sh"
+    WriteTxt(tmpBashPath, f"""#!/bin/bash
+{bashCommand}
+if [[ $? != 0 ]]; then
+    zenity --error --text=脚本出现错误 --no-wrap
+    exit 1
+fi""")
+    OpenTerminal(f"bash '{tmpBashPath}'")
+    os.remove(tmpBashPath)
 
 def BrowserApk():
     path = QtWidgets.QFileDialog.getOpenFileName(mainwindow, "选择APK", homePath, "APK 文件(*.apk);;所有文件(*.*)")
@@ -130,7 +147,7 @@ app = QtWidgets.QApplication(sys.argv)
 # 环境检测
 if os.system("which waydroid"):
     if QtWidgets.QMessageBox.question(None, "提示", "您还未安装 Waydroid，是否立即安装？") == QtWidgets.QMessageBox.Yes:
-        OpenTerminal(f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'")
+        RunBash(f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'")
         sys.exit()
 
 # 窗口
@@ -198,15 +215,19 @@ exitProgramAction.triggered.connect(sys.exit)
 installWaydroidAction = QtWidgets.QAction("安装 Waydroid 本体")
 waydroidLog = QtWidgets.QAction("查看 Waydroid 日志")
 gpuChooseAction = QtWidgets.QAction("GPU 选择")
-installWaydroidAction.triggered.connect(lambda: OpenTerminal(f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'"))
+installWaydroidAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'"]))
 waydroidLog.triggered.connect(ReadWaydroidLog)
 waydroidMenu.addAction(installWaydroidAction)
 waydroidMenu.addAction(waydroidLog)
 waydroidMenu.addAction(gpuChooseAction)
 # 容器配置栏
 magiskInstall = QtWidgets.QAction("安装 Magisk")
+waydroidLaguage = QtWidgets.QAction("设置 Waydroid 容器语言为中文")
 configMenu.addAction(magiskInstall)
-magiskInstall.triggered.connect(lambda: threading.Thread(target=OpenTerminal, args=[f"bash '{programPath}/Runner_tools/Magisk_Installer/Magisk.py'"]))
+configMenu.addSeparator()
+configMenu.addAction(waydroidLaguage)
+magiskInstall.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Magisk_Installer/Magisk.py'"]))
+waydroidLaguage.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"pkexec python3 '{programPath}/Runner_tools/SystemConfigs/Language.py'"]).start())
 # 帮助 栏
 helpAction = QtWidgets.QAction("程序帮助")
 uploadBugAction = QtWidgets.QAction("问题反馈")
