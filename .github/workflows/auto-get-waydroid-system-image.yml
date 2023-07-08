@@ -15,7 +15,7 @@ jobs:
           sudo apt install aria2 curl -y
           curl https://repo.waydro.id | sudo bash
           sudo apt install waydroid -y
-          waydroid init -s GAPPS -f
+          sudo waydroid init -s GAPPS -f
 
           #aria2c -x 16 -s 16 https://sourceforge.net/projects/waydroid/files/images/system/lineage/waydroid_x86_64/lineage-18.1-20230422-GAPPS-waydroid_x86_64-system.zip/download
           
