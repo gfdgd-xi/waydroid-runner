@@ -206,6 +206,12 @@ mainwindow.resize(int(mainwindow.frameGeometry().width() * 1.8), int(mainwindow.
 # 检测 Waydroid 是否存在
 if os.system("which waydroid"):
     waydroidStatus.setText("Waydroid：未安装")
+#os.system(f"ls {programPath}/Runner_tools/Checks/HoudiniCheck.py")
+print(os.system(f"python3 '{programPath}/Runner_tools/Checks/HoudiniCheck.py'"))
+libkoudiniInstallStatus.setText("Libhoudini：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/HoudiniCheck.py'")>>8])
+lsPosedInstallStatus.setText("LSPosed：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/LSPCheck.py'")>>8])
+magiskDeltoInstallStatus.setText("Magisk Delta：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/MagiskCheck.py'")>>8])
 
+#libkoudiniInstallStatus = QtWidgets.QLabel("Libhoudini：已安装")
 
 sys.exit(app.exec_())
