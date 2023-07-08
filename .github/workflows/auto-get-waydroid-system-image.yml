@@ -1,0 +1,21 @@
+name: Auto Get Waydroid
+run-name: ${{ github.actor }} Auto Get Waydroid 🚀
+on:
+#  schedule:
+#    - cron: '0 0 * * *'
+  workflow_dispatch:
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get
+        run: |
+          # 配置环境
+          sudo apt update
+          sudo apt install aria2 -y
+          aria2c -x 16 -s 16 https://sourceforge.net/projects/waydroid/files/images/vendor/waydroid_x86_64/lineage-18.1-20230422-MAINLINE-waydroid_x86_64-vendor.zip/download
+
+
+
+      
+    
