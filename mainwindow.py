@@ -67,6 +67,8 @@ class InstallApk(QtCore.QThread):
         super().__init__()
     
     def run(self):
+        print(self.path)
+        print(f"waydroid app install '{self.path}'")
         result = os.system(f"waydroid app install '{self.path}'")
         if result:
             self.error.emit("安装失败！请检查 Waydroid 安装正常以及是否支持该 APK")
@@ -271,7 +273,7 @@ waydroidLaguage = QtWidgets.QAction("设置 Waydroid 容器语言为中文")
 configMenu.addAction(magiskInstall)
 configMenu.addSeparator()
 configMenu.addAction(waydroidLaguage)
-magiskInstall.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Magisk_Installer/Magisk.py'"]))
+magiskInstall.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/Magisk_Installer/Magisk.py'"]).start())
 waydroidLaguage.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"pkexec python3 '{programPath}/Runner_tools/SystemConfigs/Language.py'"]).start())
 # 帮助 栏
 helpAction = QtWidgets.QAction("程序帮助")
