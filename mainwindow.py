@@ -46,7 +46,8 @@ def RunBash(bashCommand: str):
 if [[ $? != 0 ]]; then
     zenity --error --text=脚本出现错误 --no-wrap
     exit 1
-fi""")
+fi
+zenity --info --text=执行成功！ --no-wrap""")
     OpenTerminal(f"bash '{tmpBashPath}'")
     os.remove(tmpBashPath)
 
