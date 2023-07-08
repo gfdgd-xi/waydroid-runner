@@ -51,6 +51,49 @@ zenity --info --text=执行成功！ --no-wrap""")
     OpenTerminal(f"bash '{tmpBashPath}'")
     os.remove(tmpBashPath)
 
+def DisabledAndEnbled(status: bool):
+    apkPath.setDisabled(status)
+    apkPathBrowser.setDisabled(status)
+    installButton.setDisabled(status)
+
+class InstallApk(QtCore.QThread):
+    info = QtCore.pyqtSignal(str)
+    error = QtCore.pyqtSignal(str)
+    combo = QtCore.pyqtSignal(int)
+
+    def __init__(self, path, quit = False) -> None:
+        self.path = path
+        self.quit = quit
+        super().__init__()
+    
+    def run(self):
+        result = os.system(f"waydroid app install '{self.path}'")
+        if result:
+            self.error.emit("安装失败！请检查 Waydroid 安装正常以及是否支持该 APK")
+            DisabledAndEnbled(False)
+            return
+        self.info.emit("安装成功！")
+        DisabledAndEnbled(False)
+
+def ErrorBox(error):
+    QtWidgets.QMessageBox.critical(widget, "错误", error)
+
+def InformationBox(info):
+    QtWidgets.QMessageBox.information(widget, "提示", info)
+
+def UpdateCombobox(tmp):
+    pass
+
+def InstallApkButton():
+    global install
+    DisabledAndEnbled(True)
+    install = InstallApk(apkPath.currentText())
+    install.info.connect(InformationBox)
+    install.error.connect(ErrorBox)
+    install.combo.connect(UpdateCombobox)
+    install.start()
+
+
 def BrowserApk():
     path = QtWidgets.QFileDialog.getOpenFileName(mainwindow, "选择APK", homePath, "APK 文件(*.apk);;所有文件(*.*)")
     if path[0] == "":
@@ -166,6 +209,7 @@ installButton = QtWidgets.QPushButton("安装")
 # 设置属性
 apkPath.setEditable(True)
 apkPathBrowser.clicked.connect(BrowserApk)
+installButton.clicked.connect(InstallApkButton)
 apkPathBrowser.setSizePolicy(size)
 installButton.setSizePolicy(size)
 # layout
