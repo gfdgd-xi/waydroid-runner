@@ -14,22 +14,6 @@ jobs:
           KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
           KEY: ${{ secrets.KEY }}
         run: |
-          sudo apt update
-          sudo apt install apt-mirror -y
-          sudo apt install curl git  aria2 gpg -y
-          curl https://repo.waydro.id | sudo bash
-          git clone https://gfdgd-xi:$PASSWORD@github.com/gfdgd-xi/waydroid-deb
-          sudo mv waydroid-deb /waydroid-deb
-          sudo bash /waydroid-deb/mirror.sh
-          sudo apt-mirror
-          cd /waydroid-deb
-          python3 build.py
-          git add .
-          git config --global user.email 3025613752@qq.com
-          git config --global user.name gfdgd-xi
-          git commit -m 更新waydroid | true
-          git push | true
-          exit
 
           # 配置环境
           sudo apt update
@@ -37,20 +21,32 @@ jobs:
           aria2c $KEY
           gpg --import  --pinentry-mode loopback --batch --passphrase "$KEYPASSWORD"  private-file.key
           curl https://repo.waydro.id | sudo bash
-          apt download waydroid python3-gbinder libgbinder libglibutil
+          #apt download waydroid python3-gbinder libgbinder libglibutil
           git clone https://gfdgd-xi:$PASSWORD@github.com/gfdgd-xi/waydroid-deb
           cd waydroid-deb
-          cp ../*.deb .
-          rm Packages || echo "Failed to remove packages file"
-          rm Packages.gz || echo "Failed to remove packages.gz file"
-          rm Release || echo "Failed to remove release file"
-          rm Release.gpg || echo "Failed to remove release.gpg file"
-          rm InRelease || echo "Failed to remove inrelease file"
-          dpkg-scanpackages --multiversion . > Packages
-          gzip -k -f Packages
-          apt-ftparchive release . > Release
-          gpg --default-key "3025613752@qq.com" --batch --pinentry-mode="loopback" --passphrase="$KEYPASSWORD" -abs -o - Release > Release.gpg || error "failed to sign Release.gpg with gpg "
-          gpg --default-key "3025613752@qq.com" --batch --pinentry-mode="loopback" --passphrase="$KEYPASSWORD" --clearsign -o - Release > InRelease || error "failed to sign InRelease with gpg"
+          # jammy
+          mkdir -p jammy
+          cd jammy
+          sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ jammy main > /etc/apt/sources.list.d/waydroid.list"
+          sudo apt update
+          apt download waydroid python3-gbinder libgbinder libglibutil
+          bash ../mirror.sh
+          # focal
+          mkdir -p ../focal
+          cd ../focal
+          sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ focal main > /etc/apt/sources.list.d/waydroid.list"
+          sudo apt update
+          apt download waydroid python3-gbinder libgbinder libglibutil
+          bash ../mirror.sh
+          # bullseye
+          mkdir -p ../bullseye
+          cd ../bullseye
+          sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ bullseye main > /etc/apt/sources.list.d/waydroid.list"
+          sudo apt update
+          apt download waydroid python3-gbinder libgbinder libglibutil
+          bash ../mirror.sh
+          # 提交
+          cd ..
           python3 build.py
           git add .
           git config --global user.email 3025613752@qq.com
