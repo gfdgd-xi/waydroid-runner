@@ -45,6 +45,20 @@ jobs:
           sudo apt update
           apt download waydroid python3-gbinder libgbinder libglibutil
           bash ../mirror.sh
+          # bookworm
+          mkdir -p ../bookworm
+          cd ../bookworm
+          sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ bookworm main > /etc/apt/sources.list.d/waydroid.list"
+          sudo apt update
+          apt download waydroid python3-gbinder libgbinder libglibutil
+          bash ../mirror.sh
+          # lunar
+          mkdir -p ../lunar
+          cd ../lunar
+          sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ lunar main > /etc/apt/sources.list.d/waydroid.list"
+          sudo apt update
+          apt download waydroid python3-gbinder libgbinder libglibutil
+          bash ../mirror.sh
           # 提交
           cd ..
           python3 build.py
