@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# 基于 GPLV3 开源
+# 依据 GPLV3 开源
 import os
 import sys
 import time
@@ -362,6 +362,26 @@ class ApkInformation():
         matplotlib.pylab.title("“" + chinese + "”的用户评分（数据只供参考）", fontproperties=fonts)
         matplotlib.pylab.show(block=True)
 
+# 用户自行保存
+def SaveIconToOtherPath():
+    apkPath = apkPath.currentText()
+    if apkPath == "":
+        QtWidgets.QMessageBox.critical(widget, "错误", "APK 不存在或错误")
+        return
+    path = QtWidgets.QFileDialog.getSaveFileName(widget, "保存图标", "icon.png", "PNG 图片(*.png);;所有文件(*.*)", json.loads(readtxt(homePath + "/.config/uengine-runner/SaveApkIcon.json"))["path"])[0]
+    if not path == "":
+        try:
+            SaveApkIcon(apkPath, path)
+        except:
+            traceback.print_exc()
+            QtWidgets.QMessageBox.critical(widget, "错误", "图标保存失败！")
+            return
+        #write_txt(get_home() + "/.config/uengine-runner/SaveApkIcon.json", json.dumps({"path": os.path.dirname(path)}))  # 写入配置文件
+        #findApkHistory.append(ComboInstallPath.currentText())
+        UpdateCombobox(0)
+        #write_txt(get_home() + "/.config/uengine-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
+        QtWidgets.QMessageBox.information(widget, "提示", "保存成功！")
+
 # 关于窗口
 helpWindow = None
 def showhelp():
@@ -476,6 +496,7 @@ apkPathBrowser = QtWidgets.QPushButton("浏览")
 installButton = QtWidgets.QPushButton("安装")
 removeButton = QtWidgets.QPushButton("卸载")
 infoButton = QtWidgets.QPushButton("详情")
+saveIcon = QtWidgets.QPushButton("保存图标")
 # 设置属性
 apkPath.setEditable(True)
 apkPathBrowser.clicked.connect(BrowserApk)
@@ -491,6 +512,7 @@ apkInstallLayout.addWidget(apkPathBrowser, 0, 1)
 apkInstallLayout.addWidget(installButton, 0, 2)
 apkInstallLayout.addWidget(removeButton, 1, 1)
 apkInstallLayout.addWidget(infoButton, 1, 2)
+apkInstallLayout.addWidget(saveIcon, 2, 1)
 ## info
 waydroidStatus = QtWidgets.QLabel("Waydroid：已安装")
 magiskDeltoInstallStatus = QtWidgets.QLabel("Magisk Delta：已安装")
