@@ -34,6 +34,7 @@ jobs:
           apt-ftparchive release . > Release
           gpg --default-key "3025613752@qq.com" --batch --pinentry-mode="loopback" --passphrase="$KEYPASSWORD" -abs -o - Release > Release.gpg || error "failed to sign Release.gpg with gpg "
           gpg --default-key "3025613752@qq.com" --batch --pinentry-mode="loopback" --passphrase="$KEYPASSWORD" --clearsign -o - Release > InRelease || error "failed to sign InRelease with gpg"
+          python3 build.py
           git add .
           git config --global user.email 3025613752@qq.com
           git config --global user.name gfdgd-xi
