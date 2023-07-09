@@ -1,4 +1,9 @@
 #!/bin/bash
+if [[ $XDG_SESSION_TYPE == "x11" ]]; then
+    echo 警告：你当前使用的是 x11 协议而非 Wayland 协议，Waydroid 只支持 Wayland 协议
+    echo 按回车键忽略该警告继续安装Waydroid本体
+    read
+fi
 echo 请输入版本代号（如focal、bullseye）
 read VERSION
 curl https://jihulab.com/gfdgd-xi/waydroid-deb/-/raw/main/$VERSION/Packages | grep 404

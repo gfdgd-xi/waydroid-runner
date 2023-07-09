@@ -157,6 +157,13 @@ def BrowserApk():
         return
     apkPath.setCurrentText(path[0])
 
+# 检测是否在 Wayland 下运行程序
+def CheckWaylandRun(waylandUnShow=False):
+    if os.getenv("XDG_SESSION_TYPE") == "x11":
+        QtWidgets.QMessageBox.warning(mainwindow, "警告", "当前您使用的是 X11 桌面环境，而 Waydroid 需要在 Wayland 环境下运行\n请你使用支持 Wayland 的桌面环境并开启 Wayland 支持或使用 Weston 运行")
+    if not waylandUnShow:
+        QtWidgets.QMessageBox.information(mainwindow, "提示", "您当前在 Wayland 环境")
+
 # 关于窗口
 helpWindow = None
 def showhelp():
@@ -251,6 +258,7 @@ windowTitle = f"Waydroid 运行器 {version}"
 
 app = QtWidgets.QApplication(sys.argv)
 # 环境检测
+CheckWaylandRun(True)
 if os.system("which waydroid"):
     if QtWidgets.QMessageBox.question(None, "提示", "您还未安装 Waydroid，是否立即安装？") == QtWidgets.QMessageBox.Yes:
         RunBash(f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'")
@@ -309,10 +317,14 @@ waydroidMenu = menu.addMenu("Waydroid(&W)")
 configMenu = menu.addMenu("容器配置(&C)")
 helpMenu = menu.addMenu("帮助(&H)")
 # 程序栏
-settingProgramAction = QtWidgets.QAction("设置程序")
+#settingProgramAction = QtWidgets.QAction("设置程序")
+checkWayland = QtWidgets.QAction("检测是否是在 Wayland 下运行该程序")
 exitProgramAction = QtWidgets.QAction("退出程序")
-programMenu.addAction(settingProgramAction)
+#programMenu.addAction(settingProgramAction)
+programMenu.addAction(checkWayland)
+programMenu.addSeparator()
 programMenu.addAction(exitProgramAction)
+checkWayland.triggered.connect(CheckWaylandRun)
 exitProgramAction.triggered.connect(sys.exit)
 # Waydroid 栏
 installWaydroidCNAction = QtWidgets.QAction("安装 Waydroid 本体（国内源）")
