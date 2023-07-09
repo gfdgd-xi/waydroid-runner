@@ -1,9 +1,22 @@
 #!/bin/bash
-echo 请输入版本代号（如focal、bullseye）
-read VERSION
-curl https://jihulab.com/gfdgd-xi/waydroid-deb/-/raw/main/$VERSION/Release
-curl https://jihulab.com/gfdgd-xi/waydroid-deb/-/raw/main/$VERSION/Release | grep 404
-if [[ $? != 0 ]]; then
-    echo 不支持该版本代号
-    exit 1
+if [[ -f /usr/share/waydroid-extra/images/system.img ]] && [[ -f /usr/share/waydroid-extra/images/vendor.img ]]; then
+    echo 已安装镜像，忽略
+    exit
 fi
+cd /tmp
+sudo mkdir -p /usr/share/waydroid-extra/images
+if [[ -f /usr/share/waydroid-extra/images/system.img ]]; then
+    echo 拉取 system.img
+    aria2c -x 16 -s 16 https://jihulab.com/gfdgd-xi/waydroid-image/-/raw/main/system.7z
+    7z x system.7z
+    sudo cp system.img /usr/share/waydroid-extra/images/ -v
+fi
+if [[ -f /usr/share/waydroid-extra/images/vendor.img ]]; then
+    echo 拉取 vendor.img
+    aria2c -x 16 -s 16 https://jihulab.com/gfdgd-xi/waydroid-image/-/raw/main/vendor.7z
+    7z x vendor.7z
+    sudo cp vendor.img /usr/share/waydroid-extra/images/ -v
+fi
+rm -rf vendor.img vendor.7z system.7z system.img
+sudo systemctl restart waydroid-container.service
+sudo waydroid init -f
