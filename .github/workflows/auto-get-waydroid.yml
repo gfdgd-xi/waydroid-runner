@@ -24,11 +24,21 @@ jobs:
           git clone https://gfdgd-xi:$PASSWORD@github.com/gfdgd-xi/waydroid-deb
           cd waydroid-deb
           cp ../*.deb .
+          rm Packages || echo "Failed to remove packages file"
+          rm Packages.gz || echo "Failed to remove packages.gz file"
+          rm Release || echo "Failed to remove release file"
+          rm Release.gpg || echo "Failed to remove release.gpg file"
+          rm InRelease || echo "Failed to remove inrelease file"
+          dpkg-scanpackages --multiversion . > Packages
+          gzip -k -f Packages
+          apt-ftparchive release . > Release
+          gpg --default-key "3025613752@qq.com" --batch --pinentry-mode="loopback" --passphrase="${{ secrets.KERPASSWORD }}" -abs -o - Release > Release.gpg || error "failed to sign Release.gpg with gpg "
+          gpg --default-key "3025613752@qq.com" --batch --pinentry-mode="loopback" --passphrase="${{ secrets.KERPASSWORD }}" --clearsign -o - Release > InRelease || error "failed to sign InRelease with gpg"
           git add .
           git config --global user.email 3025613752@qq.com
           git config --global user.name gfdgd-xi
-          git commit -m 更新waydroid
-          git push
+          git commit -m 更新waydroid | true
+          git push | true
 
 
 
