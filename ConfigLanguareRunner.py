@@ -12,7 +12,7 @@ import sys
 import time
 import json
 import random
-import api as uengineapi
+#import api as uengineapi
 import platform
 import traceback
 import webbrowser
@@ -41,8 +41,8 @@ programEnv = [
     ["($PROGRAMPATH)", programPath],
     ["($VERSION)", version],
     ["($THANK)", thankText],
-    ["($MAKER)", "RacoonGX 团队，By gfdgd xi"],
-    ["($COPYRIGHT)", f"©2020~{time.strftime('%Y')} RacoonGX 团队，By gfdgd xi"],
+    ["($MAKER)", "gfdgd xi"],
+    ["($COPYRIGHT)", f"©2020~{time.strftime('%Y')} gfdgd xi"],
     ["($?)", "0"],
     ["($PLATFORM)", platform.system()],
     ["($DEBUG)", "1"]
@@ -446,20 +446,10 @@ class Command():
             return self.Bat()
 
         def InstallApk(self):
-            if os.system("which uengine > /dev/null"):
-                print("未安装 UEngine，无法使用该命令")
+            if os.system("which waydroid > /dev/null"):
+                print("未安装 Waydroid，无法使用该命令")
                 return 1
-            apk = uengineapi.APK(self.command[1])
-            result = apk.install()
-            homePath = os.getenv("HOME")
-            if not os.path.exists(f"{homePath}/.local/share/applications/uengine"):
-                os.makedirs(f"{homePath}/.local/share/applications/uengine")
-            if not os.path.exists(f"{homePath}/.local/share/icons/hicolor/apps"):
-                os.makedirs(f"{homePath}/.local/share/icons/hicolor/apps")
-            package = apk.packageName()
-            apk.saveApkIcon(f"{homePath}/.local/share/icons/hicolor/apps/{package}.png")
-            apk.saveDesktopFile(f"{homePath}/.local/share/applications/uengine/{package}.desktop", f"{homePath}/.local/share/icons/hicolor/apps/{package}.png")
-            return result
+            return os.system(f"waydroid app install '{self.command[1]}'") >> 8
 
         # 可以运行的命令的映射关系
         # 可以被使用的命令的映射
