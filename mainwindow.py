@@ -184,6 +184,12 @@ about = f'''<p align="center"><img width=256 src="{iconPath}"/></p>
 <h1>©2023-{time.strftime("%Y")}</h1>'''
 tips = ""
 contribute = ""
+for i in information["Tips"]:
+    tips += f"<p>{i}</p>"
+for i in information["Update"]:
+    updateThingsString += f"<p>{i}</p>"
+for i in information["Contribute"]:
+    contribute += f"<p>{i}</p>"
 iconPath = f"{programPath}"
 windowTitle = f"Waydroid 运行器 {version}"
 
@@ -191,7 +197,7 @@ app = QtWidgets.QApplication(sys.argv)
 # 环境检测
 if os.system("which waydroid"):
     if QtWidgets.QMessageBox.question(None, "提示", "您还未安装 Waydroid，是否立即安装？") == QtWidgets.QMessageBox.Yes:
-        RunBash(f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'")
+        RunBash(f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'")
         sys.exit()
 
 # 窗口
@@ -218,24 +224,17 @@ apkInstallLayout.addWidget(apkPath)
 apkInstallLayout.addWidget(apkPathBrowser)
 apkInstallLayout.addWidget(installButton)
 ## info
-#gpuDevice = QtWidgets.QLabel("当前工作GPU：AMD Raven Ridge")
-#gpuChooser = QtWidgets.QPushButton("选择")
 waydroidStatus = QtWidgets.QLabel("Waydroid：已安装")
 magiskDeltoInstallStatus = QtWidgets.QLabel("Magisk Delta：已安装")
 libkoudiniInstallStatus = QtWidgets.QLabel("Libhoudini：已安装")
 lsPosedInstallStatus = QtWidgets.QLabel("LSPosed：已安装")
-#diskUsing = QtWidgets.QLabel("存储占用：8.56GB")
-#memoryUsing = QtWidgets.QLabel("内存占用：850MB")
 # layout
 infoLayout = QtWidgets.QGridLayout()
 infoLayout.addWidget(waydroidStatus, 0, 0)
-#infoLayout.addWidget(gpuDevice, 1, 0, 1, 2)
-#infoLayout.addWidget(gpuChooser, 1, 3)
 infoLayout.addWidget(magiskDeltoInstallStatus, 0, 1)
-infoLayout.addWidget(libkoudiniInstallStatus, 1, 1)
-#infoLayout.addWidget(diskUsing, 3, 1)
 infoLayout.addWidget(lsPosedInstallStatus, 1, 0)
-#infoLayout.addWidget(memoryUsing, 4, 1)
+infoLayout.addWidget(libkoudiniInstallStatus, 1, 1)
+
 
 ## 大 layout
 widgetLayout.addLayout(apkInstallLayout, 2, 0)
@@ -260,15 +259,26 @@ exitProgramAction.triggered.connect(sys.exit)
 installWaydroidCNAction = QtWidgets.QAction("安装 Waydroid 本体（国内源）")
 installWaydroidAction = QtWidgets.QAction("安装 Waydroid 本体（官方源）")
 waydroidLog = QtWidgets.QAction("查看 Waydroid 日志")
+restartWaydroidContainer = QtWidgets.QAction("重启 Waydroid 服务进程")
 
-#gpuChooseAction = QtWidgets.QAction("GPU 选择")
+
 installWaydroidCNAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'"]))
 installWaydroidAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'"]))
-
 waydroidLog.triggered.connect(ReadWaydroidLog)
+restartWaydroidContainer.triggered.connect(lambda: os.system("systemctl restart waydroid-container.service"))
+waydroidMenu.addAction(installWaydroidCNAction)
 waydroidMenu.addAction(installWaydroidAction)
+waydroidMenu.addSeparator()
 waydroidMenu.addAction(waydroidLog)
-#waydroidMenu.addAction(gpuChooseAction)
+waydroidMenu.addSeparator()
+waydroidMenu.addAction(restartWaydroidContainer)
+waydroidSession = waydroidMenu.addMenu("Waydroid Session")
+waydroidSessionStart = QtWidgets.QAction("开启")
+waydroidSessionStop = QtWidgets.QAction("关闭")
+waydroidSessionStart.triggered.connect(lambda: threading.Thread(target=os.system, args=["waydroid session start"]))
+waydroidSessionStop.triggered.connect(lambda: threading.Thread(target=os.system, args=["waydroid session stop"]))
+waydroidSession.addAction(waydroidSessionStart)
+waydroidSession.addAction(waydroidSessionStop)
 # 容器配置栏
 downloadImageCN = QtWidgets.QAction("下载 Waydroid 容器镜像")
 magiskInstall = QtWidgets.QAction("安装 Magisk")

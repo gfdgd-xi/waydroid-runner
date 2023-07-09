@@ -10,13 +10,17 @@
         
     ],
     "Update": [
-        ""
+        "<b>V1.0.0：</b>",
+        "※1、新增 Waydroid 主程序安装功能、镜像下载功能及其国内源",
+        "※2、支持安装 Magisk、Libhoudini（二进制翻译器，可以运行 ARM APK）"
     ],
     "Use": [
         ""
     ],
     "Time": "未知",
     "Contribute": [
-        ""
+        "<b>排名不分先后</b>",
+        "gfdgd xi（https://gitee.com/gfdgd-xi）",
+        "LFRon（https://gitee.com/LFRon）"
     ]
 }
