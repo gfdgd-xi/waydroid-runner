@@ -4,13 +4,14 @@ import os
 import sys
 import time
 import json
+import numpy
+import shutil
 import random
+import requests
 import threading
 import traceback
 import subprocess
-import typing
-
-from PyQt5.QtCore import QObject
+import matplotlib
 import updatekiller
 import PyQt5.QtGui as QtGui
 import PyQt5.QtCore as QtCore
@@ -157,12 +158,207 @@ def BrowserApk():
         return
     apkPath.setCurrentText(path[0])
 
+# 获取软件的中文名称
+def GetApkChineseLabel(apkFilePath)->"获取软件的中文名称":
+    info = GetApkInformation(apkFilePath)
+    name = None
+    for line in info.split('\n'):
+        if "application-label-zh:" in line:
+            line = line.replace("application-label-zh:", "")
+            line = line.replace("'", "")
+            return line
+        if "application-label:" in line:
+            line = line.replace("application-label:", "")
+            line = line.replace("'", "")
+            name = line
+    return name
+
 # 检测是否在 Wayland 下运行程序
 def CheckWaylandRun(waylandUnShow=False):
     if os.getenv("XDG_SESSION_TYPE") == "x11":
         QtWidgets.QMessageBox.warning(mainwindow, "警告", "当前您使用的是 X11 桌面环境，而 Waydroid 需要在 Wayland 环境下运行\n请你使用支持 Wayland 的桌面环境并开启 Wayland 支持或使用 Weston 运行")
     if not waylandUnShow:
         QtWidgets.QMessageBox.information(mainwindow, "提示", "您当前在 Wayland 环境")
+
+# 保存apk图标
+def SaveApkIcon(apkFilePath, iconSavePath)->"保存 apk 文件的图标":
+    try:
+        if os.path.exists(iconSavePath):
+            os.remove(iconSavePath)
+        info = GetApkInformation(apkFilePath)
+        for line in info.split('\n'):
+            if "application:" in line:
+                xmlpath = line.split(":")[-1].split()[-1].split("=")[-1].replace("'","")  
+                if xmlpath.endswith('.xml'):
+                        xmlsave = getsavexml()
+                        print(xmlpath)
+                        xmlsave.savexml(apkFilePath,xmlpath,iconSavePath)
+                        return
+                else:
+                    zip = zipfile.ZipFile(apkFilePath)
+                    iconData = zip.read(xmlpath)
+                    with open(iconSavePath, 'w+b') as saveIconFile:
+                        saveIconFile.write(iconData)
+                        return
+        print("None Icon! Show defult icon")
+        shutil.copy(programPath + "/defult.svg", iconSavePath)
+    except:
+        traceback.print_exc()
+        print("Error, show defult icon")
+        shutil.copy(programPath + "/defult.svg", iconSavePath)
+
+# 获取 apk Activity
+def GetApkActivityName(apkFilePath: "apk 所在路径")->"获取 apk Activity":
+    info = GetApkInformation(apkFilePath)
+    for line in info.split('\n'):
+        if "launchable-activity" in line:
+            line = line[0: line.index("label='")]
+            line = line.replace("launchable-activity: ", "")
+            line = line.replace("'", "")
+            line = line.replace(" ", "")
+            line = line.replace("name=", "")
+            line = line.replace("label=", "")
+            line = line.replace("icon=", "")
+            return line
+    return f"{GetApkPackageName(apkFilePath)}.Main"
+
+# 获取 APK 版本
+def GetApkVersion(apkFilePath):
+    info = GetApkInformation(apkFilePath)
+    for line in info.split('\n'):
+        if "package:" in line:
+            if "compileSdkVersion='" in line:
+                line = line.replace(line[line.index("compileSdkVersion='"): -1], "")
+            if "platform" in line:
+                line = line.replace(line[line.index("platform"): -1], "")
+            line = line.replace(line[0: line.index("versionName='")], "")
+            line = line.replace("versionName='", "")
+            line = line.replace("'", "")
+            line = line.replace(" ", "")
+            return line
+
+image = None
+class ApkInformation():
+    message = None
+    def ShowWindows():
+        global fullInformation
+        global path
+        global tab1
+        path = apkPath.currentText()
+        package = GetApkPackageName(path)
+        if package == None or package == "":
+            QtWidgets.QMessageBox.critical(widget, "错误", "APK 文件不存在或错误！")
+            return
+        ApkInformation.message = QtWidgets.QMainWindow()
+        messageWidget = QtWidgets.QWidget()
+        messageLayout = QtWidgets.QVBoxLayout()
+        ApkInformation.message.setWindowTitle("“{}“的Apk信息".format(GetApkChineseLabel(path)))
+        tab = QtWidgets.QTabWidget()
+
+        tab1 = QtWidgets.QWidget()
+        tab2 = QtWidgets.QWidget()
+
+        tab.addTab(tab1, "简化版")
+        tab1Layout = QtWidgets.QGridLayout()
+        SaveApkIcon(path, "/tmp/uengine-runner-android-app-icon.png")
+        simpleInformation = QtWidgets.QLabel(f"""
+<p align='center'><img width='256' src='/tmp/uengine-runner-android-app-icon.png'></p>
+<p>包名：{GetApkPackageName(path)}</p>
+<p>中文名：{GetApkChineseLabel(path)}</p>
+<p>Activity：{GetApkActivityName(path)}</p>
+<p>版本：{GetApkVersion(path)}</p>""")
+
+        seeFen = QtWidgets.QPushButton("查看程序评分情况")
+        updFen = QtWidgets.QPushButton("上传程序评分情况")
+        #seeFen.setEnabled(map)
+        seeFen.clicked.connect(ApkInformation.ShowMap)
+        updFen.clicked.connect(ApkInformation.UpdateMark)
+        tab1Layout.addWidget(simpleInformation, 0, 0, 1, 3)
+        tab1Layout.addWidget(seeFen, 1, 1, 1, 1)
+        tab1Layout.addWidget(updFen, 2, 1, 1, 1)
+        tab1.setLayout(tab1Layout)
+
+        tab.addTab(tab2, "完整版")
+        tab2Layout = QtWidgets.QVBoxLayout()
+        fullInformation = QtWidgets.QTextBrowser()
+        fullInformation.setText(GetApkInformation(path))
+        tab2Layout.addWidget(fullInformation)
+        tab2.setLayout(tab2Layout)
+
+        messageLayout.addWidget(tab)
+        messageWidget.setLayout(messageLayout)
+        ApkInformation.message.setCentralWidget(messageWidget)
+        ApkInformation.message.setWindowIcon(QtGui.QIcon(iconPath))
+        ApkInformation.message.setWindowTitle("APK 信息")
+        ApkInformation.message.show()
+        return
+
+    def UpdateMark():
+        chooseWindow = QtWidgets.QMessageBox()
+        chooseWindow.setWindowTitle("选择评分")
+        chooseWindow.setText(f"""选择应用“{GetApkChineseLabel(path)}”的使用评分。建议参考如下规范进行评分：
+含有不良信息（-1分）：含有违法违规信息（如果有就不要选择其它选项了）
+0星：完全无法使用，连安装都有问题
+1星：完全无法使用，但是能正常安装
+2星：可以打开，但只能使用一点点功能
+3星：勉强能使用，运行也不大流畅
+4星：大部分功能正常，运行流畅（可能会有点小卡）
+5星：完全正常且非常流畅，没有任何功能和性能问题，就和直接在手机上用一样
+""")
+        choices=["含有不良信息", "0分", "1分", "2分", "3分", "4分", "5分", "取消"]
+        button0 = chooseWindow.addButton(choices[0], QtWidgets.QMessageBox.ActionRole)
+        button1 = chooseWindow.addButton(choices[1], QtWidgets.QMessageBox.ActionRole)
+        button2 = chooseWindow.addButton(choices[2], QtWidgets.QMessageBox.ActionRole)
+        button3 = chooseWindow.addButton(choices[3], QtWidgets.QMessageBox.ActionRole)
+        button4 = chooseWindow.addButton(choices[4], QtWidgets.QMessageBox.ActionRole)
+        button5 = chooseWindow.addButton(choices[5], QtWidgets.QMessageBox.ActionRole)
+        button6 = chooseWindow.addButton(choices[6], QtWidgets.QMessageBox.ActionRole)
+        button7 = chooseWindow.addButton(choices[7], QtWidgets.QMessageBox.ActionRole)
+        button0.clicked.connect(lambda: ApkInformation.UpdateMarkInternet(int(0)))
+        button1.clicked.connect(lambda: ApkInformation.UpdateMarkInternet(int(1)))
+        button2.clicked.connect(lambda: ApkInformation.UpdateMarkInternet(int(2)))
+        button3.clicked.connect(lambda: ApkInformation.UpdateMarkInternet(int(3)))
+        button4.clicked.connect(lambda: ApkInformation.UpdateMarkInternet(int(4)))
+        button5.clicked.connect(lambda: ApkInformation.UpdateMarkInternet(int(5)))
+        button6.clicked.connect(lambda: ApkInformation.UpdateMarkInternet(int(6)))
+        button7.clicked.connect(lambda: ApkInformation.UpdateMarkInternet(int(7)))
+        chooseWindow.exec_()
+        return
+    
+    def UpdateMarkInternet(choose):
+        print(choose)
+        if choose == None or choose == 7:
+            return
+        try:
+            QtWidgets.QMessageBox.information(widget, "提示", requests.post("http://120.25.153.144/uengine-runner/app/check/add.php", {"Package": GetApkPackageName(path), "Type": choose}).text)
+        except:
+            traceback.print_exc()
+            QtWidgets.QMessageBox.critical(widget, "错误", "无法连接服务器！")
+
+
+    def ShowMap():
+        package = GetApkPackageName(path)
+        if package == None or package == "":
+            QtWidgets.QMessageBox.critical(widget, "错误", "APK 不存在或错误")
+            return
+        try:
+            data = json.loads(requests.get("http://data.download.gfdgdxi.top/uengineapp/" + package +"/data.json").text)
+            print(data)
+        except:
+            QtWidgets.QMessageBox.information(widget, "提示", "此程序暂时没有评分，欢迎您贡献第一个评分！")
+            return
+        index = numpy.arange(len(data))
+        print(index)
+        chinese = GetApkChineseLabel(path)
+        fig = matplotlib.pylab.figure()
+        fig.canvas.set_window_title("“" + chinese + "”的用户评分（数据只供参考）")
+        fonts = matplotlib.font_manager.FontProperties(fname='/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc')  # 用于支持中文显示，需要依赖fonts-noto-cjk
+        matplotlib.pylab.barh(index, data)
+        matplotlib.pylab.yticks(index, ["不良信息", "0分", "1分", "2分", "3分", "4分", "5分"], fontproperties=fonts)
+        matplotlib.pylab.xlabel("用户评分数", fontproperties=fonts)
+        matplotlib.pylab.ylabel("等级", fontproperties=fonts)
+        matplotlib.pylab.title("“" + chinese + "”的用户评分（数据只供参考）", fontproperties=fonts)
+        matplotlib.pylab.show(block=True)
 
 # 关于窗口
 helpWindow = None
@@ -277,11 +473,13 @@ apkPath = QtWidgets.QComboBox()
 apkPathBrowser = QtWidgets.QPushButton("浏览")
 installButton = QtWidgets.QPushButton("安装")
 removeButton = QtWidgets.QPushButton("卸载")
+infoButton = QtWidgets.QPushButton("详情")
 # 设置属性
 apkPath.setEditable(True)
 apkPathBrowser.clicked.connect(BrowserApk)
 installButton.clicked.connect(InstallApkButton)
 removeButton.clicked.connect(UninstallApkButton)
+infoButton.clicked.connect(ApkInformation.ShowWindows)
 apkPathBrowser.setSizePolicy(size)
 installButton.setSizePolicy(size)
 # layout
@@ -290,6 +488,7 @@ apkInstallLayout.addWidget(apkPath, 0, 0)
 apkInstallLayout.addWidget(apkPathBrowser, 0, 1)
 apkInstallLayout.addWidget(installButton, 0, 2)
 apkInstallLayout.addWidget(removeButton, 1, 1)
+apkInstallLayout.addWidget(infoButton, 1, 2)
 ## info
 waydroidStatus = QtWidgets.QLabel("Waydroid：已安装")
 magiskDeltoInstallStatus = QtWidgets.QLabel("Magisk Delta：已安装")
