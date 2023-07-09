@@ -32,8 +32,8 @@ jobs:
           dpkg-scanpackages --multiversion . > Packages
           gzip -k -f Packages
           apt-ftparchive release . > Release
-          gpg --default-key "3025613752@qq.com" --batch --pinentry-mode="loopback" --passphrase="${{ secrets.GPGPRI }}" -abs -o - Release > Release.gpg || error "failed to sign Release.gpg with gpg "
-          gpg --default-key "3025613752@qq.com" --batch --pinentry-mode="loopback" --passphrase="${{ secrets.GPGPRI }}" --clearsign -o - Release > InRelease || error "failed to sign InRelease with gpg"
+          gpg --default-key "3025613752@qq.com" --batch --pinentry-mode="loopback" --passphrase="$KEYPASSWORD" -abs -o - Release > Release.gpg || error "failed to sign Release.gpg with gpg "
+          gpg --default-key "3025613752@qq.com" --batch --pinentry-mode="loopback" --passphrase="$KEYPASSWORD" --clearsign -o - Release > InRelease || error "failed to sign InRelease with gpg"
           git add .
           git config --global user.email 3025613752@qq.com
           git config --global user.name gfdgd-xi
