@@ -20,13 +20,7 @@ jobs:
           curl https://repo.waydro.id | sudo bash
           git clone https://gfdgd-xi:$PASSWORD@github.com/gfdgd-xi/waydroid-deb
           sudo mv waydroid-deb /waydroid-deb
-          sudo cat > /etc/apt/mirror.list <<EOF
-          set base_path    /waydroid-deb
-          set nthreads     20
-          set _tilde 0
-          deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ jammy main
-          clean https://repo.waydro.id/
-          EOF
+          sudo bash /waydroid-deb/mirror.sh
           sudo apt-mirror
           cd /waydroid-deb
           python3 build.py
