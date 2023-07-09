@@ -7,6 +7,7 @@ import json
 import random
 import threading
 import traceback
+import subprocess
 import updatekiller
 import PyQt5.QtGui as QtGui
 import PyQt5.QtCore as QtCore
@@ -260,12 +261,6 @@ installWaydroidCNAction = QtWidgets.QAction("安装 Waydroid 本体（国内源�
 installWaydroidAction = QtWidgets.QAction("安装 Waydroid 本体（官方源）")
 waydroidLog = QtWidgets.QAction("查看 Waydroid 日志")
 restartWaydroidContainer = QtWidgets.QAction("重启 Waydroid 服务进程")
-
-
-installWaydroidCNAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'"]))
-installWaydroidAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'"]))
-waydroidLog.triggered.connect(ReadWaydroidLog)
-restartWaydroidContainer.triggered.connect(lambda: os.system("systemctl restart waydroid-container.service"))
 waydroidMenu.addAction(installWaydroidCNAction)
 waydroidMenu.addAction(installWaydroidAction)
 waydroidMenu.addSeparator()
@@ -279,6 +274,10 @@ waydroidSessionStart.triggered.connect(lambda: threading.Thread(target=os.system
 waydroidSessionStop.triggered.connect(lambda: threading.Thread(target=os.system, args=["waydroid session stop"]))
 waydroidSession.addAction(waydroidSessionStart)
 waydroidSession.addAction(waydroidSessionStop)
+installWaydroidCNAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'"]))
+installWaydroidAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'"]))
+waydroidLog.triggered.connect(ReadWaydroidLog)
+restartWaydroidContainer.triggered.connect(lambda: os.system("systemctl restart waydroid-container.service"))
 # 容器配置栏
 downloadImageCN = QtWidgets.QAction("下载 Waydroid 容器镜像")
 magiskInstall = QtWidgets.QAction("安装 Magisk")
@@ -286,6 +285,7 @@ libhoudiniInstall = QtWidgets.QAction("安装 Libhoudini 翻译器（使 Waydroi
 waydroidLaguage = QtWidgets.QAction("设置 Waydroid 容器语言为中文")
 multiWindowsSet = QtWidgets.QAction("开启 Waydroid 多窗口")
 doNotRotate = QtWidgets.QAction("禁用在多窗口模式下最大化窗口屏幕方向自动旋转")
+waydroidAppListShow = QtWidgets.QAction("显示 Waydroid 安装的所有应用")
 configMenu.addAction(downloadImageCN)
 configMenu.addSeparator()
 configMenu.addAction(magiskInstall)
@@ -295,12 +295,25 @@ configMenu.addAction(waydroidLaguage)
 configMenu.addSeparator()
 configMenu.addAction(multiWindowsSet)
 configMenu.addAction(doNotRotate)
+configMenu.addSeparator()
+configMenu.addAction(waydroidAppListShow)
+quicklyOpen = configMenu.addMenu("应用快捷打开")
+waydroidSetting = QtWidgets.QAction("Waydroid 设置")
+waydroidFileManager = QtWidgets.QAction("Waydroid 文件")
+waydroidBrowser = QtWidgets.QAction("Waydroid 浏览器")
+waydroidSetting.triggered.connect(lambda: os.system("waydroid app launch com.android.settings"))
+waydroidFileManager.triggered.connect(lambda: os.system("waydroid app launch com.android.documentsui"))
+waydroidBrowser.triggered.connect(lambda: os.system("waydroid app launch org.lineageos.jelly"))
+quicklyOpen.addAction(waydroidSetting)
+quicklyOpen.addAction(waydroidFileManager)
+quicklyOpen.addAction(waydroidBrowser)
 downloadImageCN.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Image_Installer/Install.sh'"]).start())
 libhoudiniInstall.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Libhoudini_installer/Install.sh'"]).start())
 magiskInstall.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/Magisk_Installer/Magisk.py'"]).start())
 waydroidLaguage.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"pkexec python3 '{programPath}/Runner_tools/SystemConfigs/Language.py'"]).start())
 doNotRotate.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/SystemConfigs/Do-not-rotate.py'"]).start())
 multiWindowsSet.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/SystemConfigs/Multi_windows.py'"]).start())
+waydroidAppListShow.triggered.connect(lambda: QtWidgets.QInputDialog.getMultiLineText(mainwindow, "应用列表", "", subprocess.getoutput("waydroid app list")))
 # 帮助 栏
 helpAction = QtWidgets.QAction("程序帮助")
 uploadBugAction = QtWidgets.QAction("问题反馈")
