@@ -8,13 +8,38 @@ import random
 import threading
 import traceback
 import subprocess
+import typing
+
+from PyQt5.QtCore import QObject
 import updatekiller
 import PyQt5.QtGui as QtGui
 import PyQt5.QtCore as QtCore
 import PyQt5.QtWidgets as QtWidgets
 from Model import *
 
+# 需引入 subprocess
+# 运行系统命令并获取返回值
+def GetCommandReturn(cmd: "命令")->"运行系统命令并获取返回值":
+    # cmd 是要获取输出的命令
+    return subprocess.getoutput(cmd)
 
+# 获取 aapt 的所有信息
+def GetApkInformation(apkFilePath: "apk 所在路径")->"获取 aapt 的所有信息":
+    return GetCommandReturn("aapt dump badging '{}'".format(apkFilePath))
+
+# 获取 apk 包名
+def GetApkPackageName(apkFilePath: "apk 所在路径")->"获取 apk 包名":
+    info = GetApkInformation(apkFilePath)
+    for line in info.split('\n'):
+        if "package:" in line:
+            line = line[0: line.index("versionCode='")]
+            line = line.replace("package:", "")
+            line = line.replace("name=", "")
+            line = line.replace("'", "")
+            line = line.replace(" ", "")
+            return line
+
+# 读取 Waydroid 日志
 def ReadWaydroidLog():
     if not os.path.exists("/var/lib/waydroid/waydroid.log"):
         QtWidgets.QMessageBox.critical(mainwindow, "错误", "无法正确读取 Waydroid 日志文件，请检查是否正常安装 Waydroid")
@@ -56,6 +81,24 @@ def DisabledAndEnbled(status: bool):
     apkPathBrowser.setDisabled(status)
     installButton.setDisabled(status)
 
+class UninstallApk(QtCore.QThread):
+    info = QtCore.pyqtSignal(str)
+    error = QtCore.pyqtSignal(str)
+    combo = QtCore.pyqtSignal(int)
+    def __init__(self, package) -> None:
+        self.package = package
+        super().__init__()
+
+    def run(self):
+        result = os.system(f"waydroid app remove '{self.package}'")
+        if result:
+            self.error.emit(f"卸载失败！请检查 Waydroid 安装正常以及选择 APK 对应包名是否存在/输入包名存在\n命令返回值：{result}")
+            DisabledAndEnbled(False)
+            return
+        self.info.emit("执行完成！若卸载成功则会在一段时间后自动在启动器移除 .desktop 文件")
+        DisabledAndEnbled(False)
+        
+
 class InstallApk(QtCore.QThread):
     info = QtCore.pyqtSignal(str)
     error = QtCore.pyqtSignal(str)
@@ -69,9 +112,9 @@ class InstallApk(QtCore.QThread):
     def run(self):
         print(self.path)
         print(f"waydroid app install '{self.path}'")
-        result = os.system(f"waydroid app install '{self.path}'")
+        result = os.system(f"waydroid app install '{self.path}'")>>8
         if result:
-            self.error.emit("安装失败！请检查 Waydroid 安装正常以及是否支持该 APK")
+            self.error.emit(f"安装失败！请检查 Waydroid 安装正常以及是否支持该 APK\n命令返回值：{result}")
             DisabledAndEnbled(False)
             return
         self.info.emit("执行完成！若安装成功则会在一段时间后自动在启动器生成 .desktop 文件")
@@ -86,6 +129,18 @@ def InformationBox(info):
 def UpdateCombobox(tmp):
     pass
 
+def UninstallApkButton():
+    global install
+    DisabledAndEnbled(True)
+    package = apkPath.currentText()
+    if os.path.exists(package):
+        package = GetApkPackageName(package)
+    install = UninstallApk(package)
+    install.info.connect(InformationBox)
+    install.error.connect(ErrorBox)
+    install.combo.connect(UpdateCombobox)
+    install.start()
+
 def InstallApkButton():
     global install
     DisabledAndEnbled(True)
@@ -95,7 +150,7 @@ def InstallApkButton():
     install.combo.connect(UpdateCombobox)
     install.start()
 
-
+# 浏览 apk
 def BrowserApk():
     path = QtWidgets.QFileDialog.getOpenFileName(mainwindow, "选择APK", homePath, "APK 文件(*.apk);;所有文件(*.*)")
     if path[0] == "":
@@ -213,17 +268,20 @@ size.setHorizontalPolicy(0)
 apkPath = QtWidgets.QComboBox()
 apkPathBrowser = QtWidgets.QPushButton("浏览")
 installButton = QtWidgets.QPushButton("安装")
+removeButton = QtWidgets.QPushButton("卸载")
 # 设置属性
 apkPath.setEditable(True)
 apkPathBrowser.clicked.connect(BrowserApk)
 installButton.clicked.connect(InstallApkButton)
+removeButton.clicked.connect(UninstallApkButton)
 apkPathBrowser.setSizePolicy(size)
 installButton.setSizePolicy(size)
 # layout
-apkInstallLayout = QtWidgets.QHBoxLayout()
-apkInstallLayout.addWidget(apkPath)
-apkInstallLayout.addWidget(apkPathBrowser)
-apkInstallLayout.addWidget(installButton)
+apkInstallLayout = QtWidgets.QGridLayout()
+apkInstallLayout.addWidget(apkPath, 0, 0)
+apkInstallLayout.addWidget(apkPathBrowser, 0, 1)
+apkInstallLayout.addWidget(installButton, 0, 2)
+apkInstallLayout.addWidget(removeButton, 1, 1)
 ## info
 waydroidStatus = QtWidgets.QLabel("Waydroid：已安装")
 magiskDeltoInstallStatus = QtWidgets.QLabel("Magisk Delta：已安装")
@@ -261,6 +319,8 @@ installWaydroidCNAction = QtWidgets.QAction("安装 Waydroid 本体（国内源�
 installWaydroidAction = QtWidgets.QAction("安装 Waydroid 本体（官方源）")
 waydroidLog = QtWidgets.QAction("查看 Waydroid 日志")
 restartWaydroidContainer = QtWidgets.QAction("重启 Waydroid 服务进程")
+iconManager = QtWidgets.QAction("快捷方式管理工具")
+waydroidRemoveAllDesktop = QtWidgets.QAction("移除所有 Waydroid 快捷方式")
 waydroidMenu.addAction(installWaydroidCNAction)
 waydroidMenu.addAction(installWaydroidAction)
 waydroidMenu.addSeparator()
@@ -270,14 +330,19 @@ waydroidMenu.addAction(restartWaydroidContainer)
 waydroidSession = waydroidMenu.addMenu("Waydroid Session")
 waydroidSessionStart = QtWidgets.QAction("开启")
 waydroidSessionStop = QtWidgets.QAction("关闭")
-waydroidSessionStart.triggered.connect(lambda: threading.Thread(target=os.system, args=["waydroid session start"]))
-waydroidSessionStop.triggered.connect(lambda: threading.Thread(target=os.system, args=["waydroid session stop"]))
+waydroidSessionStart.triggered.connect(lambda: threading.Thread(target=os.system, args=["waydroid session start && zenity --info --text=运行完成！ --no-wrap"]))
+waydroidSessionStop.triggered.connect(lambda: threading.Thread(target=os.system, args=["waydroid session stop && zenity --info --text=运行完成！ --no-wrap"]))
 waydroidSession.addAction(waydroidSessionStart)
 waydroidSession.addAction(waydroidSessionStop)
+waydroidMenu.addSeparator()
+waydroidMenu.addAction(iconManager)
+waydroidMenu.addAction(waydroidRemoveAllDesktop)
 installWaydroidCNAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'"]))
 installWaydroidAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'"]))
 waydroidLog.triggered.connect(ReadWaydroidLog)
-restartWaydroidContainer.triggered.connect(lambda: os.system("systemctl restart waydroid-container.service"))
+restartWaydroidContainer.triggered.connect(lambda: os.system("systemctl restart waydroid-container.service && zenity --info --text=运行完成！ --no-wrap"))
+iconManager.triggered.connect(lambda: threading.Thread(target=os.system, args=[f"python3 '{programPath}/BuildDesktop.py'"]).start())
+waydroidRemoveAllDesktop.triggered.connect(lambda: os.system("rm ~/.local/share/applications/waydroid.*.desktop -fv && zenity --info --text=删除完成！ --no-wrap"))
 # 容器配置栏
 downloadImageCN = QtWidgets.QAction("下载 Waydroid 容器镜像")
 magiskInstall = QtWidgets.QAction("安装 Magisk")
@@ -286,6 +351,7 @@ waydroidLaguage = QtWidgets.QAction("设置 Waydroid 容器语言为中文")
 multiWindowsSet = QtWidgets.QAction("开启 Waydroid 多窗口")
 doNotRotate = QtWidgets.QAction("禁用在多窗口模式下最大化窗口屏幕方向自动旋转")
 waydroidAppListShow = QtWidgets.QAction("显示 Waydroid 安装的所有应用")
+waydroidClean = QtWidgets.QAction("重置容器（清空容器）")
 configMenu.addAction(downloadImageCN)
 configMenu.addSeparator()
 configMenu.addAction(magiskInstall)
@@ -307,6 +373,8 @@ waydroidBrowser.triggered.connect(lambda: os.system("waydroid app launch org.lin
 quicklyOpen.addAction(waydroidSetting)
 quicklyOpen.addAction(waydroidFileManager)
 quicklyOpen.addAction(waydroidBrowser)
+configMenu.addSeparator()
+configMenu.addAction(waydroidClean)
 downloadImageCN.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Image_Installer/Install.sh'"]).start())
 libhoudiniInstall.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Libhoudini_installer/Install.sh'"]).start())
 magiskInstall.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/Magisk_Installer/Magisk.py'"]).start())
@@ -314,6 +382,7 @@ waydroidLaguage.triggered.connect(lambda: threading.Thread(target=RunBash, args=
 doNotRotate.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/SystemConfigs/Do-not-rotate.py'"]).start())
 multiWindowsSet.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/SystemConfigs/Multi_windows.py'"]).start())
 waydroidAppListShow.triggered.connect(lambda: QtWidgets.QInputDialog.getMultiLineText(mainwindow, "应用列表", "", subprocess.getoutput("waydroid app list")))
+waydroidClean.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"sudo rm -rfv  '~/.local/share/waydroid/data/*'"]).start())
 # 帮助 栏
 helpAction = QtWidgets.QAction("程序帮助")
 uploadBugAction = QtWidgets.QAction("问题反馈")
