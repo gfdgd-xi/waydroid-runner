@@ -7,6 +7,7 @@ import json
 import numpy
 import shutil
 import random
+import zipfile
 import requests
 import threading
 import traceback
@@ -16,6 +17,7 @@ import updatekiller
 import PyQt5.QtGui as QtGui
 import PyQt5.QtCore as QtCore
 import PyQt5.QtWidgets as QtWidgets
+from getxmlimg import getsavexml
 from Model import *
 
 # 需引入 subprocess
