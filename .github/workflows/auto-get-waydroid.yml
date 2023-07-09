@@ -11,10 +11,14 @@ jobs:
       - name: Get
         env: 
           PASSWORD: ${{ secrets.PASSWORD }}
+          KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
+          KEY: ${{ secrets.KEY }}
         run: |
           # 配置环境
           sudo apt update
-          sudo apt install curl git -y
+          sudo apt install curl git  aria2 gpg -y
+          aria2c $KEY
+          gpg --import  --pinentry-mode loopback --batch --passphrase "$KEYPASSWORD"  private-file.key
           curl https://repo.waydro.id | sudo bash
           apt download waydroid python3-gbinder libgbinder libglibutil
           git clone https://gfdgd-xi:$PASSWORD@github.com/gfdgd-xi/waydroid-deb
