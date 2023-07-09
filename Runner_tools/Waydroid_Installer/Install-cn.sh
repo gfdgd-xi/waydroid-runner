@@ -13,3 +13,4 @@ gpg --dearmor /tmp/gfdgd-xi-sources/gpg.asc
 sudo cp -v /tmp/gfdgd-xi-sources/gpg.asc.gpg /etc/apt/trusted.gpg.d/gfdgdxi-kernel-list.gpg
 sudo bash -c "echo deb http://jihulab.com/gfdgd-xi/waydroid-deb/-/raw/main/$VERSION/ ./ > /etc/apt/sources.list.d/waydroid.list"
 sudo apt update
+sudo apt install waydroid -y
