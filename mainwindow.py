@@ -4,7 +4,6 @@ import os
 import sys
 import time
 import json
-import torch
 import random
 import threading
 import traceback
@@ -74,7 +73,7 @@ class InstallApk(QtCore.QThread):
             self.error.emit("安装失败！请检查 Waydroid 安装正常以及是否支持该 APK")
             DisabledAndEnbled(False)
             return
-        self.info.emit("安装成功！")
+        self.info.emit("执行完成！若安装成功则会在一段时间后自动在启动器生成 .desktop 文件")
         DisabledAndEnbled(False)
 
 def ErrorBox(error):
@@ -139,8 +138,7 @@ def showhelp():
     BtnAbout = QtWidgets.QPushButton("关于")
     BtnGPLV3 = QtWidgets.QPushButton("程序开源许可证")
     HelpStr = QtWidgets.QTextBrowser()
-    # 此功能从 2.0.0 后不再隐藏
-    #BtnDownN.setEnabled("--彩蛋" in sys.argv)
+
     BtnReadme.clicked.connect(ChgTips)
     BtnLog.clicked.connect(ChgLog)
     BtnGongxian.clicked.connect(ChgCon)
@@ -175,7 +173,7 @@ iconPath = "{}/runner.svg".format(os.path.split(os.path.realpath(__file__))[0])
 updateThingsString = ""
 homePath = os.getenv("HOME")
 about = f'''<p align="center"><img width=256 src="{iconPath}"/></p>
-<p>介绍：</p>
+<p>介绍：此运行器用于相对GUI图形化一键配置Waydroid,方便小白使用。去除一些反人类的设置,增加自定义功能如ARM支持和Magisk-Delta,并安装一些必备软件如Via,谷歌拼音输入法等;调整一些设置,比如媒体音量最大化等. 使Waydroid能尽最大可能CN本地化</p>
 <p>程序开源许可证：GPLV3</p>
 <p>版本：{version}</p>
 <p>适用平台：{goodRunSystem}</p>
@@ -259,10 +257,12 @@ programMenu.addAction(settingProgramAction)
 programMenu.addAction(exitProgramAction)
 exitProgramAction.triggered.connect(sys.exit)
 # Waydroid 栏
-installWaydroidAction = QtWidgets.QAction("安装 Waydroid 本体")
+installWaydroidCNAction = QtWidgets.QAction("安装 Waydroid 本体（国内源）")
+installWaydroidAction = QtWidgets.QAction("安装 Waydroid 本体（官方源）")
 waydroidLog = QtWidgets.QAction("查看 Waydroid 日志")
 
 #gpuChooseAction = QtWidgets.QAction("GPU 选择")
+installWaydroidCNAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'"]))
 installWaydroidAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'"]))
 
 waydroidLog.triggered.connect(ReadWaydroidLog)
@@ -270,16 +270,23 @@ waydroidMenu.addAction(installWaydroidAction)
 waydroidMenu.addAction(waydroidLog)
 #waydroidMenu.addAction(gpuChooseAction)
 # 容器配置栏
+downloadImageCN = QtWidgets.QAction("下载 Waydroid 容器镜像")
 magiskInstall = QtWidgets.QAction("安装 Magisk")
+libhoudiniInstall = QtWidgets.QAction("安装 Libhoudini 翻译器（使 Waydroid 能运行 ARM 应用）")
 waydroidLaguage = QtWidgets.QAction("设置 Waydroid 容器语言为中文")
 multiWindowsSet = QtWidgets.QAction("开启 Waydroid 多窗口")
 doNotRotate = QtWidgets.QAction("禁用在多窗口模式下最大化窗口屏幕方向自动旋转")
+configMenu.addAction(downloadImageCN)
+configMenu.addSeparator()
 configMenu.addAction(magiskInstall)
+configMenu.addAction(libhoudiniInstall)
 configMenu.addSeparator()
 configMenu.addAction(waydroidLaguage)
 configMenu.addSeparator()
 configMenu.addAction(multiWindowsSet)
 configMenu.addAction(doNotRotate)
+downloadImageCN.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Image_Installer/Install.sh'"]).start())
+libhoudiniInstall.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Libhoudini_installer/Install.sh'"]).start())
 magiskInstall.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/Magisk_Installer/Magisk.py'"]).start())
 waydroidLaguage.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"pkexec python3 '{programPath}/Runner_tools/SystemConfigs/Language.py'"]).start())
 doNotRotate.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/SystemConfigs/Do-not-rotate.py'"]).start())

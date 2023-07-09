@@ -1,4 +1,1 @@
 #!/bin/bash
-echo 安装组件
-python3 -m pip install --upgrade pip          --trusted-host https://repo.huaweicloud.com -i https://repo.huaweicloud.com/repository/pypi/simple
-python3 -m pip install --upgrade torch    --trusted-host https://repo.huaweicloud.com -i https://repo.huaweicloud.com/repository/pypi/simple
