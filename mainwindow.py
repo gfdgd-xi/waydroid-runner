@@ -74,11 +74,13 @@ def RunBash(bashCommand: str):
 {bashCommand}
 if [[ $? != 0 ]]; then
     zenity --error --text=脚本出现错误 --no-wrap
+    rm '{tmpBashPath}' -f
     exit 1
 fi
-zenity --info --text=执行成功！ --no-wrap""")
+zenity --info --text=执行成功！ --no-wrap
+rm '{tmpBashPath}' -f""")
     OpenTerminal(f"bash '{tmpBashPath}'")
-    os.remove(tmpBashPath)
+    #os.remove(tmpBashPath)
 
 def DisabledAndEnbled(status: bool):
     apkPath.setDisabled(status)
