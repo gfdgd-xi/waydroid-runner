@@ -43,7 +43,7 @@ build:
 	python3 RemovePycacheFile.py                #deb/opt/apps/spark-waydroid-runner/files/
 	cp -rv deb /tmp/waydroid-runner-builder
 	sudo chown -R root:root /tmp/waydroid-runner-builder
-	sudo dpkg -b /tmp/waydroid-runner-builder spark-waydroid-runner.deb
+	sudo dpkg-deb -Z xz -b /tmp/waydroid-runner-builder spark-waydroid-runner.deb
 	sudo rm -rfv /tmp/waydroid-runner-builder
 
 install:
