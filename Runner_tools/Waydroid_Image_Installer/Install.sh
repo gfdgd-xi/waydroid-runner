@@ -11,13 +11,13 @@ if [[ $? != 0 ]]; then
 fi
 cd /tmp
 sudo mkdir -p /usr/share/waydroid-extra/images
-if [[ -f /usr/share/waydroid-extra/images/system.img ]]; then
+if [[ ! -f /usr/share/waydroid-extra/images/system.img ]]; then
     echo 拉取 system.img
     aria2c -x 16 -s 16 https://jihulab.com/gfdgd-xi/waydroid-image/-/raw/main/system.7z
     7z x system.7z
     sudo cp system.img /usr/share/waydroid-extra/images/ -v
 fi
-if [[ -f /usr/share/waydroid-extra/images/vendor.img ]]; then
+if [[ ! -f /usr/share/waydroid-extra/images/vendor.img ]]; then
     echo 拉取 vendor.img
     aria2c -x 16 -s 16 https://jihulab.com/gfdgd-xi/waydroid-image/-/raw/main/vendor.7z
     7z x vendor.7z
