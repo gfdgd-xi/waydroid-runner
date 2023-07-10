@@ -34,7 +34,7 @@ jobs:
           sudo apt update | true
           apt download waydroid python3-gbinder libgbinder libglibutil
           #apt download waydroid:i386 python3-gbinder:i386 libgbinder:i386 libglibutil:i386
-          apt download waydroid:armhf python3-gbinder:armhf libgbinder:armhf libglibutil:armhf
+          #apt download waydroid:armhf python3-gbinder:armhf libgbinder:armhf libglibutil:armhf
           apt download waydroid:arm64 python3-gbinder:arm64 libgbinder:arm64 libglibutil:arm64
           bash ../mirror.sh
           # 源码
