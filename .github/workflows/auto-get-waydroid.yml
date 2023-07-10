@@ -71,10 +71,10 @@ jobs:
           sudo apt update
           apt download waydroid python3-gbinder libgbinder libglibutil
           bash ../mirror.sh
-          # kinetic
-          mkdir -p ../kinetic
-          cd ../kinetic
-          sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ kinetic main > /etc/apt/sources.list.d/waydroid.list"
+          # trixie
+          mkdir -p ../trixie
+          cd ../trixie
+          sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ trixie main > /etc/apt/sources.list.d/waydroid.list"
           sudo apt update
           apt download waydroid python3-gbinder libgbinder libglibutil
           bash ../mirror.sh
