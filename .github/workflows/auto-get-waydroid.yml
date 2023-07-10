@@ -16,9 +16,9 @@ jobs:
         run: |
 
           # 配置环境
-          sudo dpkg --add-architecture i386
-          sudo dpkg --add-architecture armhf
-          sudo dpkg --add-architecture arm64
+          #sudo dpkg --add-architecture i386
+          #sudo dpkg --add-architecture armhf
+          #sudo dpkg --add-architecture arm64
           sudo apt update | true
           sudo apt install curl git  aria2 gpg -y
           aria2c $KEY
@@ -35,7 +35,7 @@ jobs:
           apt download waydroid python3-gbinder libgbinder libglibutil
           #apt download waydroid:i386 python3-gbinder:i386 libgbinder:i386 libglibutil:i386
           #apt download waydroid:armhf python3-gbinder:armhf libgbinder:armhf libglibutil:armhf
-          apt download waydroid:arm64 python3-gbinder:arm64 libgbinder:arm64 libglibutil:arm64
+          #apt download waydroid:arm64 python3-gbinder:arm64 libgbinder:arm64 libglibutil:arm64
           bash ../mirror.sh
           # 源码
           mkdir -p ../source
