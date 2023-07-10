@@ -40,6 +40,8 @@ jobs:
           # 源码
           mkdir -p ../source
           cd ../source 
+          sudo bash -c "echo deb-src [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ jammy main > /etc/apt/sources.list.d/waydroid.list"
+          sudo apt update | true
           apt source waydroid python3-gbinder libgbinder libglibutil
           # focal
           mkdir -p ../focal
