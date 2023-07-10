@@ -38,11 +38,11 @@ jobs:
           #apt download waydroid:arm64 python3-gbinder:arm64 libgbinder:arm64 libglibutil:arm64
           bash ../mirror.sh
           # 源码
-          mkdir -p ../source
-          cd ../source 
-          sudo bash -c "echo deb-src [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ jammy main > /etc/apt/sources.list.d/waydroid.list"
-          sudo apt update | true
-          apt source waydroid python3-gbinder libgbinder libglibutil
+          #mkdir -p ../source
+          #cd ../source 
+          #sudo bash -c "echo deb-src [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ jammy main > /etc/apt/sources.list.d/waydroid.list"
+          #sudo apt update | true
+          #apt source waydroid python3-gbinder libgbinder libglibutil
           # focal
           mkdir -p ../focal
           cd ../focal
@@ -68,6 +68,13 @@ jobs:
           mkdir -p ../lunar
           cd ../lunar
           sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ lunar main > /etc/apt/sources.list.d/waydroid.list"
+          sudo apt update
+          apt download waydroid python3-gbinder libgbinder libglibutil
+          bash ../mirror.sh
+          # kinetic
+          mkdir -p ../kinetic
+          cd ../kinetic
+          sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ kinetic main > /etc/apt/sources.list.d/waydroid.list"
           sudo apt update
           apt download waydroid python3-gbinder libgbinder libglibutil
           bash ../mirror.sh
