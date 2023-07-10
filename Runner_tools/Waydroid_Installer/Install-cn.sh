@@ -10,7 +10,13 @@ if [[ $XDG_SESSION_TYPE == "x11" ]]; then
     echo 按回车键忽略该警告继续安装Waydroid本体
     read
 fi
-echo 请输入版本代号（如focal、bullseye）
+echo 常见的系统版本代号：
+echo "    - Debian11：bullseye"
+echo "    - Debian12：bookworm"
+echo "    - Ubuntu20.04：focal"
+echo "    - Ubuntu22.04：jammy"
+echo "    - Ubuntu23.04：lunar"
+echo 请输入版本代号（如focal、bullseye）（请输入小写）
 read VERSION
 curl https://jihulab.com/gfdgd-xi/waydroid-deb/-/raw/main/$VERSION/Packages | grep 404
 if [[ $? == 0 ]]; then

@@ -72,12 +72,12 @@ jobs:
           apt download waydroid python3-gbinder libgbinder libglibutil
           bash ../mirror.sh
           # trixie
-          mkdir -p ../trixie
-          cd ../trixie
-          sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ trixie main > /etc/apt/sources.list.d/waydroid.list"
-          sudo apt update
-          apt download waydroid python3-gbinder libgbinder libglibutil
-          bash ../mirror.sh
+          #mkdir -p ../trixie
+          #cd ../trixie
+          #sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ trixie main > /etc/apt/sources.list.d/waydroid.list"
+          #sudo apt update
+          #apt download waydroid python3-gbinder libgbinder libglibutil
+          #bash ../mirror.sh
           # 提交
           cd ..
           python3 build.py

@@ -35,13 +35,13 @@ print("""译文：一轮缓缓移动的秋月洒下万里金波，就像那刚�
 我要乘风飞上万里长空，俯视祖国的大好山河。还要砍去月中摇曳的桂树枝柯，人们说，这将使月亮洒下人间的光辉更多。""")
 print("================================")
 urlSourcesList = [
-    "http://config.uengine-runner.gfdgdxi.top/",  # Github 源
-    "https://gitee.com/gfdgd-xi/uengine-wine-runner-auto-configuration-script/raw/master/",  # Gitee 源
-    "https://code.gitlink.org.cn/gfdgd_xi/uengine-runner-list/raw/branch/master/auto",  # Gitlink 源
-    "http://gfdgdxi.msns.cn/uengine-runner-list/auto/",  # 备用源1，纯 IPv6 源
-    "http://gfdgdxi.free.idcfengye.com/uengine-runner-auto-configuration-script/",  # 备用源2
-    "http://gfdgdxi.free.idcfengye.com/uengine-runner-list/auto/",  # 备用源 3
-    "http://127.0.0.1/uengine-runner-list/auto/"  # 本地测试源
+    "http://config.waydroid-runner.gfdgdxi.top/",  # Github 源
+    "https://gitee.com/gfdgd-xi/waydroid-wine-runner-auto-configuration-script/raw/master/",  # Gitee 源
+    "https://code.gitlink.org.cn/gfdgd_xi/waydroid-runner-list/raw/branch/master/auto",  # Gitlink 源
+    "http://gfdgdxi.msns.cn/waydroid-runner-list/auto/",  # 备用源1，纯 IPv6 源
+    "http://gfdgdxi.free.idcfengye.com/waydroid-runner-auto-configuration-script/",  # 备用源2
+    "http://gfdgdxi.free.idcfengye.com/waydroid-runner-list/auto/",  # 备用源 3
+    "http://127.0.0.1/waydroid-runner-list/auto/"  # 本地测试源
 ]
 urlSourcesIndex = 0
 urlSources = urlSourcesList[0]
