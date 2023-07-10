@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Categories=System;
+Terminal=false
+Exec=/usr/bin/waydroid-runner
+Icon=/opt/apps/spark-waydroid-runner/files/runner.svg
+Name=Waydroid Runner
+Comment=Waydroid Runner
+Comment[zh]=Waydroid 运行器
+Name[zh]=Waydroid 运行器
+StartupNotify=true
+MimeType=

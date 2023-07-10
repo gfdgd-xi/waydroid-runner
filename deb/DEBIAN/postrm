@@ -1,0 +1,33 @@
+#!/bin/bash
+rm -f /usr/bin/waydroid-runner
+rm -f /usr/bin/waydroid-runner-auto-install-bash
+# 删除软件残留，简单粗暴一点直接全部删掉，防止出现警告
+# 加判断是为了怕 reinstall 后程序就再也打不开了（除非卸载后重新安装）
+if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
+    rm -rf /opt/apps/waydroid-runner
+fi
+# 删除软件配置文件（只限“purge”）
+# 配置目录：~/.config/waydroid-runner
+if [ "$1" = "purge" ]; then
+
+	echo "清理程序配置文件"
+
+	for username in $(ls /home); do
+		echo /home/$username
+		if [ -d "/home/$username/.config/waydroid-runner/" ]; then
+			rm -rf "/home/$username/.config/waydroid-runner/"
+		fi
+	done
+	# 清理 root 用户的配置文件
+	echo /root
+	if [ -d "/root/.config/waydroid-runner/" ]; then
+		rm -rf "/root/.config/waydroid-runner/"
+		rm -rf "/root/.local/share/waydroid-runner"
+	fi
+else
+	echo "非 purge，跳过清理"
+fi
+
+# 刷新图标缓存
+# 因为 Ubuntu 的问题，省略
+gtk-update-icon-cache /usr/share/icons/bloom > /dev/null | true

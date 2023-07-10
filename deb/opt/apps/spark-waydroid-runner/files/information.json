@@ -1,0 +1,36 @@
+{
+    "Package": "spark-waydroid-runner",
+    "Url": [
+        "https://gitee.com/gfdgd-xi/waydroid-runner",
+        "https://gitee.com/gfdgd-xi/waydroid-runner"
+    ],
+    "Version": "1.0.0",
+    "System": "Linux",
+    "Tips": [
+        "在安装运行器后推荐按住以下顺序操作以更好的使用 Waydroid：",
+        "1. 安装 Waydroid（本体、国内源）",
+        "2. 安装 Waydroid 镜像（国内源）",
+        "3. 安装 Libhoudini（二进制翻译器）",
+        "4. 开启多窗口（可选）",
+        "5. 禁用多窗口下全屏窗口屏幕自动旋转（可选）",
+        "<b>也可以在 菜单栏->Waydroid->一键优化Waydroid 一键处理</b>"
+    ],
+    "Update": [
+        "<b>V1.0.0：</b>",
+        "※1、新增 Waydroid 主程序安装功能、镜像下载功能及其国内源",
+        "※2、支持安装 Magisk、Libhoudini（二进制翻译器，可以运行 ARM APK）",
+        "※3、支持对 Waydroid 的初步控制",
+        "※4、支持安装/卸载 Android 应用",
+        "※5、提供应用商店以安装 APK",
+        "※6、新增 Waydroid 一键优化"
+    ],
+    "Use": [
+        ""
+    ],
+    "Time": "2023-07-10 12:24:14 Linux-5.19.0-32-generic-x86_64-with-glibc2.35",
+    "Contribute": [
+        "<b>排名不分先后</b>",
+        "gfdgd xi（https://gitee.com/gfdgd-xi）",
+        "LFRon（https://gitee.com/LFRon）"
+    ]
+}
