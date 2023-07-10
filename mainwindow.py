@@ -225,6 +225,89 @@ def GetApkActivityName(apkFilePath: "apk 所在路径")->"获取 apk Activity":
             return line
     return f"{GetApkPackageName(apkFilePath)}.Main"
 
+# 更新窗口
+class UpdateWindow():
+    data = {}
+    update = None
+    def ShowWindow():
+        UpdateWindow.update = QtWidgets.QMainWindow()
+        updateWidget = QtWidgets.QWidget()
+        updateWidgetLayout = QtWidgets.QGridLayout()
+        versionLabel = QtWidgets.QLabel(f"当前版本：{version}\n最新版本：未知\n更新内容：")
+        updateText = QtWidgets.QTextBrowser()
+        ok = QtWidgets.QPushButton("更新（更新过程中会关闭这个应用的所有进程）")
+        ok.clicked.connect(UpdateWindow.Update)
+        cancel = QtWidgets.QPushButton("取消")
+        cancel.clicked.connect(UpdateWindow.update.close)
+        ok.setDisabled(True)
+        try:
+            UpdateWindow.data = json.loads(requests.get("http://update.gfdgdxi.top/waydroid-runner/update.json").text)
+            versionLabel = QtWidgets.QLabel(f"当前版本：{version}\n最新版本：{UpdateWindow.data['Version']}\n更新内容：")
+            if UpdateWindow.data["Version"] == version:
+                updateText.setText("此为最新版本，无需更新")
+                ok.setDisabled(True)
+            else:
+                # 版本号读取（防止出现高版本号提示要“升级”到低版本号的问题）
+                localVersionList = version.split(".")
+                webVersionList = UpdateWindow.data['Version'].split(".")
+                for i in range(len(localVersionList)):
+                    local = int(localVersionList[i])
+                    web = int(webVersionList[i])
+                    if web < local:
+                        updateText.setHtml(f"""<p>此为最新版本，无需更新，但似乎您当前使用的程序版本比云端版本还要高。</p>
+<p>出现这个问题可能会有如下几种情况：</p>
+<p>1、使用编译或者内测版本</p>
+<p>2、自己修改了程序版本</p>
+<p>3、作者忘记更新云端上的更新信息了</p>
+<p>如果是第三种情况，请反馈到此：https://gitee.com/gfdgd-xi/waydroid-runner/issues/I7JVH7</p>
+<p><img src='{programPath}/Icon/doge.png'></p>""")
+                        ok.setDisabled(True)
+                        break
+                    if web > local:
+                        updateText.setText(UpdateWindow.data["New"].replace("\\n", "\n"))
+                        ok.setEnabled(True)
+                        break
+                
+        except:
+            traceback.print_exc()
+            QtWidgets.QMessageBox.critical(updateWidget, "错误", "无法连接服务器！")
+        updateWidgetLayout.addWidget(versionLabel, 0, 0, 1, 1)
+        updateWidgetLayout.addWidget(updateText, 1, 0, 1, 3)
+        updateWidgetLayout.addWidget(ok, 2, 2, 1, 1)
+        updateWidgetLayout.addWidget(cancel, 2, 1, 1, 1)
+        updateWidget.setLayout(updateWidgetLayout)
+        UpdateWindow.update.setCentralWidget(updateWidget)
+        UpdateWindow.update.setWindowTitle("检查 Waydroid 运行器更新")
+        UpdateWindow.update.setWindowIcon(QtGui.QIcon(iconPath))
+        UpdateWindow.update.resize(updateWidget.frameGeometry().width(), int(updateWidget.frameGeometry().height() * 1.5))
+        UpdateWindow.update.show()
+
+    def Update():
+        if os.path.exists("/tmp/waydroid-runner/update"):
+            shutil.rmtree("/tmp/waydroid-runner/update")
+        os.makedirs("/tmp/waydroid-runner/update")
+        try:            
+            print(UpdateWindow.data["Url"])
+            WriteTxt("/tmp/waydroid-runner/update.sh", f"""#!/bin/bash
+echo 删除多余的安装包
+rm -rfv /tmp/waydroid-runner/update/*
+echo 关闭“Waydroid 运行器”
+python3 "{programPath}/updatekiller.py"
+echo 下载安装包
+wget -P /tmp/waydroid-runner/update {UpdateWindow.data["Url"][0]}
+echo 安装安装包
+dpkg -i /tmp/waydroid-runner/update/*
+echo 修复依赖关系
+apt install -f -y
+notify-send -i "{iconPath}" "更新完毕！"
+zenity --info --text=\"更新完毕！\" --ellipsize
+""")
+        except:
+            traceback.print_exc()
+            QtWidgets.QMessageBox.critical(widget, "错误，无法继续更新", traceback.format_exc())
+        OpenTerminal(f"pkexec bash /tmp/waydroid-runner/update.sh")
+        
+
 # 获取 APK 版本
 def GetApkVersion(apkFilePath):
     info = GetApkInformation(apkFilePath)
@@ -263,9 +346,9 @@ class ApkInformation():
 
         tab.addTab(tab1, "简化版")
         tab1Layout = QtWidgets.QGridLayout()
-        SaveApkIcon(path, "/tmp/uengine-runner-android-app-icon.png")
+        SaveApkIcon(path, "/tmp/waydroid-runner-android-app-icon.png")
         simpleInformation = QtWidgets.QLabel(f"""
-<p align='center'><img width='256' src='/tmp/uengine-runner-android-app-icon.png'></p>
+<p align='center'><img width='256' src='/tmp/waydroid-runner-android-app-icon.png'></p>
 <p>包名：{GetApkPackageName(path)}</p>
 <p>中文名：{GetApkChineseLabel(path)}</p>
 <p>Activity：{GetApkActivityName(path)}</p>
@@ -369,7 +452,7 @@ def SaveIconToOtherPath():
     if apkPath == "":
         QtWidgets.QMessageBox.critical(widget, "错误", "APK 不存在或错误")
         return
-    path = QtWidgets.QFileDialog.getSaveFileName(widget, "保存图标", "icon.png", "PNG 图片(*.png);;所有文件(*.*)", json.loads(readtxt(homePath + "/.config/uengine-runner/SaveApkIcon.json"))["path"])[0]
+    path = QtWidgets.QFileDialog.getSaveFileName(widget, "保存图标", "icon.png", "PNG 图片(*.png);;所有文件(*.*)", json.loads(readtxt(homePath + "/.config/waydroid-runner/SaveApkIcon.json"))["path"])[0]
     if not path == "":
         try:
             SaveApkIcon(apkPath, path)
@@ -377,10 +460,10 @@ def SaveIconToOtherPath():
             traceback.print_exc()
             QtWidgets.QMessageBox.critical(widget, "错误", "图标保存失败！")
             return
-        #write_txt(get_home() + "/.config/uengine-runner/SaveApkIcon.json", json.dumps({"path": os.path.dirname(path)}))  # 写入配置文件
+        #WriteTxt(homePath + "/.config/uengine-runner/SaveApkIcon.json", json.dumps({"path": os.path.dirname(path)}))  # 写入配置文件
         #findApkHistory.append(ComboInstallPath.currentText())
         UpdateCombobox(0)
-        #write_txt(get_home() + "/.config/uengine-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
+        #WriteTxt(homePath + "/.config/uengine-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
         QtWidgets.QMessageBox.information(widget, "提示", "保存成功！")
 
 # 关于窗口
@@ -475,7 +558,55 @@ for i in information["Contribute"]:
 iconPath = f"{programPath}"
 windowTitle = f"Waydroid 运行器 {version}"
 
+###########################
+# 加载配置
+###########################
 app = QtWidgets.QApplication(sys.argv)
+if not os.path.exists(homePath + "/.config/waydroid-runner"):  # 如果没有配置文件夹
+    os.makedirs(homePath + "/.config/waydroid-runner")  # 创建配置文件夹
+if not os.path.exists(homePath + "/.config/waydroid-runner/FindApkHistory.json"):  # 如果没有配置文件
+    WriteTxt(homePath + "/.config/waydroid-runner/FindApkHistory.json", json.dumps({}))  # 创建配置文件
+if not os.path.exists(homePath + "/.config/waydroid-runner/FindApkNameHistory.json"):  # 如果没有配置文件
+    WriteTxt(homePath + "/.config/waydroid-runner/FindApkNameHistory.json", json.dumps({}))  # 创建配置文件
+if not os.path.exists(homePath + "/.config/waydroid-runner/FindApkActivityHistory.json"):  # 如果没有配置文件
+    WriteTxt(homePath + "/.config/waydroid-runner/FindApkActivityHistory.json", json.dumps({}))  # 创建配置文件
+if not os.path.exists(homePath + "/.config/waydroid-runner/FindUninstallApkHistory.json"):  # 如果没有配置文件
+    WriteTxt(homePath + "/.config/waydroid-runner/FindUninstallApkHistory.json", json.dumps({}))  # 创建配置文件
+if not os.path.exists(homePath + "/.config/waydroid-runner/FindApkName.json"):  # 如果没有配置文件
+    WriteTxt(homePath + "/.config/waydroid-runner/FindApkName.json", json.dumps({"path": "~"}))  # 写入（创建）一个配置文件
+if not os.path.exists(homePath + "/.config/waydroid-runner/FindApk.json"):  # 如果没有配置文件
+    WriteTxt(homePath + "/.config/waydroid-runner/FindApk.json", json.dumps({"path": "~"}))  # 写入（创建）一个配置文件
+if not os.path.exists(homePath + "/.config/waydroid-runner/FindUninstallApk.json"):  # 如果没有配置文件
+    WriteTxt(homePath + "/.config/waydroid-runner/FindUninstallApk.json", json.dumps({"path": "~"}))  # 写入（创建）一个配置文件
+if not os.path.exists(homePath + "/.config/waydroid-runner/SaveApkIcon.json"):  # 如果没有配置文件
+    WriteTxt(homePath + "/.config/waydroid-runner/SaveApkIcon.json", json.dumps({"path": "~"}))  # 写入（创建）一个配置文件
+if not os.path.exists(homePath + "/.config/waydroid-runner/SaveApk.json"):  # 如果没有配置文件
+    WriteTxt(homePath + "/.config/waydroid-runner/SaveApk.json", json.dumps({"path": "~"}))  # 写入（创建）一个配置文件
+if not os.path.exists(homePath + "/.config/waydroid-runner/setting.json"):
+    WriteTxt(homePath + "/.config/waydroid-runner/setting.json", json.dumps({"SaveApk": int(1)}))
+
+defultProgramList = {
+    "SaveApk": 1,
+    "AutoScreenConfig": False,
+    "ChooseProgramType": False,
+    "Theme": ""
+}
+try:
+    settingConf = json.loads(readtxt(homePath + "/.config/waydroid-runner/setting.json"))
+    change = False
+    for i in defultProgramList.keys():
+        if not i in settingConf:
+            change = True
+            settingConf[i] = defultProgramList[i]
+    if change:
+        WriteTxt(homePath + "/.config/waydroid-setting.json", json.dumps(settingConf))
+except:
+    traceback.print_exc()
+    app = QtWidgets.QApplication(sys.argv)
+    QtWidgets.QMessageBox.critical(None, "错误", f"无法读取配置，无法继续\n{traceback.format_exc()}")
+    sys.exit(1)
+
+
 # 环境检测
 CheckWaylandRun(True)
 if os.system("which waydroid"):
@@ -658,10 +789,12 @@ waydroidContainerUnfreeze.triggered.connect(lambda: threading.Thread(target=os.s
 # 帮助 栏
 helpAction = QtWidgets.QAction("程序帮助")
 uploadBugAction = QtWidgets.QAction("问题反馈")
+updateProgram = QtWidgets.QAction("更新程序")
 programWebsite = QtWidgets.QAction("程序地址")
 aboutThisProgramAction = QtWidgets.QAction("关于本程序(&A)")
 helpAction.triggered.connect(showhelp)
 programWebsite.triggered.connect(lambda: webbrowser.open_new_tab("https://gitee.com/gfdgd-xi/waydroid-runner"))
+updateProgram.triggered.connect(UpdateWindow.ShowWindow)
 uploadBugAction.triggered.connect(lambda: threading.Thread(target=os.system, args=[f"python3 '{programPath}/waydroid-runner-update-bug'"]).start())
 aboutThisProgramAction.triggered.connect(showhelp)
 helpMenu.addAction(helpAction)
@@ -669,6 +802,7 @@ helpMenu.addAction(uploadBugAction)
 helpMenu.addSeparator()
 helpMenu.addAction(programWebsite)
 helpMenu.addSeparator()
+helpMenu.addAction(updateProgram)
 helpMenu.addAction(aboutThisProgramAction)
 
 ## 窗口属性
