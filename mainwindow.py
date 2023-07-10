@@ -546,7 +546,7 @@ about = f'''<p align="center"><img width=256 src="{iconPath}"/></p>
 <p>程序官网：{programUrl}</p>
 <p>系统版本：{SystemVersion}</p>
 <p>安装包构建时间：{information['Time']}</p>
-<h1>©2023-{time.strftime("%Y")}</h1>'''
+<h1>©2023-{time.strftime("%Y")} gfdgd xi</h1>'''
 tips = ""
 contribute = ""
 for i in information["Tips"]:
@@ -611,7 +611,7 @@ except:
 CheckWaylandRun(True)
 if os.system("which waydroid"):
     if QtWidgets.QMessageBox.question(None, "提示", "您还未安装 Waydroid，是否立即安装？") == QtWidgets.QMessageBox.Yes:
-        RunBash(f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'")
+        RunBash(f"python3 '{programPath}/Runner_tools/auto-setting.py'")
         sys.exit()
 
 # 窗口
@@ -688,6 +688,7 @@ programMenu.addAction(exitProgramAction)
 checkWayland.triggered.connect(CheckWaylandRun)
 exitProgramAction.triggered.connect(sys.exit)
 # Waydroid 栏
+waydroidAutoSetting = QtWidgets.QAction("一键安装/设置 Waydroid")
 installWaydroidCNAction = QtWidgets.QAction("安装 Waydroid 本体（国内源）")
 installWaydroidAction = QtWidgets.QAction("安装 Waydroid 本体（官方源）")
 waydroidStatus = QtWidgets.QAction("Waydroid 状态")
@@ -696,6 +697,8 @@ restartWaydroidContainer = QtWidgets.QAction("重启 Waydroid 服务进程")
 iconManager = QtWidgets.QAction("快捷方式管理工具")
 waydroidRemoveAllDesktop = QtWidgets.QAction("移除所有 Waydroid 快捷方式")
 waydroidShowFullUI = QtWidgets.QAction("显示 Waydroid Android 完整界面")
+waydroidMenu.addAction(waydroidAutoSetting)
+waydroidMenu.addSeparator()
 waydroidMenu.addAction(installWaydroidCNAction)
 waydroidMenu.addAction(installWaydroidAction)
 waydroidMenu.addSeparator()
@@ -715,6 +718,7 @@ waydroidMenu.addAction(iconManager)
 waydroidMenu.addAction(waydroidRemoveAllDesktop)
 waydroidMenu.addSeparator()
 waydroidMenu.addAction(waydroidShowFullUI)
+waydroidAutoSetting.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/auto-setting.py'"]).start())
 installWaydroidCNAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'"]))
 installWaydroidAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'"]))
 waydroidStatus.triggered.connect(lambda: QtWidgets.QInputDialog.getMultiLineText(mainwindow, "Waydroid 状态", "", subprocess.getoutput("waydroid status")))
