@@ -633,7 +633,7 @@ findApkNameHistory = list(json.loads(readtxt(homePath + "/.config/waydroid-runne
 findApkActivityHistory = list(json.loads(readtxt(homePath + "/.config/waydroid-runner/FindApkActivityHistory.json")).values())
 
 # 环境检测
-CheckWaylandRun(True)
+
 if os.system("which waydroid"):
     if QtWidgets.QMessageBox.question(None, "提示", "您还未安装 Waydroid，是否立即安装？") == QtWidgets.QMessageBox.Yes:
         RunBash(f"python3 '{programPath}/Runner_tools/auto-setting.py'")
@@ -641,6 +641,7 @@ if os.system("which waydroid"):
 
 # 窗口
 mainwindow = QtWidgets.QMainWindow()
+CheckWaylandRun(True)
 widget = QtWidgets.QWidget()
 widgetLayout = QtWidgets.QGridLayout()
 # 权重
