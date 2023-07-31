@@ -35,7 +35,7 @@ jobs:
           echo 挂载
           sudo mkdir /tmp/mount -p
           sudo mount /dev/nbd0 /tmp/mount
-          sudo cp /tmp/houdini-install/overlay/system/* /tmp/mount -rv
+          sudo cp /tmp/houdini-install/overlay/system/* /tmp/mount -rv | true
           sudo qemu-nbd -d /dev/nbd0 | true
           sudo umount /tmp/mount | true
 
