@@ -25,7 +25,7 @@ jobs:
           unzip `basename $u`
           qemu-img resize system.img +1G
           sudo modprobe nbd max_ports=8
-          sudo qemu-nbd system.img --connect=/dev/nbd0
+          sudo qemu-nbd system.img --connect=/dev/nbd0 ; true
           sudo resize2fs -p /dev/nbd0
           sudo mkdir /tmp/mount
           sudo cp /tmp/houdini-install/overlay/system/* /tmp/mount -rv
