@@ -27,7 +27,7 @@ jobs:
           u=`dirname $url`
           unzip `basename $u`
           # 扩容 img
-          qemu-img resize system.img +1G
+          qemu-img resize system.img +256M
           sudo modprobe nbd max_ports=8 
           sudo qemu-nbd system.img --connect=/dev/nbd0 | true
           df -H /tmp
@@ -40,7 +40,10 @@ jobs:
           sudo mkdir -p /tmp/mount/etc/init
           sudo mkdir -p /tmp/mount/lib
           sudo mkdir -p /tmp/mount/lib64
-          sudo cp /tmp/houdini-install/overlay/system/* /tmp/mount -rv | true
+          sudo cp /tmp/houdini-install/overlay/system/bin /tmp/mount/system -rv | true
+          sudo cp /tmp/houdini-install/overlay/system/etc /tmp/mount/system -rv | true
+          sudo cp /tmp/houdini-install/overlay/system/lib /tmp/mount/ -rv | true
+          sudo cp /tmp/houdini-install/overlay/system/lib64 /tmp/mount/ -rv | true
           
           sudo umount /tmp/mount | true
           sudo qemu-nbd -d /dev/nbd0 | true
