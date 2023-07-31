@@ -15,6 +15,7 @@ jobs:
           sudo apt update
           sudo apt install aria2 curl qemu-utils qemu-system gparted -y
           echo 下载所需安装包
+          cd /tmp
           aria2c -x 16 -s 16 https://jihulab.com/gfdgd-xi/waydroid-image/-/raw/main/houdini-install.tar.gz
           tar -xvf houdini-install.tar.gz
           #curl https://repo.waydro.id | sudo bash
