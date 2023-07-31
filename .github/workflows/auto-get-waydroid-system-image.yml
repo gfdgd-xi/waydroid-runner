@@ -12,7 +12,7 @@ jobs:
         run: |
           # 配置环境
           sudo apt update
-          sudo apt install aria2 curl qemu-utils -y
+          sudo apt install aria2 curl qemu-utils qemu-system gparted -y
           aria2c -x 16 -s 16 https://jihulab.com/gfdgd-xi/waydroid-image/-/raw/main/houdini-install.tar.gz -d /tmp
           cd /tmp
           tar -xvf houdini-install.tar.gz
@@ -25,7 +25,7 @@ jobs:
           unzip `basename $u`
           qemu-img resize system.img +1G
           sudo modprobe nbd max_ports=8
-          qemn-nbd system.img --connect=/dev/nbd0
+          qemu-nbd system.img --connect=/dev/nbd0
           resize2fs -p /dev/nbd0
           mkdir /tmp/mount
           cp /tmp/houdini-install/overlay/system/* /tmp/mount -rv
