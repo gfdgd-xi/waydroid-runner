@@ -35,11 +35,11 @@ jobs:
           echo 挂载
           sudo mkdir /tmp/mount -p
           sudo mount /dev/nbd0 /tmp/mount
-          sudo mkdir -p /tmp/mount/bin
-          sudo mkdir -p /tmp/mount/etc
-          sudo mkdir -p /tmp/mount/etc/init
-          sudo mkdir -p /tmp/mount/lib
-          sudo mkdir -p /tmp/mount/lib64
+          sudo mkdir -p /tmp/mount/bin | true
+          sudo mkdir -p /tmp/mount/etc | true
+          sudo mkdir -p /tmp/mount/etc/init | true
+          sudo mkdir -p /tmp/mount/lib | true
+          sudo mkdir -p /tmp/mount/lib64 | true
           sudo cp /tmp/houdini-install/overlay/system/bin /tmp/mount/system -rv | true
           sudo cp /tmp/houdini-install/overlay/system/etc /tmp/mount/system -rv | true
           sudo cp /tmp/houdini-install/overlay/system/lib /tmp/mount/ -rv | true
