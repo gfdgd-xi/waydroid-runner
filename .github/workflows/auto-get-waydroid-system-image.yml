@@ -12,7 +12,7 @@ jobs:
         run: |
           # 配置环境
           sudo apt update
-          sudo apt install aria2 curl qemu-nbd -y
+          sudo apt install aria2 curl qemu-utils -y
           aria2c -x 16 -s 16 https://jihulab.com/gfdgd-xi/waydroid-image/-/raw/main/houdini-install.tar.gz -d /tmp
           cd /tmp
           tar -xvf houdini-install.tar.gz
