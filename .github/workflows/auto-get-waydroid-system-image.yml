@@ -29,8 +29,8 @@ jobs:
           # 扩容 img
           qemu-img resize system.img +1G
           sudo modprobe nbd max_ports=8
-          sudo qemu-nbd system.img --connect=/dev/nbd0 
-          sudo resize2fs -p /dev/nbd0
+          sudo qemu-nbd system.img --connect=/dev/nbd0 ; true
+          sudo resize2fs -p /dev/nbd0 ; true
           echo 挂载
           sudo mkdir /tmp/mount -p
           sudo mount /dev/nbd0 /tmp/mount
