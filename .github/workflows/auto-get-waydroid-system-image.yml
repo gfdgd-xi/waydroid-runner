@@ -36,8 +36,8 @@ jobs:
           sudo mkdir /tmp/mount -p
           sudo mount /dev/nbd0 /tmp/mount
           sudo cp /tmp/houdini-install/overlay/system/* /tmp/mount -rv
-          sudo qemu-nbd -d /dev/nbd0
-          sudo umount /tmp/mount
+          sudo qemu-nbd -d /dev/nbd0 | true
+          sudo umount /tmp/mount | true
 
           
       - name: upload result(system.img)
