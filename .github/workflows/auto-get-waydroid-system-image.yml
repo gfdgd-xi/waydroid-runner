@@ -16,7 +16,6 @@ jobs:
           sudo apt install aria2 curl qemu-utils qemu-system gparted -y
           echo 下载所需安装包
           aria2c -x 16 -s 16 https://jihulab.com/gfdgd-xi/waydroid-image/-/raw/main/houdini-install.tar.gz -d /tmp
-          cd /tmp
           tar -xvf houdini-install.tar.gz
           #curl https://repo.waydro.id | sudo bash
           #sudo apt install waydroid -y
@@ -30,7 +29,8 @@ jobs:
           qemu-img resize system.img +1G
           sudo modprobe nbd max_ports=8
           sudo qemu-nbd system.img --connect=/dev/nbd0 
-          sudo resize2fs -p /dev/nbd0 | true
+          df -H /tmp
+          sudo resize2fs -p /dev/nbd0 
           echo 挂载
           sudo mkdir /tmp/mount -p
           sudo mount /dev/nbd0 /tmp/mount
