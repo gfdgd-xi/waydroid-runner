@@ -35,9 +35,15 @@ jobs:
           echo 挂载
           sudo mkdir /tmp/mount -p
           sudo mount /dev/nbd0 /tmp/mount
+          sudo mkdir -p /tmp/mount/bin
+          sudo mkdir -p /tmp/mount/etc
+          sudo mkdir -p /tmp/mount/etc/init
+          sudo mkdir -p /tmp/mount/lib
+          sudo mkdir -p /tmp/mount/lib64
           sudo cp /tmp/houdini-install/overlay/system/* /tmp/mount -rv | true
-          sudo qemu-nbd -d /dev/nbd0 | true
+          
           sudo umount /tmp/mount | true
+          sudo qemu-nbd -d /dev/nbd0 | true
 
           
       - name: upload result(system.img)
