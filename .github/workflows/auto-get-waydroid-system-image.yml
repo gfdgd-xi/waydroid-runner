@@ -27,7 +27,8 @@ jobs:
           unzip `basename $u`
           # 扩容 img
           qemu-img resize system.img +1G
-          sudo modprobe nbd max_ports=8
+          sudo modprobe nbd max_ports=8 
+          exit
           sudo qemu-nbd system.img --connect=/dev/nbd0 
           df -H /tmp
           sudo resize2fs -p /dev/nbd0 
