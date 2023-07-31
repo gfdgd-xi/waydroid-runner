@@ -21,7 +21,8 @@ jobs:
           #sudo waydroid init -s GAPPS -f
           url=https://sourceforge.net/projects/waydroid/files/images/system/lineage/waydroid_x86_64/lineage-18.1-20230422-GAPPS-waydroid_x86_64-system.zip/download
           aria2c -x 16 -s 16 $url
-          unzip `basename $url`
+          u=`dirname $url`
+          unzip `basename $u`
           qemu-img resize system.img +1G
           sudo modprobe nbd max_ports=8
           qemn-nbd system.img --connect=/dev/nbd0
