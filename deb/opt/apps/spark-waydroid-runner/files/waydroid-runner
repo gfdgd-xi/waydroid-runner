@@ -74,11 +74,13 @@ def RunBash(bashCommand: str):
 {bashCommand}
 if [[ $? != 0 ]]; then
     zenity --error --text=脚本出现错误 --no-wrap
+    rm '{tmpBashPath}' -f
     exit 1
 fi
-zenity --info --text=执行成功！ --no-wrap""")
+zenity --info --text=执行成功！ --no-wrap
+rm '{tmpBashPath}' -f""")
     OpenTerminal(f"bash '{tmpBashPath}'")
-    os.remove(tmpBashPath)
+    #os.remove(tmpBashPath)
 
 def DisabledAndEnbled(status: bool):
     apkPath.setDisabled(status)
@@ -565,7 +567,7 @@ about = f'''<p align="center"><img width=256 src="{iconPath}"/></p>
 <p>程序官网：{programUrl}</p>
 <p>系统版本：{SystemVersion}</p>
 <p>安装包构建时间：{information['Time']}</p>
-<h1>©2023-{time.strftime("%Y")} gfdgd xi</h1>'''
+<h1>©2023-{time.strftime("%Y")}</h1>'''
 tips = ""
 contribute = ""
 for i in information["Tips"]:
@@ -631,7 +633,7 @@ findApkNameHistory = list(json.loads(readtxt(homePath + "/.config/waydroid-runne
 findApkActivityHistory = list(json.loads(readtxt(homePath + "/.config/waydroid-runner/FindApkActivityHistory.json")).values())
 
 # 环境检测
-CheckWaylandRun(True)
+
 if os.system("which waydroid"):
     if QtWidgets.QMessageBox.question(None, "提示", "您还未安装 Waydroid，是否立即安装？") == QtWidgets.QMessageBox.Yes:
         RunBash(f"python3 '{programPath}/Runner_tools/auto-setting.py'")
@@ -639,6 +641,7 @@ if os.system("which waydroid"):
 
 # 窗口
 mainwindow = QtWidgets.QMainWindow()
+CheckWaylandRun(True)
 widget = QtWidgets.QWidget()
 widgetLayout = QtWidgets.QGridLayout()
 # 权重
@@ -675,14 +678,14 @@ apkInstallLayout.addWidget(infoButton, 1, 3)
 apkInstallLayout.addWidget(saveIcon, 2, 2)
 ## info
 waydroidStatus = QtWidgets.QLabel("Waydroid：已安装")
-magiskDeltoInstallStatus = QtWidgets.QLabel("Magisk Delta：已安装")
+magiskDeltaInstallStatus = QtWidgets.QLabel("Magisk Delta：已安装")
 libkoudiniInstallStatus = QtWidgets.QLabel("Libhoudini：已安装")
 lsPosedInstallStatus = QtWidgets.QLabel("LSPosed：已安装")
 # layout
 infoLayout = QtWidgets.QGridLayout()
 infoLayout.addWidget(QtWidgets.QLabel("<hr><p><b>Waydroid 信息：</b></p>"), 0, 0, 1, 2)
 infoLayout.addWidget(waydroidStatus, 1, 0)
-infoLayout.addWidget(magiskDeltoInstallStatus, 1, 1)
+infoLayout.addWidget(magiskDeltaInstallStatus, 1, 1)
 infoLayout.addWidget(lsPosedInstallStatus, 2, 0)
 infoLayout.addWidget(libkoudiniInstallStatus, 2, 1)
 
@@ -712,6 +715,7 @@ checkWayland.triggered.connect(CheckWaylandRun)
 exitProgramAction.triggered.connect(sys.exit)
 # Waydroid 栏
 waydroidAutoSetting = QtWidgets.QAction("一键安装/设置 Waydroid")
+waydroidAutoSetting.setDisabled(True)
 installWaydroidCNAction = QtWidgets.QAction("安装 Waydroid 本体（国内源）")
 installWaydroidAction = QtWidgets.QAction("安装 Waydroid 本体（官方源）")
 waydroidStatus = QtWidgets.QAction("Waydroid 状态")
@@ -758,7 +762,6 @@ waydroidLaguage = QtWidgets.QAction("设置 Waydroid 容器语言为中文")
 multiWindowsSet = QtWidgets.QAction("开启 Waydroid 多窗口")
 doNotRotate = QtWidgets.QAction("禁用在多窗口模式下最大化窗口屏幕方向自动旋转")
 waydroidAppListShow = QtWidgets.QAction("显示 Waydroid 安装的所有应用")
-waydroidClean = QtWidgets.QAction("重置容器（清空容器）")
 waydroidUpgradImage = QtWidgets.QAction("升级 Waydroid 容器（只限使用官方镜像安装方法）")
 waydroidShell = QtWidgets.QAction("进入 Waydroid Shell")
 configMenu.addAction(downloadImageCN)
@@ -794,7 +797,6 @@ waydroidContainer.addAction(waydroidContainerStop)
 waydroidContainer.addAction(waydroidContainerRestart)
 waydroidContainer.addAction(waydroidContainerFreeze)
 waydroidContainer.addAction(waydroidContainerUnfreeze)
-configMenu.addAction(waydroidClean)
 configMenu.addAction(waydroidUpgradImage)
 configMenu.addSeparator()
 configMenu.addAction(waydroidShell)
@@ -805,7 +807,6 @@ waydroidLaguage.triggered.connect(lambda: threading.Thread(target=RunBash, args=
 doNotRotate.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/SystemConfigs/Do-not-rotate.py'"]).start())
 multiWindowsSet.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/SystemConfigs/Multi_windows.py'"]).start())
 waydroidAppListShow.triggered.connect(lambda: QtWidgets.QInputDialog.getMultiLineText(mainwindow, "应用列表", "", subprocess.getoutput("waydroid app list")))
-waydroidClean.triggered.connect(lambda: threading.Thread(target=os.system, args=[f"pkexec rm -rfv  '~/.local/share/waydroid/data/*' ; zenity --info --text=删除完成！ --no-wrap"]).start())
 waydroidUpgradImage.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"pkexec waydroid upgrade"]).start())
 waydroidShell.triggered.connect(lambda: threading.Thread(target=OpenTerminal, args=[f"pkexec waydroid shell"]).start())
 waydroidContainerStart.triggered.connect(lambda: threading.Thread(target=os.system, args=["pkexec waydroid container start"]).start())
@@ -847,7 +848,7 @@ if os.system("which waydroid"):
 print(os.system(f"python3 '{programPath}/Runner_tools/Checks/HoudiniCheck.py'"))
 libkoudiniInstallStatus.setText("Libhoudini：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/HoudiniCheck.py'")>>8])
 lsPosedInstallStatus.setText("LSPosed：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/LSPCheck.py'")>>8])
-magiskDeltoInstallStatus.setText("Magisk Delta：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/MagiskCheck.py'")>>8])
+magiskDeltaInstallStatus.setText("Magisk Delta：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/MagiskCheck.py'")>>8])
 
 # 读参数
 try:

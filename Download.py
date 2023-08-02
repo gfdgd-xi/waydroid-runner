@@ -8,4 +8,4 @@ print("""浣溪沙
 print("")
 print("听一支新曲喝一杯美酒，还是去年的天气旧日的亭台，西落的夕阳何时再回来？那花儿落去我也无可奈何，那归来的燕子似曾相识，在小园的花径上独自徘徊。")
 print("================================")
-print(requests.get(base64.b64decode("aHR0cDovLzEyMC4yNS4xNTMuMTQ0L3VlbmdpbmUtcnVubmVyL0luc3RhbGwucGhwP1ZlcnNpb249").decode("utf-8") + sys.argv[1]).text)
+print(requests.get(base64.b64decode("aHR0cDovLzEyMC4yNS4xNTMuMTQ0L3dheWRyb2lkLXJ1bm5lci9JbnN0YWxsLnBocD9WZXJzaW9uPQ==").decode("utf-8") + sys.argv[1]).text)

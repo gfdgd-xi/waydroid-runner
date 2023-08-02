@@ -1,6 +1,7 @@
 #!/bin/bash
 sudo modprobe binder_linux
-if [[ $? != 0 ]]; then
+lsmod | grep -e binder_linux
+if [[ $? != 0 ]] && [[ -f /dev/binder ]] && [[ -f /dev/binderfs ]]; then
     echo 您的内核似乎不支持 binder 模块，是否继续安装？安装完后可能无法使用
     echo 按回车继续
     read
@@ -10,24 +11,15 @@ if [[ $XDG_SESSION_TYPE == "x11" ]]; then
     echo 按回车键忽略该警告继续安装Waydroid本体
     read
 fi
-echo 常见的系统版本代号：
-echo "    - Debian11：bullseye"
-echo "    - Debian12：bookworm"
-echo "    - Ubuntu20.04：focal"
-echo "    - Ubuntu22.04：jammy"
-echo "    - Ubuntu23.04：lunar"
-echo 请输入版本代号（如focal、bullseye）（请输入小写）
-read VERSION
-curl https://jihulab.com/gfdgd-xi/waydroid-deb/-/raw/main/$VERSION/Packages | grep 404
-if [[ $? == 0 ]]; then
-    echo 不支持该版本代号
-    exit 1
-fi
 rm -rf /tmp/gfdgd-xi-sources
 mkdir -p /tmp/gfdgd-xi-sources
-wget -P /tmp/gfdgd-xi-sources http://10.debian.dtk.gfdgdxi.top/gpg.asc
+wget -P /tmp/gfdgd-xi-sources http://deb.waydroid.waydroid-runner.gfdgdxi.top/gpg.asc
+wget -P /tmp/gfdgd-xi-sources http://deb.waydroid.waydroid-runner.gfdgdxi.top/sources/github.list
 gpg --dearmor /tmp/gfdgd-xi-sources/gpg.asc
-sudo cp -v /tmp/gfdgd-xi-sources/gpg.asc.gpg /etc/apt/trusted.gpg.d/gfdgdxi-kernel-list.gpg
-sudo bash -c "echo deb http://jihulab.com/gfdgd-xi/waydroid-deb/-/raw/main/$VERSION/ ./ > /etc/apt/sources.list.d/waydroid.list"
+#sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FD6EEA1F20CD4B27
+sudo cp -v /tmp/gfdgd-xi-sources/gpg.asc.gpg /etc/apt/trusted.gpg.d/gfdgdxi-list-waydroid.gpg
+sudo cp -v /tmp/gfdgd-xi-sources/github.list /etc/apt/sources.list.d/gfdgdxi-list-waydroid.list
 sudo apt update
 sudo apt install waydroid -y
+echo 安装完成！
+read

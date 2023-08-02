@@ -356,6 +356,9 @@ class ApkInformation():
         if package == None or package == "":
             QtWidgets.QMessageBox.critical(widget, "错误", "APK 文件不存在或错误！")
             return
+        if os.system("which aapt") >> 8:
+            QtWidgets.QMessageBox.critical(widget, "错误", "系统未安装 aapt")
+            return
         ApkInformation.message = QtWidgets.QMainWindow()
         messageWidget = QtWidgets.QWidget()
         messageLayout = QtWidgets.QVBoxLayout()
@@ -567,7 +570,7 @@ about = f'''<p align="center"><img width=256 src="{iconPath}"/></p>
 <p>程序官网：{programUrl}</p>
 <p>系统版本：{SystemVersion}</p>
 <p>安装包构建时间：{information['Time']}</p>
-<h1>©2023-{time.strftime("%Y")} gfdgd xi</h1>'''
+<h1>©2023-{time.strftime("%Y")}</h1>'''
 tips = ""
 contribute = ""
 for i in information["Tips"]:
@@ -715,6 +718,7 @@ checkWayland.triggered.connect(CheckWaylandRun)
 exitProgramAction.triggered.connect(sys.exit)
 # Waydroid 栏
 waydroidAutoSetting = QtWidgets.QAction("一键安装/设置 Waydroid")
+waydroidAutoSetting.setDisabled(True)
 installWaydroidCNAction = QtWidgets.QAction("安装 Waydroid 本体（国内源）")
 installWaydroidAction = QtWidgets.QAction("安装 Waydroid 本体（官方源）")
 waydroidStatus = QtWidgets.QAction("Waydroid 状态")
