@@ -23,9 +23,6 @@ sudo apt update
 sudo apt install waydroid -y
 sudo systemctl restart waydroid-container.service
 sudo waydroid init -f
-sudo waydroid shell wm set-fix-to-user-rotation enabled
-waydroid prop set persist.waydroid.multi_windows true
-waydroid prop set persist.waydroid.cursor_on_subsurface true
 sudo systemctl restart waydroid-container.service
 sudo waydroid init -f
 nohup waydroid session start &
