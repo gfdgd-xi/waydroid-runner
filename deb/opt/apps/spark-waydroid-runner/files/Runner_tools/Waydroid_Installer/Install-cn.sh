@@ -21,5 +21,11 @@ sudo cp -v /tmp/gfdgd-xi-sources/gpg.asc.gpg /etc/apt/trusted.gpg.d/gfdgdxi-list
 sudo cp -v /tmp/gfdgd-xi-sources/github.list /etc/apt/sources.list.d/gfdgdxi-list-waydroid.list
 sudo apt update
 sudo apt install waydroid -y
-echo 安装完成！
-read
+sudo systemctl restart waydroid-container.service
+sudo waydroid init -f
+sudo waydroid shell wm set-fix-to-user-rotation enabled
+waydroid prop set persist.waydroid.multi_windows true
+waydroid prop set persist.waydroid.cursor_on_subsurface true
+sudo systemctl restart waydroid-container.service
+sudo waydroid init -f
+nohup waydroid session start &

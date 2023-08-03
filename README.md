@@ -17,6 +17,11 @@ lxc 过老的系统（如 Debian10、Deepin 20.9）也无法正常运行 Waydroi
 **※3、支持对 Waydroid 的初步控制**  
 **※4、支持安装/卸载 Android 应用**  
 **※5、提供应用商店以安装 APK**  
+![截图_20230803092541.png](https://storage.deepin.org/thread/202308030955174196_截图_20230803092541.png)  
+![截图_20230803092511.png](https://storage.deepin.org/thread/202308030955175344_截图_20230803092511.png)  
+![截图_20230803092449.png](https://storage.deepin.org/thread/202308030955172185_截图_20230803092449.png)  
+
+
 
 ## 源码安装教程
 ```bash

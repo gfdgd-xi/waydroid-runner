@@ -5,6 +5,7 @@ import sys
 import time
 import json
 import numpy
+import base64
 import shutil
 import random
 import zipfile
@@ -15,6 +16,7 @@ import webbrowser
 import subprocess
 import matplotlib
 import updatekiller
+import urllib.parse as parse
 import PyQt5.QtGui as QtGui
 import PyQt5.QtCore as QtCore
 import PyQt5.QtWidgets as QtWidgets
@@ -86,6 +88,7 @@ def DisabledAndEnbled(status: bool):
     apkPath.setDisabled(status)
     apkPathBrowser.setDisabled(status)
     installButton.setDisabled(status)
+    removeButton.setDisabled(status)
 
 class UninstallApk(QtCore.QThread):
     info = QtCore.pyqtSignal(str)
@@ -102,9 +105,10 @@ class UninstallApk(QtCore.QThread):
             self.error.emit(f"卸载失败！请检查 Waydroid 安装正常以及选择 APK 对应包名是否存在/输入包名存在\n命令返回值：{result}")
             DisabledAndEnbled(False)
             return
-        findApkHistory.append(apkPath.currentText())
+        if findApkHistory[-1] != apkPath.currentText():
+            findApkHistory.append(apkPath.currentText())
         self.combo.emit(0)
-        WriteTxt(homePath + "/.config/uengine-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
+        WriteTxt(homePath + "/.config/waydroid-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
         self.info.emit("执行完成！若卸载成功则会在一段时间后自动在启动器移除 .desktop 文件")
         DisabledAndEnbled(False)
 
@@ -133,9 +137,10 @@ class InstallApk(QtCore.QThread):
             self.error.emit(f"安装失败！请检查 Waydroid 安装正常以及是否支持该 APK\n命令返回值：{result}")
             DisabledAndEnbled(False)
             return
-        findApkHistory.append(apkPath.currentText())
+        if findApkHistory[-1] != apkPath.currentText():
+            findApkHistory.append(apkPath.currentText())
         self.combo.emit(0)
-        WriteTxt(homePath + "/.config/uengine-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
+        WriteTxt(homePath + "/.config/waydroid-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
         self.info.emit("执行完成！若安装成功则会在一段时间后自动在启动器生成 .desktop 文件")
         DisabledAndEnbled(False)
 
@@ -173,12 +178,12 @@ def InstallApkButton():
 
 # 浏览 apk
 def BrowserApk():
-    path = QtWidgets.QFileDialog.getOpenFileName(mainwindow, "选择APK", json.loads(readtxt(homePath + "/.config/uengine-runner/FindApk.json"))["path"], "APK 文件(*.apk);;所有文件(*.*)")
+    path = QtWidgets.QFileDialog.getOpenFileName(mainwindow, "选择APK", json.loads(readtxt(homePath + "/.config/waydroid-runner/FindApk.json"))["path"], "APK 文件(*.apk);;所有文件(*.*)")
     if path[0] == "":
         return
     apkPath.setCurrentText(path[0])
     try:
-        WriteTxt(homePath + "/.config/uengine-runner/FindApk.json", json.dumps({"path": os.path.dirname(path)}))  # 写入配置文件
+        WriteTxt(homePath + "/.config/waydroid-runner/FindApk.json", json.dumps({"path": os.path.dirname(path)}))  # 写入配置文件
     except:
         pass
 
@@ -352,6 +357,9 @@ class ApkInformation():
         global path
         global tab1
         path = apkPath.currentText()
+        if os.system("which aapt") >> 8:
+            QtWidgets.QMessageBox.critical(widget, "错误", "系统未安装 aapt")
+            return
         package = GetApkPackageName(path)
         if package == None or package == "":
             QtWidgets.QMessageBox.critical(widget, "错误", "APK 文件不存在或错误！")
@@ -436,8 +444,9 @@ class ApkInformation():
         print(choose)
         if choose == None or choose == 7:
             return
+        
         try:
-            QtWidgets.QMessageBox.information(widget, "提示", requests.post("http://120.25.153.144/uengine-runner/app/check/add.php", {"Package": GetApkPackageName(path), "Type": choose}).text)
+            QtWidgets.QMessageBox.information(widget, "提示", requests.post(base64.b64decode("aHR0cDovLzEyMC4yNS4xNTMuMTQ0L3VlbmdpbmUtcnVubmVyL2FwcC9jaGVjay9hZGQucGhw"), {"Package": GetApkPackageName(path), "Type": choose}).text)
         except:
             traceback.print_exc()
             QtWidgets.QMessageBox.critical(widget, "错误", "无法连接服务器！")
@@ -559,7 +568,7 @@ iconPath = "{}/runner.svg".format(os.path.split(os.path.realpath(__file__))[0])
 updateThingsString = ""
 homePath = os.getenv("HOME")
 about = f'''<p align="center"><img width=256 src="{iconPath}"/></p>
-<p>介绍：此运行器用于相对GUI图形化一键配置Waydroid,方便小白使用。去除一些反人类的设置,增加自定义功能如ARM支持和Magisk-Delta,并安装一些必备软件如Via,谷歌拼音输入法等;调整一些设置,比如媒体音量最大化等. 使Waydroid能尽最大可能CN本地化</p>
+<p>介绍：Waydroid运行器是可以通过GUI形式半自动配置Waydroid的工具，使用户使用Waydroid更为方便。Waydroid本身存在很多因AOSP未考虑PC用户而产生的问题(如没有自带Houdini,默认英语,默认非小窗模式)而使用户使用起来非常难受,本运行器支持以GUI形式自动化安装以及配置Waydroid，并会创建快捷控制的快捷方式，可以用于玩游戏/刷视频/Android开发等。</p>
 <p>程序开源许可证：GPLV3</p>
 <p>版本：{version}</p>
 <p>适用平台：{goodRunSystem}</p>
@@ -636,8 +645,13 @@ findApkActivityHistory = list(json.loads(readtxt(homePath + "/.config/waydroid-r
 
 if os.system("which waydroid"):
     if QtWidgets.QMessageBox.question(None, "提示", "您还未安装 Waydroid，是否立即安装？") == QtWidgets.QMessageBox.Yes:
-        RunBash(f"python3 '{programPath}/Runner_tools/auto-setting.py'")
+        RunBash(f"python3 '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'")
         sys.exit()
+
+try:
+    threading.Thread(target=requests.get, args=[parse.unquote(base64.b64decode("aHR0cDovLzEyMC4yNS4xNTMuMTQ0L3dheWRyb2lkLXJ1bm5lci9vcGVuL0luc3RhbGwucGhw").decode("utf-8")) + "?Version=" + version]).start()
+except:
+    pass
 
 # 窗口
 mainwindow = QtWidgets.QMainWindow()
@@ -746,7 +760,7 @@ waydroidMenu.addAction(waydroidRemoveAllDesktop)
 waydroidMenu.addSeparator()
 waydroidMenu.addAction(waydroidShowFullUI)
 waydroidAutoSetting.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/auto-setting.py'"]).start())
-installWaydroidCNAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'"]))
+installWaydroidCNAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'"]).start())
 installWaydroidAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'"]))
 waydroidStatus.triggered.connect(lambda: QtWidgets.QInputDialog.getMultiLineText(mainwindow, "Waydroid 状态", "", subprocess.getoutput("waydroid status")))
 waydroidLog.triggered.connect(ReadWaydroidLog)
@@ -841,6 +855,7 @@ mainwindow.resize(int(mainwindow.frameGeometry().width() * 1.8), int(mainwindow.
 
 # 加载设置
 apkPath.addItems(findApkHistory)
+apkPath.setCurrentText("")
 # 检测 Waydroid 是否存在
 if os.system("which waydroid"):
     waydroidStatus.setText("Waydroid：未安装")

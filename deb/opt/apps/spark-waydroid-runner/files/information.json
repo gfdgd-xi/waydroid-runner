@@ -21,16 +21,17 @@
         "※2、支持安装 Magisk、Libhoudini（二进制翻译器，可以运行 ARM APK）",
         "※3、支持对 Waydroid 的初步控制",
         "※4、支持安装/卸载 Android 应用",
-        "※5、提供应用商店以安装 APK",
-        "※6、新增 Waydroid 一键优化"
+        "※5、提供应用商店以安装 APK"
     ],
     "Use": [
         ""
     ],
-    "Time": "2023-08-02 18:59:29 Linux-5.15.77-amd64-desktop-x86_64-with-Deepin-20.9-apricot",
+    "Time": "2023-08-03 09:54:23 Linux-5.15.77-amd64-desktop-x86_64-with-Deepin-20.9-apricot",
     "Contribute": [
         "<b>排名不分先后</b>",
         "gfdgd xi（https://gitee.com/gfdgd-xi）",
-        "LFRon（https://gitee.com/LFRon）"
+        "LFRon（https://gitee.com/LFRon）",
+        "Telegram HuskyDG",
+        "casualsuek"
     ]
 }

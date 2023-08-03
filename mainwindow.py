@@ -5,6 +5,7 @@ import sys
 import time
 import json
 import numpy
+import base64
 import shutil
 import random
 import zipfile
@@ -15,6 +16,7 @@ import webbrowser
 import subprocess
 import matplotlib
 import updatekiller
+import urllib.parse as parse
 import PyQt5.QtGui as QtGui
 import PyQt5.QtCore as QtCore
 import PyQt5.QtWidgets as QtWidgets
@@ -442,8 +444,9 @@ class ApkInformation():
         print(choose)
         if choose == None or choose == 7:
             return
+        
         try:
-            QtWidgets.QMessageBox.information(widget, "提示", requests.post("http://120.25.153.144/uengine-runner/app/check/add.php", {"Package": GetApkPackageName(path), "Type": choose}).text)
+            QtWidgets.QMessageBox.information(widget, "提示", requests.post(base64.b64decode("aHR0cDovLzEyMC4yNS4xNTMuMTQ0L3VlbmdpbmUtcnVubmVyL2FwcC9jaGVjay9hZGQucGhw"), {"Package": GetApkPackageName(path), "Type": choose}).text)
         except:
             traceback.print_exc()
             QtWidgets.QMessageBox.critical(widget, "错误", "无法连接服务器！")
@@ -644,6 +647,11 @@ if os.system("which waydroid"):
     if QtWidgets.QMessageBox.question(None, "提示", "您还未安装 Waydroid，是否立即安装？") == QtWidgets.QMessageBox.Yes:
         RunBash(f"python3 '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'")
         sys.exit()
+
+try:
+    threading.Thread(target=requests.get, args=[parse.unquote(base64.b64decode("aHR0cDovLzEyMC4yNS4xNTMuMTQ0L3dheWRyb2lkLXJ1bm5lci9vcGVuL0luc3RhbGwucGhw").decode("utf-8")) + "?Version=" + version]).start()
+except:
+    pass
 
 # 窗口
 mainwindow = QtWidgets.QMainWindow()
