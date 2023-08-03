@@ -11,7 +11,7 @@ lxc 过老的系统（如 Debian10、Deepin 20.9）也无法正常运行 Waydroi
 下载安装本软件,然后按照提示执行即可  
 
 ## 历史版本
-### 1.0.0（？？？？年？？月？？日）
+### 1.0.0（2023年08月03日）
 **※1、新增 Waydroid 主程序安装功能、镜像下载功能及其国内源**  
 **※2、支持安装 Magisk、Libhoudini（二进制翻译器，可以运行 ARM APK）**  
 **※3、支持对 Waydroid 的初步控制**  
@@ -27,6 +27,6 @@ make install -j4
 
 ## 参与贡献
 @Telegram HuskyDG 巨佬贡献的 `Magisk` 安装到 `/system` 分区的方案和他的 `Magisk-Delta`
-@casualsuek 的 `Waydroid-Script` 亿点代码  
+@casualsuek 的 `Waydroid-Script` 代码  
 
 ## ©2023~Now
