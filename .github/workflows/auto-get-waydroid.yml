@@ -19,12 +19,13 @@ jobs:
           #sudo dpkg --add-architecture i386
           #sudo dpkg --add-architecture armhf
           #sudo dpkg --add-architecture arm64
+          downloadDeb="waydroid python3-gbinder libgbinder libglibutil libgbinder-dev libglibutil-dev"
           sudo apt update | true
           sudo apt install curl git  aria2 gpg -y
           aria2c $KEY
           gpg --import  --pinentry-mode loopback --batch --passphrase "$KEYPASSWORD"  private-file.key
           curl https://repo.waydro.id | sudo bash | true
-          #apt download waydroid python3-gbinder libgbinder libglibutil
+          #apt download $downloadDeb
           git clone https://gfdgd-xi:$PASSWORD@github.com/gfdgd-xi/waydroid-deb
           cd waydroid-deb
           # jammy
@@ -32,7 +33,7 @@ jobs:
           cd jammy
           sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ jammy main > /etc/apt/sources.list.d/waydroid.list"
           sudo apt update | true
-          apt download waydroid python3-gbinder libgbinder libglibutil
+          apt download $downloadDeb
           #apt download waydroid:i386 python3-gbinder:i386 libgbinder:i386 libglibutil:i386
           #apt download waydroid:armhf python3-gbinder:armhf libgbinder:armhf libglibutil:armhf
           #apt download waydroid:arm64 python3-gbinder:arm64 libgbinder:arm64 libglibutil:arm64
@@ -48,35 +49,35 @@ jobs:
           cd ../focal
           sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ focal main > /etc/apt/sources.list.d/waydroid.list"
           sudo apt update
-          apt download waydroid python3-gbinder libgbinder libglibutil
+          apt download $downloadDeb
           bash ../mirror.sh
           # bullseye
           mkdir -p ../bullseye
           cd ../bullseye
           sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ bullseye main > /etc/apt/sources.list.d/waydroid.list"
           sudo apt update
-          apt download waydroid python3-gbinder libgbinder libglibutil
+          apt download $downloadDeb
           bash ../mirror.sh
           # bookworm
           mkdir -p ../bookworm
           cd ../bookworm
           sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ bookworm main > /etc/apt/sources.list.d/waydroid.list"
           sudo apt update
-          apt download waydroid python3-gbinder libgbinder libglibutil
+          apt download $downloadDeb
           bash ../mirror.sh
           # lunar
           mkdir -p ../lunar
           cd ../lunar
           sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ lunar main > /etc/apt/sources.list.d/waydroid.list"
           sudo apt update
-          apt download waydroid python3-gbinder libgbinder libglibutil
+          apt download $downloadDeb
           bash ../mirror.sh
           # trixie
           #mkdir -p ../trixie
           #cd ../trixie
           #sudo bash -c "echo deb [signed-by=/usr/share/keyrings/waydroid.gpg] https://repo.waydro.id/ trixie main > /etc/apt/sources.list.d/waydroid.list"
           #sudo apt update
-          #apt download waydroid python3-gbinder libgbinder libglibutil
+          #apt download $downloadDeb
           #bash ../mirror.sh
           # 提交
           cd ..

@@ -4,7 +4,7 @@
         "https://gitee.com/gfdgd-xi/waydroid-runner",
         "https://gitee.com/gfdgd-xi/waydroid-runner"
     ],
-    "Version": "1.0.0",
+    "Version": "1.0.0.1",
     "System": "Linux",
     "Tips": [
         "在安装运行器后推荐按住以下顺序操作以更好的使用 Waydroid：",
@@ -26,7 +26,7 @@
     "Use": [
         ""
     ],
-    "Time": "2023-08-03 09:54:23 Linux-5.15.77-amd64-desktop-x86_64-with-Deepin-20.9-apricot",
+    "Time": "2023-08-03 14:53:50 Linux-5.15.77-amd64-desktop-x86_64-with-Deepin-20.9-apricot",
     "Contribute": [
         "<b>排名不分先后</b>",
         "gfdgd xi（https://gitee.com/gfdgd-xi）",

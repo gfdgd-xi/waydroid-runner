@@ -645,7 +645,7 @@ findApkActivityHistory = list(json.loads(readtxt(homePath + "/.config/waydroid-r
 
 if os.system("which waydroid"):
     if QtWidgets.QMessageBox.question(None, "提示", "您还未安装 Waydroid，是否立即安装？") == QtWidgets.QMessageBox.Yes:
-        RunBash(f"python3 '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'")
+        RunBash(f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'")
         sys.exit()
 
 try:
