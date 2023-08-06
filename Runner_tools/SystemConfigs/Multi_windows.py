@@ -2,9 +2,10 @@
 import sys
 import time
 import os
-a = os.popen('waydroid status').readlines()
+a = os.popen('waydroid status').readlines() #检查运行状态
 if a[0].find('STOPPED')!=-1:
     print('-请先启动容器Session!')
+    print('-程序出现异常,正在退出')
     sys.exit(1)
 
 print('-正在设置多窗口模式:',end='')
