@@ -29,3 +29,4 @@ if [[ -f /etc/deepin_version ]]; then
     fi
 fi
 echo 该系统暂时无法安装 Sway！
+exit 1
