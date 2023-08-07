@@ -4,8 +4,10 @@ Waydroid运行器是可以通过GUI形式半自动配置Waydroid的工具，使�
 
 
 ## 配置要求
-仅限启用 Wayland 的 x86-64 的 Linux，ARM64的在安装Magisk时需要重新制作data.img(教程有时间放出来) 显卡仅限Intel & AMD(独立显卡需要启动桌面环境时使用独立显卡,否则无法使用),只有英伟达显卡(连Intel核心显卡都没有的)当前无法使用本项目，建议使用xDroid/UEngine作为替代。  
-lxc 过老的系统（如 Debian10、Deepin 20.9）也无法正常运行 Waydroid  
+仅限启用 Wayland 的 x86-64 的 Linux，ARM64的在安装Magisk时需要重新制作data.img(教程有时间放出来) 显卡仅限Intel & AMD(独立显卡需要启动桌面环境时使用独立显卡,否则无法使用),只有英伟达显卡(连Intel核心显卡都没有的)当前无法使用本项目，建议使用xDroid/UEngine作为替代。 
+ 
+**lxc 过老的系统（如 Debian10、Deepin 20.9）也无法正常运行 Waydroid  
+支持的系统:Ubuntu 22.04+/Deepin v23/Debian 12+/Linux MINT(KDE环境)
 
 ## 安装&使用教程
 下载安装本软件,然后按照提示执行即可  
