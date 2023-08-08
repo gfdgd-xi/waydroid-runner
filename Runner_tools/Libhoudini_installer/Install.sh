@@ -5,6 +5,6 @@ tar -xvf houdini-install.tar.gz
 cd houdini-install
 python3 houdini-install.py
 sudo python3 houdini-prop.py
-sudo rm /var/lib/waydroid/overlay/system/bin/resetprop #Ğ¼É½,É¾µô¶à·ÅµÄresetprop·ÀÖ¹magisk²»Ê¶±ğ
+sudo rm /var/lib/waydroid/overlay/system/bin/resetprop #å±‘å±±,åˆ æ‰å¤šæ”¾çš„resetpropé˜²æ­¢magiskä¸è¯†åˆ«
 rm -rf ../houdini-install
 rm ../houdini-install.tar.gz
