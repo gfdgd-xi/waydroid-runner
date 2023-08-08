@@ -33,3 +33,8 @@ sudo apt update
 sudo apt install waydroid -y
 sudo systemctl restart waydroid-container.service
 sudo waydroid init -f
+if [[ x11 == 1 ]]; then
+    zenity --info "--text=Waydroid安装完成，在打开 Waydroid 前请先打开 Sway 或者 Weston 以便正常使用 Waydroid" --no-wrap
+else
+    zenity --info "--text=Waydroid安装完成！" --no-wrap
+fi

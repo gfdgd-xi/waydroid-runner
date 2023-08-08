@@ -6,6 +6,7 @@ if [[ $? == 0 ]]; then
     sudo apt update
     sudo apt install sway aria2 -y
     # 这个包还未构建
+    rm -rfv /tmp/sway-desktop-icon.deb
     aria2c -x 16 -s 16 http://sway.waydroid-runner.gfdgdxi.top/sway-launcher-icon_1.0.0_all.deb -d /tmp -o sway-desktop-icon.deb
     sudo apt install /tmp/sway-desktop-icon.deb
     exit
