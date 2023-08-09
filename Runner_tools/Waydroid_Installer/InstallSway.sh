@@ -15,18 +15,16 @@ if [[ -f /etc/deepin_version ]]; then
     cat /etc/deepin_version | grep 23
     if [[ $? == 0 ]]; then
         # 加 apt 源
-        rm -rf /tmp/gfdgd-xi-sources
-        mkdir -p /tmp/gfdgd-xi-sources
-        wget -P /tmp/gfdgd-xi-sources http://sway.waydroid-runner.gfdgdxi.top/gpg.asc
-        wget -P /tmp/gfdgd-xi-sources http://sway.waydroid-runner.gfdgdxi.top/sources/github.list
-        gpg --dearmor /tmp/gfdgd-xi-sources/gpg.asc
-        #sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FD6EEA1F20CD4B27
-        sudo cp -v /tmp/gfdgd-xi-sources/gpg.asc.gpg /etc/apt/trusted.gpg.d/gfdgdxi-list-waydroid-sway.gpg
-        sudo cp -v /tmp/gfdgd-xi-sources/github.list /etc/apt/sources.list.d/gfdgdxi-list-waydroid-sway.list
+        which aptss
+        if [[ $? == 0 ]]; then
+            sudo aptss update
+            sudo aptss install better-deepin23-source -y
+        else
+            aria2c -x 16 -s 16 https://zunyun01.store.deepinos.org.cn/store/depends/better-deepin23-source/better-deepin23-source_1.0_all.deb -d /tmp
+            sudo apt install ./better-deepin23-source_1.0_all.deb
+        fi
         sudo apt update
         sudo apt install sway -y
-        sudo apt install sway-launcher-icon -y
-        exit
     fi
 fi
 echo 该系统暂时无法安装 Sway！
