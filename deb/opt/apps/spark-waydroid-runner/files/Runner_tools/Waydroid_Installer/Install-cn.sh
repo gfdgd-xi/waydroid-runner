@@ -6,10 +6,20 @@ if [[ $? != 0 ]] && [[ -f /dev/binder ]] && [[ -f /dev/binderfs ]]; then
     echo 按回车继续
     read
 fi
+x11=0
 if [[ $XDG_SESSION_TYPE == "x11" ]]; then
     echo 警告：你当前使用的是 x11 协议而非 Wayland 协议，Waydroid 只支持 Wayland 协议
-    echo 按回车键忽略该警告继续安装Waydroid本体
-    read
+    echo 输入 Y 安装 Sway 或 Weston 以能在 X11 下运行 Waydroid
+    x11=1
+    read choose
+    if [[ choose == "Y" ]]; then
+        cd `dirname $1`
+        bash InstallSway.sh
+        if [[ $? != 0 ]]; then
+            echo Sway 安装失败，安装 Weston
+            bash InstallWeston.sh
+        fi
+    fi
 fi
 rm -rf /tmp/gfdgd-xi-sources
 mkdir -p /tmp/gfdgd-xi-sources
@@ -23,9 +33,8 @@ sudo apt update
 sudo apt install waydroid -y
 sudo systemctl restart waydroid-container.service
 sudo waydroid init -f
-sudo waydroid shell wm set-fix-to-user-rotation enabled
-waydroid prop set persist.waydroid.multi_windows true
-waydroid prop set persist.waydroid.cursor_on_subsurface true
-sudo systemctl restart waydroid-container.service
-sudo waydroid init -f
-nohup waydroid session start &
+if [[ x11 == 1 ]]; then
+    zenity --info "--text=Waydroid安装完成，在打开 Waydroid 前请先打开 Sway 或者 Weston 以便正常使用 Waydroid" --no-wrap
+else
+    zenity --info "--text=Waydroid安装完成！" --no-wrap
+fi

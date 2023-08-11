@@ -1,3 +1,4 @@
+#Python3-Program
 import os
 os.chdir(os.path.split(os.path.realpath(__file__))[0]) # 定位到 data.img 所在目录以便脚本能正常调用
 waydroid_path = '/var/lib/waydroid'
