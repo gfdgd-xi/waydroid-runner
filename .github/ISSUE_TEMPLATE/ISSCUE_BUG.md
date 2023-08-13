@@ -7,7 +7,7 @@ about: 反馈程序的故障
 # 故障表现（最好带图、日志）
 按右上角叉叉可以关闭运行器  
 ![图片.png](https://storage.deepin.org/thread/202308132203366743_图片.png)  
-## 日志（终端输入 `deepin-wine-runner` 输出的内容）
+## 日志（终端输入 `waydroid-runner` 输出的内容）
 ```
 gfdgd_xi@gfdgdxi-PC:~$ deepin-wine-runner
 /usr/bin/deepin-terminal
