@@ -27,10 +27,17 @@ wget -P /tmp/gfdgd-xi-sources http://deb.waydroid.waydroid-runner.gfdgdxi.top/gp
 wget -P /tmp/gfdgd-xi-sources http://deb.waydroid.waydroid-runner.gfdgdxi.top/sources/github.list
 gpg --dearmor /tmp/gfdgd-xi-sources/gpg.asc
 #sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FD6EEA1F20CD4B27
+if [[ ! -f /etc/deepin_version ]] && [[ -f /etc/deepin-version ]]; then
+    echo 警告！
+    echo 您当前使用的是 Deepin20.9/UOS，如果继续安装 Waydroid 则需要升级系统的 lxc，很可能出现问题，是否继续？
+    echo 按回车继续
+    read
+    sudo bash -c 'echo "deb http://seafile.jyx2048.com:2345/waydroid-runner/lxc/ ./" > "/etc/apt/sources.list.d/gfdgdxi-list-lxc.list"'
+fi
 sudo cp -v /tmp/gfdgd-xi-sources/gpg.asc.gpg /etc/apt/trusted.gpg.d/gfdgdxi-list-waydroid.gpg
 sudo cp -v /tmp/gfdgd-xi-sources/github.list /etc/apt/sources.list.d/gfdgdxi-list-waydroid.list
 sudo apt update
-sudo apt install waydroid -y
+sudo apt install waydroid lxc -y
 sudo systemctl restart waydroid-container.service
 sudo waydroid init -f
 if [[ x11 == 1 ]]; then
