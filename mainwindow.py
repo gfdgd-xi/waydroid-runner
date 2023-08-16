@@ -205,7 +205,7 @@ def GetApkChineseLabel(apkFilePath)->"获取软件的中文名称":
 # 检测是否在 Wayland 下运行程序
 def CheckWaylandRun(waylandUnShow=False):
     if os.getenv("XDG_SESSION_TYPE") == "x11":
-        QtWidgets.QMessageBox.warning(mainwindow, "警告", "当前您使用的是 X11 桌面环境，而 Waydroid 需要在 Wayland 环境下运行\n请你使用支持 Wayland 的桌面环境并开启 Wayland 支持或使用 Sway 或 Weston 运行")
+        QtWidgets.QMessageBox.warning(mainwindow, "警告", "当前您使用的是 X11 桌面环境，而 Waydroid 需要在 Wayland 环境下运行\n请你使用支持 Wayland 的桌面环境并开启 Wayland 支持或使用 Sway 或 Weston 运行\n目前运行器支持自动开启 Sway 或 Weston 运行 Waydroid")
     if not waylandUnShow:
         QtWidgets.QMessageBox.information(mainwindow, "提示", "您当前在 Wayland 环境")
 

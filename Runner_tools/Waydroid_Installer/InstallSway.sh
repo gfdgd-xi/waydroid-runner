@@ -10,7 +10,7 @@ if [[ $? == 0 ]]; then
     rm -rfv /tmp/sway-desktop-icon.deb
     aria2c -x 16 -s 16 http://sway.waydroid-runner.gfdgdxi.top/sway-launcher-icon_1.0.0_all.deb -d /tmp -o sway-desktop-icon.deb
     sudo apt install /tmp/sway-desktop-icon.deb
-    exit
+    exit 0
 fi
 if [[ -f /etc/deepin_version ]]; then
     cat /etc/deepin_version | grep 23
@@ -26,6 +26,7 @@ if [[ -f /etc/deepin_version ]]; then
         fi
         sudo apt update
         sudo apt install sway -y
+	exit 0
     fi
 fi
 echo 该系统暂时无法安装 Sway！
