@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo apt update
 # 判断 apt 源里是否有 sway
 apt list sway | grep sway
 if [[ $? == 0 ]]; then
