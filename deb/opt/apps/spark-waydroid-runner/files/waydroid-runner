@@ -205,7 +205,7 @@ def GetApkChineseLabel(apkFilePath)->"获取软件的中文名称":
 # 检测是否在 Wayland 下运行程序
 def CheckWaylandRun(waylandUnShow=False):
     if os.getenv("XDG_SESSION_TYPE") == "x11":
-        QtWidgets.QMessageBox.warning(mainwindow, "警告", "当前您使用的是 X11 桌面环境，而 Waydroid 需要在 Wayland 环境下运行\n请你使用支持 Wayland 的桌面环境并开启 Wayland 支持或使用 Sway 或 Weston 运行")
+        QtWidgets.QMessageBox.warning(mainwindow, "警告", "当前您使用的是 X11 桌面环境，而 Waydroid 需要在 Wayland 环境下运行\n请你使用支持 Wayland 的桌面环境并开启 Wayland 支持或使用 Sway 或 Weston 运行\n目前运行器支持自动开启 Sway 或 Weston 运行 Waydroid")
     if not waylandUnShow:
         QtWidgets.QMessageBox.information(mainwindow, "提示", "您当前在 Wayland 环境")
 
@@ -783,8 +783,8 @@ doNotRotate = QtWidgets.QAction("禁用在多窗口模式下最大化窗口屏�
 waydroidAppListShow = QtWidgets.QAction("显示 Waydroid 安装的所有应用")
 waydroidUpgradImage = QtWidgets.QAction("升级 Waydroid 容器（只限使用官方镜像安装方法）")
 waydroidShell = QtWidgets.QAction("进入 Waydroid Shell")
-configMenu.addAction(downloadImageCN)
-configMenu.addSeparator()
+#configMenu.addAction(downloadImageCN)
+#configMenu.addSeparator()
 configMenu.addAction(magiskInstall)
 configMenu.addAction(libhoudiniInstall)
 configMenu.addSeparator()
@@ -867,6 +867,8 @@ if os.system("which waydroid"):
 #os.system(f"ls {programPath}/Runner_tools/Checks/HoudiniCheck.py")
 print(os.system(f"python3 '{programPath}/Runner_tools/Checks/HoudiniCheck.py'"))
 libkoudiniInstallStatus.setText("Libhoudini：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/HoudiniCheck.py'")>>8])
+libhoudiniInstall.setEnabled(os.system(f"python3 '{programPath}/Runner_tools/Checks/HoudiniCheck.py'")>>8)
+magiskInstall.setEnabled(os.system(f"python3 '{programPath}/Runner_tools/Checks/LSPCheck.py'")>>8)
 lsPosedInstallStatus.setText("LSPosed：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/LSPCheck.py'")>>8])
 magiskDeltaInstallStatus.setText("Magisk Delta：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/MagiskCheck.py'")>>8])
 
