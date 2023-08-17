@@ -3,7 +3,7 @@
 
 lspci="$(lspci -nn | grep '\[03')" # https://pci-ids.ucw.cz/read/PD/03
 
-echo -e "请选择您需要使Waydroid工作的GPU:\n"
+echo -e "璇烽�夋嫨鎮ㄩ渶瑕佷娇Waydroid宸ヤ綔鐨凣PU:\n"
 gpus=()
 i=0
 while IFS= read lspci; do
@@ -19,7 +19,7 @@ while [ -z "$gpuchoice" ]; do
 done
 
 echo ""
-echo "请确认这是你需要使Waydroid工作的GPU:"
+echo "璇风‘璁よ繖鏄綘闇�瑕佷娇Waydroid宸ヤ綔鐨凣PU:"
 echo ""
 
 ls -l /dev/dri/by-path/ | grep -i $gpuchoice
@@ -36,4 +36,4 @@ cp /var/lib/waydroid/lxc/waydroid/config_nodes /var/lib/waydroid/lxc/waydroid/co
 #lxc.mount.entry = /dev/dri dev/dri none bind,create=dir,optional 0 0
 sed -i '/dri/d' /var/lib/waydroid/lxc/waydroid/config_nodes
 echo "lxc.mount.entry = /dev/dri/$rendernode dev/dri/renderD128 none bind,create=file,optional 0 0" >> /var/lib/waydroid/lxc/waydroid/config_nodes
-echo "GPU切换完成!"
+echo "GPU鍒囨崲瀹屾垚!"

@@ -16,6 +16,12 @@
         "<b>也可以在 菜单栏->Waydroid->一键优化Waydroid 一键处理</b>"
     ],
     "Update": [
+        "<b>V1.1.0：</b>",
+        "※1、支持在 Deepin20/UOS 安装 Waydroid（效果无法保证且需要升级系统组件，容易导致系统问题，且在 UOS 下要开启开发者模式）",
+        "※2、修复在 Deepin 23 运行时因为缺少 PIL 库导致无法运行的问题",
+        "※3、支持在 X11 下运行 Waydroid 时自动启动 Sway/Weston",
+        "※4、修复 Waydroid 应用商店可能出现 Session Stop 的问题",
+        "",
         "<b>V1.0.0：</b>",
         "※1、新增 Waydroid 主程序安装功能、镜像下载功能及其国内源",
         "※2、支持安装 Magisk、Libhoudini（二进制翻译器，可以运行 ARM APK）",

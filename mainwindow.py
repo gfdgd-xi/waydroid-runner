@@ -868,7 +868,7 @@ if os.system("which waydroid"):
 print(os.system(f"python3 '{programPath}/Runner_tools/Checks/HoudiniCheck.py'"))
 libkoudiniInstallStatus.setText("Libhoudini：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/HoudiniCheck.py'")>>8])
 libhoudiniInstall.setEnabled(os.system(f"python3 '{programPath}/Runner_tools/Checks/HoudiniCheck.py'")>>8)
-magiskInstall.setEnabled(os.system(f"python3 '{programPath}/Runner_tools/Checks/LSPCheck.py'")>>8)
+magiskInstall.setEnabled(os.system(f"python3 '{programPath}/Runner_tools/Checks/MagiskCheck.py'")>>8)
 lsPosedInstallStatus.setText("LSPosed：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/LSPCheck.py'")>>8])
 magiskDeltaInstallStatus.setText("Magisk Delta：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/MagiskCheck.py'")>>8])
 
