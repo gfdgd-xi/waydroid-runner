@@ -52,9 +52,9 @@ make install -j4
 ```
 
 ## 参与贡献
-@Telegram HuskyDG 巨佬贡献的 `Magisk` 安装到 `/system` 分区的方案和他的 `Magisk-Delta`
-@casualsuek 的 `Waydroid-Script` 代码  
-@Quackdoc 的 Waydroid-Choose-gpu.sh
+@Telegram HuskyDG 巨佬贡献的 `Magisk` 安装到 `/system` 分区的方案和他的 `Magisk-Delta`  
+@casualsuek 的 `Waydroid-Script` 代码    
+@Quackdoc 的 Waydroid-Choose-gpu.sh  
 
 
-## ©2023 Gfdgd-Xi,Bail,LFRon
+## ©2023~Now gfdgd xi、Bail、LFRon

@@ -594,7 +594,7 @@ about = f'''<p align="center"><img width=256 src="{iconPath}"/></p>
 <p>系统版本：{SystemVersion}</p>
 <p>安装包构建时间：{information['Time']}</p>
 <p>QQ 群：872491938</p>
-<h1>©2023-{time.strftime("%Y")}</h1>'''
+<h1>©2023-{time.strftime("%Y")} gfdgd xi、Bail、LFRon</h1>'''
 tips = ""
 contribute = ""
 for i in information["Tips"]:
