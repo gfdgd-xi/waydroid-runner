@@ -18,7 +18,7 @@ if [[ -f /etc/deepin_version ]]; then
         rm -rf /tmp/gfdgd-xi-sources
         mkdir -p /tmp/gfdgd-xi-sources
         wget -P /tmp/gfdgd-xi-sources http://seafile.jyx2048.com:2345/waydroid-runner/sway-for-deepin23-beta1/gpg.asc
-        wget -P /tmp/gfdgd-xi-sources http://seafile.jyx2048.com:2345/waydroid-runner/sway-for-deepin23-beta1/sources/github.list
+        #wget -P /tmp/gfdgd-xi-sources http://seafile.jyx2048.com:2345/waydroid-runner/sway-for-deepin23-beta1/sources/github.list
         gpg --dearmor /tmp/gfdgd-xi-sources/gpg.asc
         sudo bash -c 'echo "deb http://seafile.jyx2048.com:2345/waydroid-runner/sway-for-deepin23-beta1/ ./" > "/etc/apt/sources.list.d/gfdgdxi-list-lxc.list"'
         sudo apt update

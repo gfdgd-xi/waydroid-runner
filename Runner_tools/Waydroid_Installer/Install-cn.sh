@@ -3,6 +3,7 @@ which waydroid
 if [[ $? == 0 ]]; then
     echo Waydroid 已安装，是否重复安装？
     echo 是请按回车，否则按右上角 ×
+    read
 fi
 sudo modprobe binder_linux
 lsmod | grep -e binder_linux
