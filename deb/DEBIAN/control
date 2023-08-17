@@ -1,8 +1,8 @@
 Package: spark-waydroid-runner
-Version: 1.0.0.1
+Version: 1.1.0~alpha0
 Architecture: all
 Section: utils
-Installed-Size: 2920
+Installed-Size: 3644
 Maintainer: gfdgd xi <3025613752@qq.com>
 Depends: python3, deepin-terminal | mate-terminal | gnome-terminal | xfce4-terminal, curl, python3-requests, adb, fonts-noto-cjk, python3-numpy, wget, inotify-tools, aria2, python3-pyqt5, python3-matplotlib, python3-urllib3, zenity, python3-pip
 Recommends: waydroid, waydroid-android-image-gapps | waydroid-android-image-vanilla, aapt
