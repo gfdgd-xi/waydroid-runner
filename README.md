@@ -2,13 +2,15 @@
 ## 介绍
 Waydroid运行器是可以通过GUI形式半自动配置Waydroid的工具，使用户使用Waydroid更为方便。Waydroid本身存在很多因AOSP未考虑PC用户而产生的问题(如没有自带Houdini,默认英语,默认非小窗模式)而使用户使用起来非常难受,本运行器支持以GUI形式自动化安装以及配置Waydroid，并会创建快捷控制的快捷方式，可以用于玩游戏/刷视频/Android开发等。  
 
-若您对本项目有疑问/需要一些帮助,可以进Q群:872491938,我们会尽其所能帮助(吹水也可以)
+若您对本项目有疑问/需要一些帮助，可以进Q群:872491938，我们会尽其所能帮助(吹水也可以)  
 
 ## 配置要求
 仅限启用 Wayland 的 x86-64 的 Linux，ARM64的在安装Magisk时需要重新制作data.img(教程有时间放出来) 显卡仅限Intel & AMD(独立显卡需要启动桌面环境时使用独立显卡,否则无法使用),只有英伟达显卡(连Intel核心显卡都没有的)当前无法使用本项目，建议使用xDroid/UEngine作为替代。 
  
-**lxc 过老的系统（如 Debian10、Deepin 20.9）也无法正常运行 Waydroid  
-支持的系统:Ubuntu 22.04+/Deepin v23/Debian 12+/Linux MINT(KDE环境)
+
+支持的系统（效果较好）:Ubuntu 20.04 或更高、Deepin v23 Wayland、Debian 11 或更高、Linux MINT(KDE环境)  
+支持但效果不好/很差，需要额外调教：Deepin20.9、UOS、LingmoOS……  
+（更多系统测试中）  
 
 ## 安装&使用教程
 下载安装本软件,然后按照提示执行即可  
