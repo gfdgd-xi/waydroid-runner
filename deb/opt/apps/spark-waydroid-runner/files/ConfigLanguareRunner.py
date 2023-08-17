@@ -450,6 +450,7 @@ class Command():
                 print("未安装 Waydroid，无法使用该命令")
                 return 1
             os.system(f"nohup waydroid session start > /dev/null 2>&1 &")
+            time.sleep(3)
             return os.system(f"waydroid app install '{self.command[1]}'") >> 8
 
         # 可以运行的命令的映射关系

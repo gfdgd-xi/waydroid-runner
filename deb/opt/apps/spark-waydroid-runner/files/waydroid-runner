@@ -105,10 +105,17 @@ class UninstallApk(QtCore.QThread):
             self.error.emit(f"卸载失败！请检查 Waydroid 安装正常以及选择 APK 对应包名是否存在/输入包名存在\n命令返回值：{result}")
             DisabledAndEnbled(False)
             return
-        if findApkHistory[-1] != apkPath.currentText():
+        try:
+            if findApkHistory[-1] != apkPath.currentText():
+                findApkHistory.append(apkPath.currentText())
+        except:
             findApkHistory.append(apkPath.currentText())
         self.combo.emit(0)
-        WriteTxt(homePath + "/.config/waydroid-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
+        try:
+            WriteTxt(homePath + "/.config/waydroid-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
+        except:
+            traceback.print_exc()
+            self.error.emit(traceback.format_exc())
         self.info.emit("执行完成！若卸载成功则会在一段时间后自动在启动器移除 .desktop 文件")
         DisabledAndEnbled(False)
 
@@ -137,10 +144,17 @@ class InstallApk(QtCore.QThread):
             self.error.emit(f"安装失败！请检查 Waydroid 安装正常以及是否支持该 APK\n命令返回值：{result}")
             DisabledAndEnbled(False)
             return
-        if findApkHistory[-1] != apkPath.currentText():
+        try:
+            if findApkHistory[-1] != apkPath.currentText():
+                findApkHistory.append(apkPath.currentText())
+        except:
             findApkHistory.append(apkPath.currentText())
         self.combo.emit(0)
-        WriteTxt(homePath + "/.config/waydroid-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
+        try:
+            WriteTxt(homePath + "/.config/waydroid-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
+        except:
+            traceback.print_exc()
+            self.error.emit(traceback.format_exc())
         self.info.emit("执行完成！若安装成功则会在一段时间后自动在启动器生成 .desktop 文件")
         DisabledAndEnbled(False)
 
@@ -153,7 +167,10 @@ def InformationBox(info):
 def UpdateCombobox(tmp):
     apkPath.clear()
     apkPath.addItems(findApkHistory)
-    apkPath.setEditText(findApkHistory[-1])
+    try:
+        apkPath.setEditText(findApkHistory[-1])
+    except:
+        pass
 
 def UninstallApkButton():
     global install
@@ -576,6 +593,7 @@ about = f'''<p align="center"><img width=256 src="{iconPath}"/></p>
 <p>程序官网：{programUrl}</p>
 <p>系统版本：{SystemVersion}</p>
 <p>安装包构建时间：{information['Time']}</p>
+<p>QQ 群：872491938</p>
 <h1>©2023-{time.strftime("%Y")}</h1>'''
 tips = ""
 contribute = ""
@@ -743,6 +761,7 @@ restartWaydroidContainer = QtWidgets.QAction("重启 Waydroid 服务进程")
 iconManager = QtWidgets.QAction("快捷方式管理工具")
 waydroidRemoveAllDesktop = QtWidgets.QAction("移除所有 Waydroid 快捷方式")
 waydroidShowFullUI = QtWidgets.QAction("显示 Waydroid Android 完整界面")
+waydroidChangeGPU = QtWidgets.QAction("切换 GPU")
 waydroidMenu.addAction(waydroidAutoSetting)
 waydroidMenu.addSeparator()
 waydroidMenu.addAction(installWaydroidCNAction)
@@ -764,6 +783,8 @@ waydroidMenu.addAction(iconManager)
 waydroidMenu.addAction(waydroidRemoveAllDesktop)
 waydroidMenu.addSeparator()
 waydroidMenu.addAction(waydroidShowFullUI)
+waydroidMenu.addSeparator()
+waydroidMenu.addAction(waydroidChangeGPU)
 waydroidAutoSetting.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/auto-setting.py'"]).start())
 installWaydroidCNAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install-cn.sh'"]).start())
 installWaydroidAction.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/Waydroid_Installer/Install.sh'"]))
@@ -773,6 +794,7 @@ restartWaydroidContainer.triggered.connect(lambda: os.system("systemctl restart 
 iconManager.triggered.connect(lambda: threading.Thread(target=os.system, args=[f"python3 '{programPath}/BuildDesktop.py'"]).start())
 waydroidRemoveAllDesktop.triggered.connect(lambda: os.system("rm ~/.local/share/applications/waydroid.*.desktop -fv && zenity --info --text=删除完成！ --no-wrap"))
 waydroidShowFullUI.triggered.connect(lambda: os.system("waydroid show-full-ui"))
+waydroidChangeGPU.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"bash '{programPath}/Runner_tools/SystemConfigs/waydroid-choose-gpu.sh'"]).start())
 # 容器配置栏
 downloadImageCN = QtWidgets.QAction("下载 Waydroid 容器镜像")
 magiskInstall = QtWidgets.QAction("安装 Magisk")
@@ -868,7 +890,7 @@ if os.system("which waydroid"):
 print(os.system(f"python3 '{programPath}/Runner_tools/Checks/HoudiniCheck.py'"))
 libkoudiniInstallStatus.setText("Libhoudini：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/HoudiniCheck.py'")>>8])
 libhoudiniInstall.setEnabled(os.system(f"python3 '{programPath}/Runner_tools/Checks/HoudiniCheck.py'")>>8)
-magiskInstall.setEnabled(os.system(f"python3 '{programPath}/Runner_tools/Checks/LSPCheck.py'")>>8)
+magiskInstall.setEnabled(os.system(f"python3 '{programPath}/Runner_tools/Checks/MagiskCheck.py'")>>8)
 lsPosedInstallStatus.setText("LSPosed：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/LSPCheck.py'")>>8])
 magiskDeltaInstallStatus.setText("Magisk Delta：" + ["已安装", "未安装"][os.system(f"python3 '{programPath}/Runner_tools/Checks/MagiskCheck.py'")>>8])
 

@@ -105,10 +105,17 @@ class UninstallApk(QtCore.QThread):
             self.error.emit(f"卸载失败！请检查 Waydroid 安装正常以及选择 APK 对应包名是否存在/输入包名存在\n命令返回值：{result}")
             DisabledAndEnbled(False)
             return
-        if findApkHistory[-1] != apkPath.currentText():
+        try:
+            if findApkHistory[-1] != apkPath.currentText():
+                findApkHistory.append(apkPath.currentText())
+        except:
             findApkHistory.append(apkPath.currentText())
         self.combo.emit(0)
-        WriteTxt(homePath + "/.config/waydroid-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
+        try:
+            WriteTxt(homePath + "/.config/waydroid-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
+        except:
+            traceback.print_exc()
+            self.error.emit(traceback.format_exc())
         self.info.emit("执行完成！若卸载成功则会在一段时间后自动在启动器移除 .desktop 文件")
         DisabledAndEnbled(False)
 
@@ -137,10 +144,17 @@ class InstallApk(QtCore.QThread):
             self.error.emit(f"安装失败！请检查 Waydroid 安装正常以及是否支持该 APK\n命令返回值：{result}")
             DisabledAndEnbled(False)
             return
-        if findApkHistory[-1] != apkPath.currentText():
+        try:
+            if findApkHistory[-1] != apkPath.currentText():
+                findApkHistory.append(apkPath.currentText())
+        except:
             findApkHistory.append(apkPath.currentText())
         self.combo.emit(0)
-        WriteTxt(homePath + "/.config/waydroid-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
+        try:
+            WriteTxt(homePath + "/.config/waydroid-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
+        except:
+            traceback.print_exc()
+            self.error.emit(traceback.format_exc())
         self.info.emit("执行完成！若安装成功则会在一段时间后自动在启动器生成 .desktop 文件")
         DisabledAndEnbled(False)
 
@@ -153,7 +167,10 @@ def InformationBox(info):
 def UpdateCombobox(tmp):
     apkPath.clear()
     apkPath.addItems(findApkHistory)
-    apkPath.setEditText(findApkHistory[-1])
+    try:
+        apkPath.setEditText(findApkHistory[-1])
+    except:
+        pass
 
 def UninstallApkButton():
     global install

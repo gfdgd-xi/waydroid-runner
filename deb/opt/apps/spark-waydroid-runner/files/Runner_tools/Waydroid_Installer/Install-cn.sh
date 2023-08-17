@@ -10,7 +10,7 @@ fi
 x11=0
 if [[ $XDG_SESSION_TYPE == "x11" ]]; then
     echo 警告：你当前使用的是 x11 协议而非 Wayland 协议，Waydroid 只支持 Wayland 协议
-    echo 输入 Y 安装 Sway 或 Weston 以能在 X11 下运行 Waydroid
+    echo 输入 Y 安装 Sway 或 Weston 以能在 X11 下运行 Waydroid（体验较差）
     x11=1
     read choose
     if [[ $choose == "Y" ]] || [[ $choose == "y" ]]; then
