@@ -2,22 +2,27 @@
 ## 介绍
 Waydroid运行器是可以通过GUI形式半自动配置Waydroid的工具，使用户使用Waydroid更为方便。Waydroid本身存在很多因AOSP未考虑PC用户而产生的问题(如没有自带Houdini,默认英语,默认非小窗模式)而使用户使用起来非常难受,本运行器支持以GUI形式自动化安装以及配置Waydroid，并会创建快捷控制的快捷方式，可以用于玩游戏/刷视频/Android开发等。  
 
-若您对本项目有疑问/需要一些帮助，可以进Q群:872491938，我们会尽其所能帮助(吹水也可以)  
+若您对本项目有疑问/需要一些帮助，可以进Q群:872491938，我们会尽其所能帮助(偶尔吹水也可以)  
 
 ## 配置要求
-仅限启用 Wayland 的 x86-64 的 Linux，ARM64的在安装Magisk时需要重新制作data.img(教程有时间放出来) 显卡仅限Intel & AMD(独立显卡需要启动桌面环境时使用独立显卡,否则无法使用),只有英伟达显卡(连Intel核心显卡都没有的)当前无法使用本项目，建议使用xDroid/UEngine作为替代。 
+仅限启用 Wayland 的 x86-64 的 Linux，ARM64的在安装Magisk时可能需要重新制作data.img(教程有时间放出来) 显卡仅限Intel & AMD(独立显卡需要启动桌面环境时使用独立显卡,否则无法使用),只有英伟达显卡(连Intel核心显卡都没有的)当前无法使用本项目，建议使用xDroid/UEngine作为替代。 
  
+支持的系统（效果很好）:Ubuntu 20.04 或更高、Deepin v23 Wayland(最新内测版最好)、Debian 11+(且安装了支持Wayland协议的桌面环境)、Linux MINT(KDE环境)  
+支持但效果不好/很差，需要额外调教：Deepin20.9、UOS、LingmoOS,Linux Mint(Cinnamon环境)……  
 
-支持的系统（效果较好）:Ubuntu 20.04 或更高、Deepin v23 Wayland、Debian 11 或更高、Linux MINT(KDE环境)  
-支持但效果不好/很差，需要额外调教：Deepin20.9、UOS、LingmoOS……  
-（更多系统测试中）  
+支持很好的桌面环境:DDE(deepin v23最新内测),GNOME 42及以上,KDE Plasma 5.27.4及以上(如果低于5.27,使用Wayland的bug估计不少),UnityX 7.7,Xfce 4.20
+支持很差的桌面环境:DDE(deepin 20.9及以下,包括UOS家庭版和专业版),CutefishDE及其二改桌面环境,Budgie(等新版本支持Wayland)
+（更多系统测试中）
+  
 ***Deepin20/UOS 建议用 UEngine，虽然这个老掉牙了***  
-***目前尚未测试 Waydroid 是否与 UEngine、xdroid 冲突***  
+***目前尚未测试 Waydroid 是否与 UEngine、xDroid 冲突***  
 
 ## 安装&使用教程
-下载安装本软件,然后按照提示执行即可  
+下载安装本软件,然后按照提示执行或使用功能即可  
 
 ## 当前系统的内核不支持运行 Waydroid 怎么办？
+ **理论上不会出现此问题:Waydroid文档说明只要内核版本>=4.4即可** 
+ **相反,很多时候跑不了Waydroid是因为LXC库太老/桌面太老或者跟Cinnamon一样不支持Wayland** 
 可以自行寻找或编译支持的内核，或直接安装下面测试无问题的内核：  
 https://gfdgdxi.lanzoue.com/b01r54ple    密码:35j0
 
@@ -46,4 +51,5 @@ make install -j4
 @casualsuek 的 `Waydroid-Script` 代码  
 @Quackdoc 的 Waydroid-Choose-gpu.sh
 
-## ©2023~Now
+
+## ©2023 Gfdgd-Xi,Bail,LFRon
