@@ -1,5 +1,6 @@
 #!/bin/bash
 #This Script is forked from github @Quackdoc
+#分发代码时请遵守同@Quackdoc使用的GPLv3协议
 
 lspci="$(lspci -nn | grep '\[03')" # https://pci-ids.ucw.cz/read/PD/03
 
