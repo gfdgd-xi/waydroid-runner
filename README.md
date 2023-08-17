@@ -1,7 +1,7 @@
 <p width=100px align="center"><img src="runner.svg"></p>  
 <h1 align="center">Waydroid 运行器 1.0.0.1</h1>  
 <hr>  
-<a href='https://gitee.com/gfdgd-xi/waydroid-runner/stargazers'><img src='https://gitee.com/gfdgd-xi-org/waydroid-runner/badge/star.svg?theme=dark' alt='star'></img></a>
+<a href='https://gitee.com/gfdgd-xi/waydroid-runner/stargazers'><img src='https://gitee.com/gfdgd-xi/waydroid-runner/badge/star.svg?theme=dark' alt='star'></img></a>
 <a href='https://gitee.com/gfdgd-xi/waydroid-runner/members'><img src='https://gitee.com/gfdgd-xi/waydroid-runner/badge/fork.svg?theme=dark' alt='fork'></img></a>  
 
 ## 介绍
