@@ -1,4 +1,9 @@
 #!/bin/bash
+which waydroid
+if [[ $? == 0 ]]; then
+    echo Waydroid 已安装，是否重复安装？
+    echo 是请按回车，否则按右上角 ×
+fi
 sudo modprobe binder_linux
 lsmod | grep -e binder_linux
 if [[ $? != 0 ]] && [[ -f /dev/binder ]] && [[ -f /dev/binderfs ]]; then
