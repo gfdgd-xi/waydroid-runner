@@ -1,4 +1,9 @@
-# Waydroid运行器
+<p width=100px align="center"><img src="runner.svg"></p>  
+<h1 align="center">Waydroid 运行器 1.0.0.1</h1>  
+<hr>  
+<a href='https://gitee.com/gfdgd-xi/waydroid-runner/stargazers'><img src='https://gitee.com/gfdgd-xi-org/waydroid-runner/badge/star.svg?theme=dark' alt='star'></img></a>
+<a href='https://gitee.com/gfdgd-xi/waydroid-runner/members'><img src='https://gitee.com/gfdgd-xi/waydroid-runner/badge/fork.svg?theme=dark' alt='fork'></img></a>  
+
 ## 介绍
 Waydroid运行器是可以通过GUI形式半自动配置Waydroid的工具，使用户使用Waydroid更为方便。Waydroid本身存在很多因AOSP未考虑PC用户而产生的问题(如没有自带Houdini,默认英语,默认非小窗模式)而使用户使用起来非常难受,本运行器支持以GUI形式自动化安装以及配置Waydroid，并会创建快捷控制的快捷方式，可以用于玩游戏/刷视频/Android开发等。  
 
