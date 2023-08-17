@@ -1,5 +1,5 @@
-#This Script is forked from github @Quackdoc
 #!/bin/bash
+#This Script is forked from github @Quackdoc
 
 lspci="$(lspci -nn | grep '\[03')" # https://pci-ids.ucw.cz/read/PD/03
 

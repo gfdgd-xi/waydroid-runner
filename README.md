@@ -11,6 +11,8 @@ Waydroid运行器是可以通过GUI形式半自动配置Waydroid的工具，使�
 支持的系统（效果较好）:Ubuntu 20.04 或更高、Deepin v23 Wayland、Debian 11 或更高、Linux MINT(KDE环境)  
 支持但效果不好/很差，需要额外调教：Deepin20.9、UOS、LingmoOS……  
 （更多系统测试中）  
+***Deepin20/UOS 建议用 UEngine，虽然这个老掉牙了***  
+***目前尚未测试 Waydroid 是否与 UEngine、xdroid 冲突***  
 
 ## 安装&使用教程
 下载安装本软件,然后按照提示执行即可  
