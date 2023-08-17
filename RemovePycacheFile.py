@@ -8,6 +8,9 @@ def Remove(path):
                 os.system(f"rm -rfv '{nowPath}'")
             else:
                 Remove(nowPath)
+        elif os.path.isfile(nowPath):
+            if i == ".keep":
+                os.system(f"rm -rfv '{nowPath}'")
 programPath = os.path.split(os.path.realpath(__file__))[0]  # 返回 string
 debPath = f"{programPath}/"
 Remove(debPath)
