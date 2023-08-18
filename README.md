@@ -66,11 +66,36 @@ cd ..
 sudo apt install ./*.deb
 ```
 
-## 当前系统的内核不支持运行 Waydroid 怎么办？
+## 当前系统的内核不支持运行 Waydroid 怎么办（如 Kail Linux）？
  **理论上不会出现此问题:Waydroid文档说明只要内核版本>=4.4即可** 
  **相反,很多时候跑不了Waydroid是因为LXC库太老/桌面太老或者跟Cinnamon一样不支持Wayland** 
 可以自行寻找或编译支持的内核，或直接安装下面测试无问题的内核：  
 https://gfdgdxi.lanzoue.com/b01r54ple    密码:35j0
+
+## 效果演示
+### Deepin20（X11）
+需要使用 Sway/Weston 以及升级 lxc（运行器可以自动配置）  
+![截图_选择区域_20230818174455.png](https://storage.deepin.org/thread/202308181800238151_截图_选择区域_20230818174455.png)
+### UOS 家庭版
+需要使用 Sway/Weston 以及升级 lxc（运行器可以自动配置）  
+![截图_选择区域_20230818170557.png](https://storage.deepin.org/thread/202308181800235265_截图_选择区域_20230818170557.png)
+### Deepin23
+#### X11
+需要使用 Sway/Weston（运行器可以自动配置）  
+#### Wayland
+无需特殊操作  
+![截图_选择区域_20230817184441.png](https://storage.deepin.org/thread/20230818135604574_截图_选择区域_20230817184441.png)  
+### Kail Linux（X11）
+需要使用 Sway/Weston（运行器可以自动配置）以及更换内核（需手动设置）  
+![截图_VirtualBoxVM_20230818195519.png](https://storage.deepin.org/thread/202308181955385166_截图_VirtualBoxVM_20230818195519.png)
+### YOYO OS（X11）
+需要使用 Sway/Weston（运行器可以自动配置）  
+![Screenshot_20230817_182953.png](https://storage.deepin.org/thread/202308181356082869_Screenshot_20230817_182953.png)  
+### Ubuntu
+#### 20.04
+需要使用 Sway/Weston（运行器可以自动配置）  
+![VirtualBox_Windows_18_08_2023_20_39_23.png](https://storage.deepin.org/thread/202308182040048408_VirtualBox_Windows_18_08_2023_20_39_23.png)
+
 
 ## 历史版本
 ### 1.1.0（2023年08月？？日）
@@ -83,8 +108,9 @@ https://gfdgdxi.lanzoue.com/b01r54ple    密码:35j0
 
 ![截图_选择区域_20230818174455.png](https://storage.deepin.org/thread/202308181800238151_截图_选择区域_20230818174455.png)
 
+![截图_VirtualBoxVM_20230818195519.png](https://storage.deepin.org/thread/202308181955385166_截图_VirtualBoxVM_20230818195519.png)
 
-
+![VirtualBox_Windows_18_08_2023_20_39_23.png](https://storage.deepin.org/thread/202308182040048408_VirtualBox_Windows_18_08_2023_20_39_23.png)
 
 
 ### 1.0.0（2023年08月03日）
