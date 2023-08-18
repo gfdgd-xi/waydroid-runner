@@ -32,6 +32,14 @@ Waydroid运行器是可以通过GUI形式半自动配置Waydroid的工具，使�
 https://gfdgdxi.lanzoue.com/b01r54ple    密码:35j0
 
 ## 历史版本
+### 1.1.0（2023年08月？？日）
+？？？
+
+![Screenshot_20230817_182953.png](https://storage.deepin.org/thread/202308181356082869_Screenshot_20230817_182953.png)  
+![截图_选择区域_20230817184441.png](https://storage.deepin.org/thread/20230818135604574_截图_选择区域_20230817184441.png)  
+
+
+
 ### 1.0.0（2023年08月03日）
 **※1、新增 Waydroid 主程序安装功能、镜像下载功能及其国内源**  
 **※2、支持安装 Magisk、Libhoudini（二进制翻译器，可以运行 ARM APK）**  
