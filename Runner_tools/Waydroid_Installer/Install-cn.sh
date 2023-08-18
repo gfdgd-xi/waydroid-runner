@@ -45,7 +45,7 @@ if [[ ! -f /etc/deepin_version ]] && [[ -f /etc/deepin-version ]]; then
     if [[ $? == 0 ]]; then
         isDeepin=1
     fi
-    if [[ isDeepin == 1 ]]; then
+    if [[ $isDeepin == 1 ]]; then
         echo 警告！
         echo 您当前使用的是 Deepin20.9/UOS，如果继续安装 Waydroid 则需要升级系统的 lxc，很可能出现问题，是否继续？
         echo 按回车继续

@@ -14,7 +14,8 @@ Waydroid运行器是可以通过GUI形式半自动配置Waydroid的工具，使�
  
 **支持的系统（效果很好）**:Ubuntu 20.04 或更高、Deepin v23 Wayland(最新内测版最好)、Debian 11+(且安装了支持Wayland协议的桌面环境)、Linux MINT(KDE环境)    
 **支持但效果不好**：YOYO OS以及上述系统的 X11 环境    
-**支持但效果不好/很差，需要额外调教**：Deepin20.9、UOS家庭版、UOS专业版（不支持 4.19 内核）、LingmoOS,Linux Mint(Cinnamon环境)……  
+**支持但效果不好/很差，需要额外调教**：Deepin20.9、UOS家庭版、LingmoOS,Linux Mint(Cinnamon环境)……  
+**不支持的系统：**UOS 专业版、UOS 教育版、UOS 学生版
 
 支持很好的桌面环境:DDE(deepin v23最新内测),GNOME 42及以上,KDE Plasma 5.27.4及以上(如果低于5.27,使用Wayland的bug估计不少),UnityX 7.7,Xfce 4.20  
 支持很差的桌面环境:DDE(deepin 20.9及以下,包括UOS家庭版和专业版),CutefishDE及其二改桌面环境,Budgie(等新版本支持Wayland)  
@@ -30,20 +31,13 @@ Waydroid运行器是可以通过GUI形式半自动配置Waydroid的工具，使�
 安装源里其他的内核或者安装以下链接的内核并重启切换后用 Waydroid 运行器自带的 Waydroid 安装程序安装即可  
 内核链接：https://gfdgdxi.lanzoue.com/b01r54ple    密码:35j0
 
-### Deepin20/UOS 如何调教以便能运行 Waydroid？
+### Deepin20/UOS 家庭版如何调教以便能运行 Waydroid？
 ***此方法有危险性，可能导致系统崩溃***  
 目前 Waydroid 运行器自带的 Waydroid 安装程序（国内源）可以自动处理，但你依旧可以手动处理：  
 ### 升级系统 lxc 版本
 在这里下载 lxc 包并升级：  
 https://gfdgdxi.lanzoue.com/b01r5slyh  
 密码:1zre
-### 升级系统内核（针对 UOS 专业版用户）
-UOS 专业版用户需要将内核从 4.19 升级到 5.10，可以输入以下命令升级：  
-```bash
-sudo apt update
-sudo apt install linux-image-5.10.0-amd64-desktop linux-headers-5.10.0-amd64-desktop
-```
-然后重启
 ### 安装 Waydroid
 使用运行器自带的安装程序即可，但如果要安装原版的 Waydroid，则需要自行编译 `python-gbinder`，方法如下：
 ```bash
