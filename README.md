@@ -13,11 +13,11 @@ Waydroid运行器是可以通过GUI形式半自动配置Waydroid的工具，使�
 仅限启用 Wayland 的 x86-64 的 Linux，ARM64的在安装Magisk时可能需要重新制作data.img(教程有时间放出来) 显卡仅限Intel & AMD(独立显卡需要启动桌面环境时使用独立显卡,否则无法使用),只有英伟达显卡(连Intel核心显卡都没有的)当前无法使用本项目，建议使用xDroid/UEngine作为替代。 
  
 支持的系统（效果很好）:Ubuntu 20.04 或更高、Deepin v23 Wayland(最新内测版最好)、Debian 11+(且安装了支持Wayland协议的桌面环境)、Linux MINT(KDE环境)  
-支持但效果不好/很差，需要额外调教：Deepin20.9、UOS、LingmoOS,Linux Mint(Cinnamon环境)……  
+支持但效果不好/很差，需要额外调教：Deepin20.9、UOS家庭版、UOS专业版（不支持 4.19 内核）、LingmoOS,Linux Mint(Cinnamon环境)……  
 
-支持很好的桌面环境:DDE(deepin v23最新内测),GNOME 42及以上,KDE Plasma 5.27.4及以上(如果低于5.27,使用Wayland的bug估计不少),UnityX 7.7,Xfce 4.20
-支持很差的桌面环境:DDE(deepin 20.9及以下,包括UOS家庭版和专业版),CutefishDE及其二改桌面环境,Budgie(等新版本支持Wayland)
-（更多系统测试中）
+支持很好的桌面环境:DDE(deepin v23最新内测),GNOME 42及以上,KDE Plasma 5.27.4及以上(如果低于5.27,使用Wayland的bug估计不少),UnityX 7.7,Xfce 4.20  
+支持很差的桌面环境:DDE(deepin 20.9及以下,包括UOS家庭版和专业版),CutefishDE及其二改桌面环境,Budgie(等新版本支持Wayland)  
+（更多系统测试中）  
   
 ***Deepin20/UOS 建议用 UEngine，虽然这个老掉牙了***  
 ***目前尚未测试 Waydroid 是否与 UEngine、xDroid 冲突***  
