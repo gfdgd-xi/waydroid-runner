@@ -1,4 +1,9 @@
 #!/bin/bash
+which sway
+if [[ $? == 0 ]]; then
+    echo Sway have already installed
+    exit 0
+fi
 sudo apt update
 # 判断 apt 源里是否有 sway
 apt list sway | grep sway
