@@ -1,4 +1,9 @@
 #!/bin/bash
+which sway
+if [[ $? == 0 ]]; then
+    echo Sway have already installed
+    exit 0
+fi
 sudo apt update
 # 判断 apt 源里是否有 sway
 apt list sway | grep sway
@@ -15,15 +20,12 @@ fi
 if [[ -f /etc/deepin_version ]]; then
     cat /etc/deepin_version | grep 23
     if [[ $? == 0 ]]; then
-        # 加 apt 源
-        which aptss
-        if [[ $? == 0 ]]; then
-            sudo aptss update
-            sudo aptss install better-deepin23-source -y
-        else
-            aria2c -x 16 -s 16 https://zunyun01.store.deepinos.org.cn/store/depends/better-deepin23-source/better-deepin23-source_1.0_all.deb -d /tmp
-            sudo apt install ./better-deepin23-source_1.0_all.deb
-        fi
+        rm -rf /tmp/gfdgd-xi-sources
+        mkdir -p /tmp/gfdgd-xi-sources
+        wget -P /tmp/gfdgd-xi-sources http://seafile.jyx2048.com:2345/waydroid-runner/sway-for-deepin23-beta1/gpg.asc
+        #wget -P /tmp/gfdgd-xi-sources http://seafile.jyx2048.com:2345/waydroid-runner/sway-for-deepin23-beta1/sources/github.list
+        gpg --dearmor /tmp/gfdgd-xi-sources/gpg.asc
+        sudo bash -c 'echo "deb http://seafile.jyx2048.com:2345/waydroid-runner/sway-for-deepin23-beta1/ ./" > "/etc/apt/sources.list.d/gfdgdxi-list-lxc.list"'
         sudo apt update
         sudo apt install sway -y
 	exit 0

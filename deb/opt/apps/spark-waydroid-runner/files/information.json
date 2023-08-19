@@ -24,8 +24,11 @@
         "※5、支持切换 Waydroid GPU",
         "※6、新增右键打开 APK 功能",
         "※7、更换程序图标",
-        "8、新增设置屏幕自动旋转的功能",
-        "9、新增修复 Waydroid 多窗口在部分桌面环境无法显示鼠标问题的功能",
+        "※8、新增关闭 Waydroid 多窗口功能",
+        "※9、新增安装 Widevine 功能",
+        "※10、修复 Waydroid 运行器 1.0.0 在 X11 环境安装 Waydroid 后无法正常在 Weston/Sway 显示主界面",
+        "11、新增设置屏幕自动旋转的功能",
+        "12、新增修复 Waydroid 多窗口在部分桌面环境无法显示鼠标问题的功能",
         "",
         "<b>V1.0.0：</b>",
         "※1、新增 Waydroid 主程序安装功能、镜像下载功能及其国内源",
@@ -37,7 +40,7 @@
     "Use": [
         ""
     ],
-    "Time": "2023-08-17 14:05:39 Linux-6.1.32-amd64-desktop-hwe-x86_64-with-glibc2.35",
+    "Time": "2023-08-19 16:55:51 Linux-6.1.32-amd64-desktop-hwe-x86_64-with-glibc2.35",
     "Contribute": [
         "<b>排名不分先后</b>",
         "gfdgd xi（https://gitee.com/gfdgd-xi）",

@@ -1,5 +1,5 @@
 <p width=100px align="center"><img src="runner.svg"></p>  
-<h1 align="center">Waydroid 运行器 1.0.0.1</h1>  
+<h1 align="center">Waydroid 运行器 1.1.0</h1>  
 <hr>  
 <a href='https://gitee.com/gfdgd-xi/waydroid-runner/stargazers'><img src='https://gitee.com/gfdgd-xi/waydroid-runner/badge/star.svg?theme=dark' alt='star'></img></a>
 <a href='https://gitee.com/gfdgd-xi/waydroid-runner/members'><img src='https://gitee.com/gfdgd-xi/waydroid-runner/badge/fork.svg?theme=dark' alt='fork'></img></a>  
@@ -82,6 +82,7 @@ https://gfdgdxi.lanzoue.com/b01r54ple    密码:35j0
 ### Deepin23
 #### X11
 需要使用 Sway/Weston（运行器可以自动配置）  
+![截图_mainwindow.py_20230819164458.png](https://storage.deepin.org/thread/202308191649515402_截图_mainwindow.py_20230819164458.png)  
 #### Wayland
 无需特殊操作  
 ![截图_选择区域_20230817184441.png](https://storage.deepin.org/thread/20230818135604574_截图_选择区域_20230817184441.png)  
@@ -91,15 +92,48 @@ https://gfdgdxi.lanzoue.com/b01r54ple    密码:35j0
 ### YOYO OS（X11）
 需要使用 Sway/Weston（运行器可以自动配置）  
 ![Screenshot_20230817_182953.png](https://storage.deepin.org/thread/202308181356082869_Screenshot_20230817_182953.png)  
+### LingmoOS
+需要使用 Sway/Weston（运行器可以自动配置）  
+![VirtualBox_Windows_19_08_2023_13_07_44.png](https://storage.deepin.org/thread/202308191649503740_VirtualBox_Windows_19_08_2023_13_07_44.png)
 ### Ubuntu
 #### 20.04
 需要使用 Sway/Weston（运行器可以自动配置）  
 ![VirtualBox_Windows_18_08_2023_20_39_23.png](https://storage.deepin.org/thread/202308182040048408_VirtualBox_Windows_18_08_2023_20_39_23.png)
+#### 22.04
+无需特殊操作  
+![截图 2023-08-19 16-39-14.png](https://storage.deepin.org/thread/202308191649502677_截图2023-08-1916-39-14.png)
+### Openkylin
+#### X11
+需要使用 Sway/Weston（运行器可以自动配置）且需要升级系统 lxc 版本（需手动设置）  
+![2023-08-19_16-12-21.png](https://storage.deepin.org/thread/202308191649508531_2023-08-19_16-12-21.png)
+#### Wayland
+需要升级系统 lxc 版本（需手动设置）  
+![2023-08-19_16-12-21.png](https://storage.deepin.org/thread/202308191649508531_2023-08-19_16-12-21.png)
+### UbuntuKylin
+需要使用 Sway/Weston（运行器可以自动配置）  
+![VirtualBox_Windows_18_08_2023_21_27_02.png](https://storage.deepin.org/thread/202308191653274330_VirtualBox_Windows_18_08_2023_21_27_02.png)
+
 
 
 ## 历史版本
 ### 1.1.0（2023年08月？？日）
-？？？
+**※1、支持在 Deepin20/UOS 安装 Waydroid（效果无法保证且需要升级系统组件，容易导致系统问题，且在 UOS 下要开启开发者模式）**  
+**※2、修复在 Deepin 23 运行时因为缺少 PIL 库导致无法运行的问题**  
+**※3、支持在 X11 下使用 Waydroid 并自动启动 Sway/Weston**  
+**※4、修复 Waydroid 应用商店可能出现 Session Stop 的问题**   
+**※5、支持切换 Waydroid GPU**  
+**※6、新增右键打开 APK 功能**  
+**※7、更换程序图标**  
+**※8、新增关闭 Waydroid 多窗口功能**  
+**※9、新增安装 Widevine 功能**  
+**※10、修复 Waydroid 运行器 1.0.0 在 X11 环境安装 Waydroid 后无法正常在 Weston/Sway 显示主界面**  
+11、新增设置屏幕自动旋转的功能  
+12、新增修复 Waydroid 多窗口在部分桌面环境无法显示鼠标问题的功能  
+
+
+![VirtualBox_Windows_18_08_2023_21_27_02.png](https://storage.deepin.org/thread/202308191653274330_VirtualBox_Windows_18_08_2023_21_27_02.png)
+
+
 
 ![Screenshot_20230817_182953.png](https://storage.deepin.org/thread/202308181356082869_Screenshot_20230817_182953.png)  
 ![截图_选择区域_20230817184441.png](https://storage.deepin.org/thread/20230818135604574_截图_选择区域_20230817184441.png)  
@@ -111,6 +145,14 @@ https://gfdgdxi.lanzoue.com/b01r54ple    密码:35j0
 ![截图_VirtualBoxVM_20230818195519.png](https://storage.deepin.org/thread/202308181955385166_截图_VirtualBoxVM_20230818195519.png)
 
 ![VirtualBox_Windows_18_08_2023_20_39_23.png](https://storage.deepin.org/thread/202308182040048408_VirtualBox_Windows_18_08_2023_20_39_23.png)
+
+![截图_mainwindow.py_20230819164458.png](https://storage.deepin.org/thread/202308191649515402_截图_mainwindow.py_20230819164458.png)
+![截图 2023-08-19 16-39-14.png](https://storage.deepin.org/thread/202308191649502677_截图2023-08-1916-39-14.png)
+![2023-08-19_16-14-49.png](https://storage.deepin.org/thread/202308191649502332_2023-08-19_16-14-49.png)
+![2023-08-19_16-12-21.png](https://storage.deepin.org/thread/202308191649508531_2023-08-19_16-12-21.png)
+![VirtualBox_Windows_19_08_2023_13_07_44.png](https://storage.deepin.org/thread/202308191649503740_VirtualBox_Windows_19_08_2023_13_07_44.png)
+
+
 
 
 ### 1.0.0（2023年08月03日）

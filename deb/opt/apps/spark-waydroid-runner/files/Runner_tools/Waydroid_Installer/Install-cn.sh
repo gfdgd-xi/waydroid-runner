@@ -1,4 +1,10 @@
 #!/bin/bash
+which waydroid
+if [[ $? == 0 ]]; then
+    echo Waydroid 已安装，是否重复安装？
+    echo 是请按回车，否则按右上角 ×
+    read
+fi
 sudo modprobe binder_linux
 lsmod | grep -e binder_linux
 if [[ $? != 0 ]] && [[ -f /dev/binder ]] && [[ -f /dev/binderfs ]]; then
@@ -30,11 +36,22 @@ wget -P /tmp/gfdgd-xi-sources http://deb.waydroid.waydroid-runner.gfdgdxi.top/so
 gpg --dearmor /tmp/gfdgd-xi-sources/gpg.asc
 #sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FD6EEA1F20CD4B27
 if [[ ! -f /etc/deepin_version ]] && [[ -f /etc/deepin-version ]]; then
-    echo 警告！
-    echo 您当前使用的是 Deepin20.9/UOS，如果继续安装 Waydroid 则需要升级系统的 lxc，很可能出现问题，是否继续？
-    echo 按回车继续
-    read
-    sudo bash -c 'echo "deb http://seafile.jyx2048.com:2345/waydroid-runner/lxc/ ./" > "/etc/apt/sources.list.d/gfdgdxi-list-lxc.list"'
+    isDeepin=0
+    lsb_release -i | grep -i deepin
+    if [[ $? == 0 ]]; then
+        isDeepin=1
+    fi
+    lsb_release -i | grep -i uos
+    if [[ $? == 0 ]]; then
+        isDeepin=1
+    fi
+    if [[ $isDeepin == 1 ]]; then
+        echo 警告！
+        echo 您当前使用的是 Deepin20.9/UOS，如果继续安装 Waydroid 则需要升级系统的 lxc，很可能出现问题，是否继续？
+        echo 按回车继续
+        read
+        sudo bash -c 'echo "deb http://seafile.jyx2048.com:2345/waydroid-runner/lxc/ ./" > "/etc/apt/sources.list.d/gfdgdxi-list-lxc.list"'
+    fi
 fi
 sudo cp -v /tmp/gfdgd-xi-sources/gpg.asc.gpg /etc/apt/trusted.gpg.d/gfdgdxi-list-waydroid.gpg
 sudo cp -v /tmp/gfdgd-xi-sources/github.list /etc/apt/sources.list.d/gfdgdxi-list-waydroid.list

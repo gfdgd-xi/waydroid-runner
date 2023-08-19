@@ -1,4 +1,9 @@
 #!/bin/bash
+which weston
+if [[ $? == 0 ]]; then
+    echo Weston have already installed
+    exit 0
+fi
 sudo apt update
 sudo apt install weston aria2 -y
 rm -rfv /tmp/weston-desktop-icon.deb
