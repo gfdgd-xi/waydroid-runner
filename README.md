@@ -72,6 +72,15 @@ sudo apt install ./*.deb
 可以自行寻找或编译支持的内核，或直接安装下面测试无问题的内核：  
 https://gfdgdxi.lanzoue.com/b01r54ple    密码:35j0
 
+## 安装 UEngine For Ubuntu 后无法正常启动 Waydroid 怎么办？
+需要输入以下命令卸载 UEngine For Ubuntu（核心原因是 lxc 版本过老）  
+```bash
+sudo apt-mark unhold lxc lxc-templates liblxc1 liblxc-common lxc-utils
+sudo apt purge uengine uengine-android-image uengine-modules-dkms
+sudo apt update
+sudo apt install lxc
+```
+
 ## 效果演示
 ### Deepin20（X11）
 需要使用 Sway/Weston 以及升级 lxc（运行器可以自动配置）  
