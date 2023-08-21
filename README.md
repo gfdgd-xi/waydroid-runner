@@ -26,6 +26,8 @@ Waydroid运行器是可以通过GUI形式半自动配置Waydroid的工具，使�
 
 ## 安装&使用教程
 下载安装本软件,然后按照提示执行或使用功能即可  
+如果 `waydroid-android-image-gapps` 这个包下载慢，可以到这里手动下载 deb 包：https://github.com/gfdgd-xi/waydroid-android-image-gapps/releases/
+
 ### LingmoOS 如何调教以便能运行 Waydroid？
 ***此方法有危险性，可能导致系统崩溃***  
 安装源里其他的内核或者安装以下链接的内核并重启切换后用 Waydroid 运行器自带的 Waydroid 安装程序安装即可  
