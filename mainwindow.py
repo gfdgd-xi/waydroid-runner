@@ -796,7 +796,7 @@ restartWaydroidContainer.triggered.connect(lambda: os.system("systemctl restart 
 iconManager.triggered.connect(lambda: threading.Thread(target=os.system, args=[f"python3 '{programPath}/BuildDesktop.py'"]).start())
 waydroidRemoveAllDesktop.triggered.connect(lambda: os.system("rm ~/.local/share/applications/waydroid.*.desktop -fv && zenity --info --text=删除完成！ --no-wrap"))
 waydroidShowFullUI.triggered.connect(lambda: os.system("waydroid show-full-ui"))
-waydroidChangeGPU.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"echo '请在下方输入您的sudo密码' && sudo clear && sudo bash '{programPath}/Runner_tools/SystemConfigs/waydroid-choose-gpu.sh'"]).start())
+waydroidChangeGPU.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"echo '请在下方输入您的sudo密码' && sudo clear && echo '以下是可用于Waydroid的GPU:' && sudo bash '{programPath}/Runner_tools/SystemConfigs/waydroid-choose-gpu.sh'"]).start())
 # 容器配置栏
 downloadImageCN = QtWidgets.QAction("下载 Waydroid 容器镜像")
 magiskInstall = QtWidgets.QAction("安装 Magisk")
