@@ -6,8 +6,8 @@ import os            #关键引用
 import sys
 
 print('如果你使用GNOME/KDE的DE,请不要执行这个脚本,否则会多显示一个鼠标!')        #温馨提示
-a = os.popen('waydroid status').readlines() #检查运行状态
-if a[0].find('STOPPED')!=-1:
+a = os.popen('waydroid status').read() #检查运行状态
+if a.find('STOPPED')!=-1:
     print('-请先启动容器Session!')
     print('-程序出现异常,正在退出')
     sys.exit(1)
