@@ -2,6 +2,7 @@
 #Please DO-NOT-RUNNING by root!
 import os
 import sys
+os.chdir(os.path.split(os.path.realpath(__file__))[0]) # 定位到gms.py所在目录以便脚本能正常调用
 
 print('-请在下方输入您的sudo密码')     #提权,软件后期运行需要sudo,但是又要正确识别当前用户
 os.system('sudo echo "-提权成功!"')
