@@ -4,7 +4,7 @@
 
 lspci="$(lspci -nn | grep '\[03')" # https://pci-ids.ucw.cz/read/PD/03
 
-echo -e "请选择您需要使Waydroid工作的GPU:\n"
+echo -e "请选择您需要使Waydroid工作的GPU(输入数字序号即可):\n"
 gpus=()
 i=0
 while IFS= read lspci; do
@@ -20,7 +20,7 @@ while [ -z "$gpuchoice" ]; do
 done
 
 echo ""
-echo "请确认这是你需要使Waydroid工作的GPU:"
+echo "请确认这是你需要使Waydroid工作的GPU"
 echo ""
 
 ls -l /dev/dri/by-path/ | grep -i $gpuchoice
