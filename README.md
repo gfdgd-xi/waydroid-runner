@@ -22,7 +22,11 @@ Waydroid运行器是可以通过GUI形式半自动配置Waydroid的工具，使�
 （更多系统测试中）  
   
 ***Deepin20/UOS 建议用 UEngine，虽然这个老掉牙了***  
-***目前尚未测试 Waydroid 是否与 UEngine、xDroid 冲突***  
+***Waydroid 和 UEngine、Anbox 无法共存，可以输入以下命令卸载 UEngine***  
+```bash
+sudo apt purge uengine
+sudo apt autopurge
+```
 
 ## 安装&使用教程
 下载安装本软件,然后按照提示执行或使用功能即可  
