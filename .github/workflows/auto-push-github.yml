@@ -1,0 +1,25 @@
+name: Auto Push Waydroid Runner From Gitee To Github
+run-name: ${{ github.actor }} Auto Push Waydroid Runner From Gitee To Github 🚀
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get
+        env: 
+          PASSWORD: ${{ secrets.PASSWORD }}
+          KEYPASSWORD: ${{ secrets.KEYPASSWORD }}
+          KEY: ${{ secrets.KEY }}
+        run: |
+          git clone https://gitee.com/gfdgd-xi/waydroid-runner
+          cd waydroid-runner
+          git remote set-url https://gfdgd-xi:$PASSWORD@github.com/gfdgd-xi/waydroid-runner
+          git push
+
+
+
+      
+    
