@@ -31,7 +31,7 @@ android_id=os.popen('sudo waydroid shell sh /sdcard/gms.sh').read()    #执行�
 #清理残留目录
 os.system('sudo waydroid shell rm /sdcard/gms.sh')
 if android_id.find('android_id')==-1:
-    print('-未找到Android id!')
+    print('\n-未找到Android id!')
     print('-请在本帖子查看详细信息:https://bbs.deepin.org/post/261685')
 else:
     android_id=android_id[android_id.find('android_id'):]                 #获取安卓id,去掉不必要的信息
