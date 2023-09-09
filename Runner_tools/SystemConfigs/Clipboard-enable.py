@@ -27,7 +27,7 @@ if os.system('sudo apt update && sudo apt install wl-clipboard -y')!=0:
     Running_err()
 
 print('-正在添加pyclip(pip3包)')
-if sys_name.find('Ubuntu')!=-1 and (sys_name.find('kinetic')!=-1 or sys_name.find('mantic')!=-1):    #Ubuntu 23.04和23.10要特殊处理
+if sys_name.find('Ubuntu')!=-1 and (sys_name.find('lunar')!=-1 or sys_name.find('mantic')!=-1):    #Ubuntu 23.04和23.10及以上版本要特殊处理
     print('-检测到Ubuntu 23.04+,正在执行强制安装')
     os.system('python3 -m pip install pandas -i https://pypi.tuna.tsinghua.edu.cn/simple  --break-system-packages')
 else:
