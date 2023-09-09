@@ -21,17 +21,17 @@ if sys_name.find('deepin')!=-1 and sys_name.find('apricot')!=-1:
 if sys_name.find('UOS')!=-1:
     print('-不支持统信UOS!');Running_err()
 
-print('-正在安装wl-clipboard')        #先安装wl-clipboard
+print('\n-正在安装wl-clipboard')        #先安装wl-clipboard
 if os.system('sudo apt update && sudo apt install wl-clipboard -y')!=0:
     print('-您的系统没有wl-clipboard包,无法开启剪切板同步功能!')
     Running_err()
 
-print('-正在添加pyclip(pip3包)')
+print('\n-正在添加pyclip(pip3包)')
 if sys_name.find('Ubuntu')!=-1 and (sys_name.find('lunar')!=-1 or sys_name.find('mantic')!=-1):    #Ubuntu 23.04和23.10及以上版本要特殊处理
     print('-检测到Ubuntu 23.04+,正在执行强制安装')
-    os.system('python3 -m pip install pandas -i https://pypi.tuna.tsinghua.edu.cn/simple  --break-system-packages')
+    os.system('python3 -m pip install pyclip -i https://pypi.tuna.tsinghua.edu.cn/simple  --break-system-packages')
 else:
-    os.system('python3 -m pip install pandas -i https://pypi.tuna.tsinghua.edu.cn/simple')
+    os.system('python3 -m pip install pyclip -i https://pypi.tuna.tsinghua.edu.cn/simple')
 
 print('\n-添加成功,程序运行完成!重启电脑后剪切板互通功能生效!')
 sys.exit(0)
