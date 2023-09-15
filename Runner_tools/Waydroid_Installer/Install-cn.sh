@@ -107,4 +107,4 @@ fi
 echo 您已安装Waydroid,是否对其进行一些默认配置
 echo 按回车键以进行配置
 read
-bash python3 Waydroid-AutoConfig.py
+python3 $programPath/Waydroid-AutoConfig.py
