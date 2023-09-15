@@ -1,4 +1,8 @@
 #!/bin/bash
+
+echo "###Waydroid一键配置程序###"
+echo "本程序将安装Waydroid本体和GAPPS镜像"
+echo ""
 which waydroid
 if [[ $? == 0 ]]; then
     echo Waydroid 已安装，是否重复安装？
@@ -97,3 +101,8 @@ if [[ x11 == 1 ]]; then
 else
     zenity --info "--text=Waydroid安装完成！" --no-wrap
 fi
+
+echo 您已安装Waydroid,是否对其进行一些默认配置
+echo 按回车键以进行配置
+read
+bash python3 Waydroid-AutoConfig.py
