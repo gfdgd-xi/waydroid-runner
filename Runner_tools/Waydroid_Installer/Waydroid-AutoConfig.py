@@ -8,12 +8,13 @@ os.chdir(os.path.split(os.path.realpath(__file__))[0]  #定位到当前运行目
 print('-请在下方输入您的sudo用户密码:')
 os.system('sudo echo 提权完成! && clear')
 print('本程序将默认开启以下功能:')
-print('-建议使用Ubuntu')
 print('1.开启多窗口模式')
 print('2.默认防止屏幕旋转')
 print('3.设置语言为中文/简体')
 print('4.Deepin-v23下显示Wayland的安卓窗口光标')
-print('5.开启剪切板互通功能\n')
+print('5.开启剪切板互通功能')
+print('-建议使用Ubuntu等国际化Debian发行版')
+print()
 
 a=input('-是否需要安装Magisk-Delta?是请输入y回车,不需要请直接回车:')      ##Magisk-Delta安装
 if a=='y' or a=='Y':        
@@ -26,8 +27,12 @@ else:print('-已跳过Magisk-Delta安装,如果您以后需要可以在Waydroid�
 if subprocess.getstatusoutput('lsb_release -a')[0]!=0:         ##检测系统版本,异常给os_release变量返回-1
     print('-运行部分异常,程序无法读取操作系统版本,请自行安装lsb_release组件!')
     os_release=-1
+    flag_support=0        #检测不到默认可以
 else:
     os_release=subprocess.getstatusoutput('lsb_release -a')[1]
+    flag_unsupport=0              #检测系统,deepin 20和UOS要特殊配置
+    if (os_release.find('deepin')!=-1 and os_release.find('20')!=-1) or os_release.find('UOS')!=-1:
+        flag_unsupport=1
 
 #以下程序先执行不需要启动session的部分,然后再启动需要启动session的部分
 print('-正在设置语言为中文/简体',end='')       #先设置语言
@@ -35,7 +40,7 @@ if subprocess.getstatusoutput('python3 ../SystemConfigs/Language.py')[0]==0:
     print('成功!')
 else:print('失败,请自行排查问题!')
 
-if (os_release.find('deepin')!=-1 and os_release.find('20')!=-1) or os_release.find('UOS')!=-1:   #剪切板先检测系统,再安装,目前不支持deepin 20/UOS
+if flag_unsupport==1:   #剪切板先检测系统,再安装,目前不支持deepin 20/UOS
     print('-您的系统不支持剪切板互通,已跳过安装剪切板功能')
 else:
     print('-正在开启剪切板支持:',end='')
@@ -53,11 +58,32 @@ else:print('失败,请自行排查问题!')
 print('-正在启动Waydroid Session,耗时会比较长,请耐心等待(一般不超过6分钟)')
 print('-正在等待启动Waydroid Session:',end='')  ###启动Waydroid Session
 subprocess.getstatusoutput('waydroid session start')
-while True:
+while True:         #循环检测
     WaydroidStatus=os.popen('waydroid status')
     if WaydroidStatus.find('ready')!=-1:    ###检测session已经启动
         print('已检测启动!')
         break
 
-if ((os_release.find('deepin')!=-1 and os_release.find('20')!=-1) or os_release.find('UOS')!=-1) or os.popen('echo $XDG_SESSION_TYPE').read().find('x11'):   #多窗口先检测系统,再安装,目前不支持deepin 20/UOS
+if flag_unsupport==1 or os.popen('echo $XDG_SESSION_TYPE').read().find('x11')!=-1:   #多窗口先检测系统,再安装,目前不支持deepin 20/UOS
+    print('-检测到您使用不支持的系统/使用X11协议,已跳过多窗口模式开启功能')
+else:
+    print('-正在开启多窗口模式',end='')        #检测后应用多窗口模式
+    if subprocess.getstatusoutput('python3 ../SystemConfigs/Multi_windows.py')[0]==0:
+        print('成功!')
+    else:print('失败,请自行排查问题!')
 
+print('-正在强制防止Waydroid内应用旋转:',end='')         #开启防旋转功能
+if subprocess.getstatusoutput('python3 ../SystemConfigs/Do-not-rotate.py')[0]==0:
+    print('成功!')
+else:print('失败,请自行排查问题!')
+
+if os_release.find('deepin')!=-1 and os_release.find('23')!=-1 and os.popen('echo $XDG_SESSION_TYPE').read().find('x11')==-1:  ##Deepin v23修复不显示光标的问题
+    print('-检测到您在使用deepin v23,正在修复Wayland安卓窗口下不显示光标的问题:',end='')
+    if subprocess.getstatusoutput('python3 ../SystemConfigs/Show-cursor.py')[0]==0:
+        print('成功!')
+    else:print('失败,请自行排查问题!')
+
+print()
+print('Waydroid已自动配置完成,按回车键退出!')
+a=input()
+sys.exit(0)
