@@ -104,7 +104,7 @@ else
     zenity --info "--text=Waydroid安装完成！" --no-wrap
 fi
 
-echo 您已安装Waydroid,是否对其进行一些默认配置
-echo 按回车键以进行配置
+echo 您已安装Waydroid,是否对其进行一些默认配置?
+echo 按回车键以进行配置,如无需配置可按右上角关闭按钮关闭页面
 read
 python3 $programPath/Waydroid-AutoConfig.py
