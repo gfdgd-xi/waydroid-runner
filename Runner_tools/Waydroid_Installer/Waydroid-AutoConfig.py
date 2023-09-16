@@ -35,7 +35,7 @@ else:
         flag_unsupport=1
 
 #以下程序先执行不需要启动session的部分,然后再启动需要启动session的部分
-print('-正在设置语言为中文/简体',end='')       #先设置语言
+print('-正在设置语言为中文/简体:',end='')       #先设置语言
 if subprocess.getstatusoutput('sudo python3 ../SystemConfigs/Language.py')[0]==0:
     print('成功!')
 else:print('失败,请自行排查问题!')
