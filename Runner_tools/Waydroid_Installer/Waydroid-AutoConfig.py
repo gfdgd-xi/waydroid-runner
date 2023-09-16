@@ -3,7 +3,7 @@
 import os
 import sys
 import subprocess
-os.chdir(os.path.split(os.path.realpath(__file__))[0]  #定位到当前运行目录
+os.chdir(os.path.split(os.path.realpath(__file__))[0])  #定位到当前运行目录
 
 print('-请在下方输入您的sudo用户密码:')
 os.system('sudo echo 提权完成! && clear')
