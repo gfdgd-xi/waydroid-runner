@@ -11,9 +11,9 @@ os.system('sudo echo 提权完成! && clear')
 print('本程序将默认开启以下功能:')
 print('1.开启多窗口模式')
 print('2.默认防止屏幕旋转')
-print('3.设置语言为中文/简体')
-print('4.Deepin-v23下显示Wayland的安卓窗口光标')
-print('5.开启剪切板互通功能')
+#print('3.设置语言为中文/简体')
+print('3.Deepin-v23下显示Wayland的安卓窗口光标')
+print('4.开启剪切板互通功能')
 print('-建议使用Ubuntu等国际化Debian发行版')
 print()
 
@@ -35,11 +35,12 @@ else:
     if (os_release.find('deepin')!=-1 and os_release.find('20')!=-1) or os_release.find('UOS') != -1:
         flag_unsupport=1
 
+# 国内源的 Waydroid 已默认设置中文语言
 #以下程序先执行不需要启动session的部分,然后再启动需要启动session的部分
-print('-正在设置语言为中文/简体:',end='')       #先设置语言
-if not subprocess.getstatusoutput(f'sudo python3 "{programPath}/../SystemConfigs/Language.py"')[0]:
-    print('成功!')
-else:print('失败,请自行排查问题!')
+#print('-正在设置语言为中文/简体:',end='')       #先设置语言
+#if not subprocess.getstatusoutput(f'sudo python3 "{programPath}/../SystemConfigs/Language.py"')[0]:
+#    print('成功!')
+#else:print('失败,请自行排查问题!')
 
 if flag_unsupport==1:   #剪切板先检测系统,再安装,目前不支持deepin 20/UOS
     print('-您的系统不支持剪切板互通,已跳过安装剪切板功能')

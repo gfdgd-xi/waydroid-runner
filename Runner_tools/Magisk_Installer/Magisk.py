@@ -19,7 +19,7 @@ print('-开始安装Magisk-delta')
 if os.path.exists('data.img') == False:          #检查文件完整性
     print('-关键文件缺失!请重新安装运行器!')
     sys.exit(1)
-os.system(f'sudo mount data.img "{waydroid_data_mount}"')          #挂载关键文件镜像
+os.system(f'sudo mount -o ro data.img "{waydroid_data_mount}"')          #挂载关键文件镜像（设置挂载只读）
 
 if os.path.exists(f'{waydroid_path}/overlay_rw/system/system/etc/init/magisk') == True:         #检测用户是否自行app里升级了Magisk-Delta
     print('-检测到您已经在app内安装过了Magisk-Delta,此脚本不会执行任何升级操作')
