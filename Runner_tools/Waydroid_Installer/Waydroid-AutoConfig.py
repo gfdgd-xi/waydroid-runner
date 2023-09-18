@@ -3,7 +3,8 @@
 import os
 import sys
 import subprocess
-os.chdir(os.path.split(os.path.realpath(__file__))[0])  #定位到当前运行目录
+programPath = os.path.split(os.path.realpath(__file__))[0]  # 获取程序路径
+# os.chdir(os.path.split(os.path.realpath(__file__))[0])  #定位到当前运行目录
 
 print('-请在下方输入您的sudo用户密码:')
 os.system('sudo echo 提权完成! && clear')
@@ -19,12 +20,12 @@ print()
 a=input('-是否需要安装Magisk-Delta?是请输入y回车,不需要请直接回车:')      ##Magisk-Delta安装
 if a=='y' or a=='Y':        
     print('-正在安装Magisk-Delta:',end="")
-    if subprocess.getstatusoutput('cd ../Magisk_Installer && python3 Magisk.py')[0] == '0':
+    if not subprocess.getstatusoutput(f'python3 "{programPath}/../Magisk_Installer/Magisk.py"')[0]:
         print('成功!')
     else:print('失败!请自行查找原因!')
 else:print('-已跳过Magisk-Delta安装,如果您以后需要可以在Waydroid运行器里安装')
 
-if subprocess.getstatusoutput('lsb_release -a')[0]!=0:         ##检测系统版本,异常给os_release变量返回-1
+if subprocess.getstatusoutput('lsb_release -a')[0]:         ##检测系统版本,异常给os_release变量返回-1
     print('-运行部分异常,程序无法读取操作系统版本,请自行安装lsb_release组件!')
     os_release=-1
     flag_support=0        #检测不到默认可以
@@ -36,7 +37,7 @@ else:
 
 #以下程序先执行不需要启动session的部分,然后再启动需要启动session的部分
 print('-正在设置语言为中文/简体:',end='')       #先设置语言
-if subprocess.getstatusoutput('sudo python3 ../SystemConfigs/Language.py')[0]==0:
+if subprocess.getstatusoutput(f'sudo python3 "{programPath}/../SystemConfigs/Language.py"')[0]==0:
     print('成功!')
 else:print('失败,请自行排查问题!')
 
@@ -44,7 +45,7 @@ if flag_unsupport==1:   #剪切板先检测系统,再安装,目前不支持deepi
     print('-您的系统不支持剪切板互通,已跳过安装剪切板功能')
 else:
     print('-正在开启剪切板支持:',end='')
-    if subprocess.getstatusoutput('python3 ../SystemConfigs/Clipboard-enable.py')==0:
+    if subprocess.getstatusoutput(f'python3 "{programPath}/../SystemConfigs/Clipboard-enable.py"')==0:
         print('成功!')
     else:
         print('失败,请自行排查问题!')
@@ -68,18 +69,18 @@ if flag_unsupport==1 or os.popen('echo $XDG_SESSION_TYPE').read().find('x11')!=-
     print('-检测到您使用不支持的系统/使用X11协议,已跳过多窗口模式开启功能')
 else:
     print('-正在开启多窗口模式',end='')        #检测后应用多窗口模式
-    if subprocess.getstatusoutput('python3 ../SystemConfigs/Multi_windows.py')[0]==0:
+    if subprocess.getstatusoutput(f'python3 "{programPath}/../SystemConfigs/Multi_windows.py"')[0]==0:
         print('成功!')
     else:print('失败,请自行排查问题!')
 
 print('-正在强制防止Waydroid内应用旋转:',end='')         #开启防旋转功能
-if subprocess.getstatusoutput('python3 ../SystemConfigs/Do-not-rotate.py')[0]==0:
+if subprocess.getstatusoutput(f'python3 "{programPath}/../SystemConfigs/Do-not-rotate.py"')[0]==0:
     print('成功!')
 else:print('失败,请自行排查问题!')
 
 if os_release.find('deepin')!=-1 and os_release.find('23')!=-1 and os.popen('echo $XDG_SESSION_TYPE').read().find('x11')==-1:  ##Deepin v23修复不显示光标的问题
     print('-检测到您在使用deepin v23,正在修复Wayland安卓窗口下不显示光标的问题:',end='')
-    if subprocess.getstatusoutput('python3 ../SystemConfigs/Show-cursor.py')[0]==0:
+    if subprocess.getstatusoutput(f'python3 "{programPath}/../SystemConfigs/Show-cursor.py"')[0]==0:
         print('成功!')
     else:print('失败,请自行排查问题!')
 
