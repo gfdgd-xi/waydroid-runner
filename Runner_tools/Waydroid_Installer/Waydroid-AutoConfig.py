@@ -32,12 +32,12 @@ if subprocess.getstatusoutput('lsb_release -a')[0]:         ##检测系统版本
 else:
     os_release=subprocess.getstatusoutput('lsb_release -a')[1]
     flag_unsupport=0              #检测系统,deepin 20和UOS要特殊配置
-    if (os_release.find('deepin')!=-1 and os_release.find('20')!=-1) or os_release.find('UOS')!=-1:
+    if (os_release.find('deepin')!=-1 and os_release.find('20')!=-1) or os_release.find('UOS') != -1:
         flag_unsupport=1
 
 #以下程序先执行不需要启动session的部分,然后再启动需要启动session的部分
 print('-正在设置语言为中文/简体:',end='')       #先设置语言
-if subprocess.getstatusoutput(f'sudo python3 "{programPath}/../SystemConfigs/Language.py"')[0]==0:
+if not subprocess.getstatusoutput(f'sudo python3 "{programPath}/../SystemConfigs/Language.py"')[0]:
     print('成功!')
 else:print('失败,请自行排查问题!')
 
@@ -45,14 +45,14 @@ if flag_unsupport==1:   #剪切板先检测系统,再安装,目前不支持deepi
     print('-您的系统不支持剪切板互通,已跳过安装剪切板功能')
 else:
     print('-正在开启剪切板支持:',end='')
-    if subprocess.getstatusoutput(f'python3 "{programPath}/../SystemConfigs/Clipboard-enable.py"')==0:
+    if not subprocess.getstatusoutput(f'python3 "{programPath}/../SystemConfigs/Clipboard-enable.py"')[0]:
         print('成功!')
     else:
         print('失败,请自行排查问题!')
 
 ###接下来启动Waydroid Session进行下一步配置
 print('\n-正在重启Waydroid Container:',end='')         
-if subprocess.getstatusoutput('sudo systemctl restart waydroid-container.service')[0]==0:       ##先重启容器
+if not subprocess.getstatusoutput('sudo systemctl restart waydroid-container.service')[0]:       ##先重启容器
     print('成功!')
 else:print('失败,请自行排查问题!')
 
@@ -65,7 +65,7 @@ while True:         #循环检测
         print('已检测启动!')
         break
 
-if flag_unsupport==1 or os.popen('echo $XDG_SESSION_TYPE').read().find('x11')!=-1:   #多窗口先检测系统,再安装,目前不支持deepin 20/UOS
+if flag_unsupport==1 or os.getenv("XDG_SESSION_TYPE") == "x11":   #多窗口先检测系统,再安装,目前不支持deepin 20/UOS
     print('-检测到您使用不支持的系统/使用X11协议,已跳过多窗口模式开启功能')
 else:
     print('-正在开启多窗口模式',end='')        #检测后应用多窗口模式
@@ -78,7 +78,7 @@ if subprocess.getstatusoutput(f'python3 "{programPath}/../SystemConfigs/Do-not-r
     print('成功!')
 else:print('失败,请自行排查问题!')
 
-if os_release.find('deepin')!=-1 and os_release.find('23')!=-1 and os.popen('echo $XDG_SESSION_TYPE').read().find('x11')==-1:  ##Deepin v23修复不显示光标的问题
+if os_release.find('deepin')!=-1 and os_release.find('23')!=-1 and os.getenv("XDG_SESSION_TYPE") == "x11":  ##Deepin v23修复不显示光标的问题
     print('-检测到您在使用deepin v23,正在修复Wayland安卓窗口下不显示光标的问题:',end='')
     if subprocess.getstatusoutput(f'python3 "{programPath}/../SystemConfigs/Show-cursor.py"')[0]==0:
         print('成功!')
@@ -86,5 +86,5 @@ if os_release.find('deepin')!=-1 and os_release.find('23')!=-1 and os.popen('ech
 
 print()
 print('Waydroid已自动配置完成,按回车键退出!')
-a=input()
+input()
 sys.exit(0)
