@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/usr/bin/env python3
 #Please DO NOT RUNNING BY sudo!
 import os
 import sys
