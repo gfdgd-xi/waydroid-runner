@@ -45,10 +45,10 @@ if flag_unsupport==1:   #剪切板先检测系统,再安装,目前不支持deepi
     print('-您的系统不支持剪切板互通,已跳过安装剪切板功能')
 else:
     print('-正在开启剪切板支持:', end='')
-    if not subprocess.getstatusoutput(f'python3 "{programPath}/../SystemConfigs/Clipboard-enable.py"')[0]:
-        print('成功!')
+    if os.system(f'python3 "{programPath}/../SystemConfigs/Clipboard-enable.py"') == 0:   #这里要用os.system(),这一步时间会比较长,需要用户能看得到输出内容!
+        print('成功!\n')
     else:
-        print('失败,请自行排查问题!')
+        print('失败,请自行排查问题!\n')
 
 ###接下来启动Waydroid Session进行下一步配置
 print('\n-正在重启Waydroid Container:', end='')         
@@ -60,12 +60,12 @@ print('-正在启动Waydroid Session,耗时会比较长,请耐心等待(一般�
 print('-正在等待启动Waydroid Session:',end='')  ###启动Waydroid Session
 subprocess.getstatusoutput('waydroid session start')
 while True:         #循环检测
-    WaydroidStatus = os.popen('waydroid status')  # gfdgd xi: 这里疑似有问题？
+    WaydroidStatus = subprocess.getstatusoutput('waydroid status')[1]
     if WaydroidStatus.find('ready') != -1:    ###检测session已经启动
         print('已检测启动!')
         break
 
-if flag_unsupport == 1 or os.getenv("XDG_SESSION_TYPE") == "x11":   #多窗口先检测系统,再安装,目前不支持deepin 20/UOS
+if flag_unsupport == 1 or os.getenv("XDG_SESSION_TYPE") == "x11":   #多窗口先检测系统,再安装,目前不支持deepin 20/UOS以及使用x11协议的情况
     print('-检测到您使用不支持的系统/使用X11协议,已跳过多窗口模式开启功能')
 else:
     print('-正在开启多窗口模式',end='')        #检测后应用多窗口模式
