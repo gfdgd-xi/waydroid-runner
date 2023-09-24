@@ -58,9 +58,9 @@ else:print('失败,请自行排查问题!')
 
 print('-正在启动Waydroid Session,耗时会比较长,请耐心等待(一般不超过6分钟)')
 print('-正在等待启动Waydroid Session:',end='')  ###启动Waydroid Session
-session=subprocess.Popen(['ping','baidu.com'],stdout=subprocess.PIPE,shell=True)
+session=subprocess.Popen(['waydroid','session','start'],stdout=subprocess.PIPE,shell=True)
 while True:         #循环检测Waydroid session是否已启动
-    WaydroidStatus = str(session.stdout.readline())
+    WaydroidStatus = str(session.stdout.read())
     if WaydroidStatus.find('is ready') != -1:    ###检测session已经启动
         print('已检测启动!')
         break
