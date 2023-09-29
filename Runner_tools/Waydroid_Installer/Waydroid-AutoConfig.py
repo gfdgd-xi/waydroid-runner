@@ -61,6 +61,7 @@ else:print('失败,请自行排查问题!')
 print('-正在启动Waydroid Session,耗时会比较长,请耐心等待(一般不超过6分钟)')
 print('正在等待启动Waydroid Session',end='')  ###启动Waydroid Session
 os.popen('waydroid session start')
+time.sleep(5) #等Waydroid完全启动进程后再检测
 while True:         #循环检测Waydroid session是否已启动
     WaydroidStatus = os.popen('sudo waydroid shell getprop init.svc.bootanim').read()   #使用Android Shell内部识别启动状态
     if WaydroidStatus.find('stopped') != -1:    ###检测session已经启动
