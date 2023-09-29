@@ -1,5 +1,5 @@
 <p width=100px align="center"><img src="runner.svg"></p>  
-<h1 align="center">Waydroid 运行器 1.1.0</h1>  
+<h1 align="center">Waydroid 运行器 1.2.0.1</h1>  
 <hr>  
 <a href='https://gitee.com/gfdgd-xi/waydroid-runner/stargazers'><img src='https://gitee.com/gfdgd-xi/waydroid-runner/badge/star.svg?theme=dark' alt='star'></img></a>
 <a href='https://gitee.com/gfdgd-xi/waydroid-runner/members'><img src='https://gitee.com/gfdgd-xi/waydroid-runner/badge/fork.svg?theme=dark' alt='fork'></img></a>  
@@ -131,13 +131,17 @@ sudo apt install lxc
 
 
 ## 历史版本
-### 1.2.0（2023年09月？？日）
+### 1.2.0（2023年09月29日）
 **※1、修复GPU切换无效问题**  
 **※2、修复部分脚本识别Session运行状态失败的问题**  
 **※3、增加剪切板与Linux主系统互通功能(仅限Wayland模式)**  
 **※4、增加GMS注册需要的Android-id获取功能**  
 **※5、(重磅更新)一键配置功能全面升级,窗口化/谷歌拼音输入法/防止旋转/剪切板互通等一次到位**  
 **※6、修复Waydroid运行器全屏显示时主系统死机问题**  
+
+![图片.png](https://storage.deepin.org/thread/202309291503561223_图片.png)
+
+
 
 ### 1.1.0（2023年08月19日）
 **※1、支持在 Deepin20/UOS 安装 Waydroid（效果无法保证且需要升级系统组件，容易导致系统问题，且在 UOS 下要开启开发者模式）**  
