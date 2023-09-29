@@ -59,7 +59,7 @@ if not subprocess.getstatusoutput('sudo systemctl restart waydroid-container.ser
 else:print('失败,请自行排查问题!')
 
 print('-正在启动Waydroid Session,耗时会比较长,请耐心等待(一般不超过6分钟)')
-print('正在等待启动Waydroid Session',end='')  ###启动Waydroid Session
+print('正在等待启动Waydroid Session')  ###启动Waydroid Session
 os.popen('waydroid session start')
 time.sleep(5) #等Waydroid完全启动进程后再检测
 while True:         #循环检测Waydroid session是否已启动
