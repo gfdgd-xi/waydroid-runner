@@ -2,6 +2,7 @@
 #Please DO NOT RUNNING BY sudo!
 import os
 import sys
+import time
 import subprocess
 programPath = os.path.split(os.path.realpath(__file__))[0]  # 获取程序路径
 
@@ -17,6 +18,7 @@ print('-建议使用Ubuntu等国际化Debian发行版')
 print()
 
 choose = input('-是否需要安装Magisk-Delta?是请输入y回车,不需要请直接回车:')      ##Magisk-Delta安装
+os.system("sudo waydroid init -f")  # 防止因为没有 init 导致无法正常识别 session start 输出
 if choose == 'y' or choose == 'Y':        
     print('-正在安装Magisk-Delta:',end="")
     if not subprocess.getstatusoutput(f'python3 "{programPath}/../Magisk_Installer/Magisk.py"')[0]:
@@ -57,13 +59,16 @@ if not subprocess.getstatusoutput('sudo systemctl restart waydroid-container.ser
 else:print('失败,请自行排查问题!')
 
 print('-正在启动Waydroid Session,耗时会比较长,请耐心等待(一般不超过6分钟)')
-print('-正在等待启动Waydroid Session:',end='')  ###启动Waydroid Session
-session=subprocess.Popen(['waydroid session start'],stdout=subprocess.PIPE,shell=True)
+print('正在等待启动Waydroid Session')  ###启动Waydroid Session
+os.popen('waydroid session start')
+time.sleep(5) #等Waydroid完全启动进程后再检测
 while True:         #循环检测Waydroid session是否已启动
-    WaydroidStatus = str(session.stdout.read())
-    if WaydroidStatus.find('is ready') != -1:    ###检测session已经启动
-        print('已检测启动!')
+    WaydroidStatus = os.popen('sudo waydroid shell getprop init.svc.bootanim').read()   #使用Android Shell内部识别启动状态
+    if WaydroidStatus.find('stopped') != -1:    ###检测session已经启动
+        time.sleep(3)
+        print('已检测Waydroid-session启动!\n')
         break
+    time.sleep(6)
 
 if flag_unsupport == 1 or os.getenv("XDG_SESSION_TYPE") == "x11":   #多窗口先检测系统,再安装,目前不支持deepin 20/UOS以及使用x11协议的情况
     print('-检测到您使用不支持的系统/使用X11协议,已跳过多窗口模式开启功能')
