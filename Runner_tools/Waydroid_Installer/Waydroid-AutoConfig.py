@@ -17,6 +17,7 @@ print('-建议使用Ubuntu等国际化Debian发行版')
 print()
 
 choose = input('-是否需要安装Magisk-Delta?是请输入y回车,不需要请直接回车:')      ##Magisk-Delta安装
+os.system("sudo waydroid init -f")  # 防止因为没有 init 导致无法正常识别 session start 输出
 if choose == 'y' or choose == 'Y':        
     print('-正在安装Magisk-Delta:',end="")
     if not subprocess.getstatusoutput(f'python3 "{programPath}/../Magisk_Installer/Magisk.py"')[0]:

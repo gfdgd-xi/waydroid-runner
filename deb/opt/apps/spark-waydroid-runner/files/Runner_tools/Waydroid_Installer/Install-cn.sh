@@ -1,5 +1,11 @@
 #!/bin/bash
+
+echo "###Waydroid一键配置程序###"
+echo "本程序将安装Waydroid本体和GAPPS镜像"
+echo ""
 which waydroid
+# 获取程序路径
+programPath=`dirname $0`
 if [[ $? == 0 ]]; then
     echo Waydroid 已安装，是否重复安装？
     echo 是请按回车，否则按右上角 ×
@@ -26,6 +32,39 @@ if [[ $XDG_SESSION_TYPE == "x11" ]]; then
         if [[ $? != 0 ]]; then
             echo Sway 安装失败，安装 Weston
             bash InstallWeston.sh
+        fi
+    fi
+fi
+# 检测 UEngine 是否安装
+which uengine
+if [[ $? == 0 ]]; then
+    which uengine-loading-ubuntu
+    if [[ $? == 0 ]]; then
+        echo "Waydroid 与 UEngine 冲突，是否要先卸载 UEngine？[Y/N]"
+        read choose
+        if [[ $choose == "Y" ]] || [[ $choose == "y" ]]; then
+            sudo apt purge uengine -y
+            sudo apt purge uengine-modules-dkms uengine-android-image -y
+            sudo apt-mark unhold hold lxc lxc-templates liblxc1 liblxc-common lxc-utils
+            sudo apt update
+            sudo apt install aptitude -y
+            sudo aptitude install lxc -y
+            sudo rm -v /usr/share/applications/uengine-loading-ubuntu.desktop
+            sudo rm -v /etc/xdg/autostart/uengine-loading-ubuntu.desktop
+            for username in $(ls /home)  
+            do
+                echo /home/$username
+                sudo rm /home/$username/uengine-launch/run_daemon.sh
+            done
+            sudo rm -v /usr/bin/uengine-loading-binder
+            sudo rm -v /usr/share/polkit-1/actions/com.deepin.pkexec.binder.loader.policy
+        fi
+    else
+        echo "Waydroid 与 UEngine 冲突，是否要先卸载 UEngine？[Y/N]"
+        read choose
+        if [[ $choose == "Y" ]] || [[ $choose == "y" ]]; then
+            sudo apt purge uengine -y
+            sudo apt purge uengine-modules-dkms uengine-android-image -y
         fi
     fi
 fi
@@ -64,3 +103,8 @@ if [[ x11 == 1 ]]; then
 else
     zenity --info "--text=Waydroid安装完成！" --no-wrap
 fi
+
+echo 您已安装Waydroid,是否对其进行一些默认配置?
+echo 按回车键以进行配置,如无需配置可按右上角关闭按钮关闭页面
+read
+python3 $programPath/Waydroid-AutoConfig.py
