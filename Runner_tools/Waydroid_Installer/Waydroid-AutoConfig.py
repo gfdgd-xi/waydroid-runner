@@ -66,14 +66,14 @@ while True:         #循环检测Waydroid session是否已启动
     WaydroidStatus = os.popen('sudo waydroid shell getprop init.svc.bootanim').read()   #使用Android Shell内部识别启动状态
     if WaydroidStatus.find('stopped') != -1:    ###检测session已经启动
         time.sleep(3)
-        print('已检测Waydroid-session启动!\n')
+        print('\n已检测Waydroid-session启动!')
         break
     time.sleep(6)
 
 if flag_unsupport == 1 or os.getenv("XDG_SESSION_TYPE") == "x11":   #多窗口先检测系统,再安装,目前不支持deepin 20/UOS以及使用x11协议的情况
     print('-检测到您使用不支持的系统/使用X11协议,已跳过多窗口模式开启功能')
 else:
-    print('-正在开启多窗口模式',end='')        #检测后应用多窗口模式
+    print('-正在开启多窗口模式:',end='')        #检测后应用多窗口模式
     if subprocess.getstatusoutput(f'python3 "{programPath}/../SystemConfigs/Multi_windows.py"')[0]==0:
         print('成功!')
     else:print('失败,请自行排查问题!')
@@ -90,6 +90,7 @@ if os_release.find('deepin') != -1 and os_release.find('23') != -1 and os.getenv
     else:print('失败,请自行排查问题!')
 
 print()
-print('Waydroid已自动配置完成,按回车键退出!')
+print('Waydroid已自动配置完成,重启电脑后生效!')
+print('请按任意键退出')
 input()
 sys.exit(0)
