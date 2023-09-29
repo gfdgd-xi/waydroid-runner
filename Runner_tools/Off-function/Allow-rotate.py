@@ -11,6 +11,8 @@ if a.find('STOPPED')!=-1:
     sys.exit(1)
 
 print('-正在设置允许应用旋转屏幕')
-os.system('sudo waydroid shell wm set-fix-to-user-rotation disabled')
-print('-完成!')
-sys.exit(0)
+if os.system('sudo waydroid shell wm set-fix-to-user-rotation disabled') == 0:
+    print('-完成!')
+    sys.exit(0)
+else:
+    print('未知异常,程序即将退出!')
