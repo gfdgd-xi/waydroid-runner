@@ -797,7 +797,7 @@ waydroidLog.triggered.connect(ReadWaydroidLog)
 restartWaydroidContainer.triggered.connect(lambda: os.system("systemctl restart waydroid-container.service && zenity --info --text=运行完成！ --no-wrap"))
 iconManager.triggered.connect(lambda: threading.Thread(target=os.system, args=[f"python3 '{programPath}/BuildDesktop.py'"]).start())
 waydroidRemoveAllDesktop.triggered.connect(lambda: os.system("rm ~/.local/share/applications/waydroid.*.desktop -fv && zenity --info --text=删除完成！ --no-wrap"))
-waydroidShowFullUI.triggered.connect(lambda: os.system("waydroid show-full-ui"))
+waydroidShowFullUI.triggered.connect(lambda: threading.Thread(target=os.system, args=["waydroid show-full-ui"]).start())
 waydroidChangeGPU.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"echo '请在下方输入您的sudo密码' && sudo clear && sudo bash '{programPath}/Runner_tools/SystemConfigs/waydroid-choose-gpu.sh'"]).start())
 waydroidGetAndroidId.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/Android-id-reader/android-id.py'"]).start())
 # 容器配置栏
