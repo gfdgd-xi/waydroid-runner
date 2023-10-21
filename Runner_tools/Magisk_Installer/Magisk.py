@@ -7,7 +7,7 @@ waydroid_data_mount = "/tmp/waydroid-runner-datamount"
 def Cleaner():   #清理安装目录产生的Cache
     print('-正在清理目录:',end='')
     os.system(f'sudo umount "{waydroid_data_mount}" && sudo rm -rf "{waydroid_data_mount}"')
-    print('-完成')
+    print('完成')
 
 #######--------------主程序部分----------------###########
 
