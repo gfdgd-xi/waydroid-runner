@@ -90,7 +90,7 @@ if os_release.find('deepin') != -1 and os_release.find('23') != -1 and os.getenv
     else:print('失败,请自行排查问题!')
 
 print()
-print('Waydroid已自动配置完成,重启电脑后生效!')
+print('Waydroid已自动配置完成,重启电脑后完全生效!')
 print('请按任意键退出')
 input()
 sys.exit(0)
