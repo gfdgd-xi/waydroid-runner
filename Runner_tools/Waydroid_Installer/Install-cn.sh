@@ -70,8 +70,8 @@ if [[ $? == 0 ]]; then
 fi
 rm -rf /tmp/gfdgd-xi-sources
 mkdir -p /tmp/gfdgd-xi-sources
-wget -P /tmp/gfdgd-xi-sources http://deb.waydroid.waydroid-runner.gfdgdxi.top/gpg.asc
-wget -P /tmp/gfdgd-xi-sources http://deb.waydroid.waydroid-runner.gfdgdxi.top/sources/github.list
+wget -P /tmp/gfdgd-xi-sources http://seafile.jyx2048.com:2345/waydroid-runner/waydroid-deb-diy/gpg.asc
+wget -P /tmp/gfdgd-xi-sources http://seafile.jyx2048.com:2345/waydroid-runner/waydroid-deb-diy/sources/github.list
 gpg --dearmor /tmp/gfdgd-xi-sources/gpg.asc
 #sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FD6EEA1F20CD4B27
 if [[ ! -f /etc/deepin_version ]] && [[ -f /etc/deepin-version ]]; then
