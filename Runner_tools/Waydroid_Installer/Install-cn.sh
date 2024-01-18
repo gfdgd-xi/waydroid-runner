@@ -68,10 +68,25 @@ if [[ $? == 0 ]]; then
         fi
     fi
 fi
+echo 选择源：
+echo 1. 国内源（带宽小但是国内容易访问）
+echo 2. Sourceforge 源（带宽大但是国内较难访问）
+read choose
+url="http://seafile.jyx2048.com:2345/waydroid-runner/waydroid-deb-diy/"
+if [[ $choose == "1" ]]; then
+    url="http://seafile.jyx2048.com:2345/waydroid-runner/waydroid-deb-diy/"
+else
+    if [[ $choose == "2" ]]; then
+        url="https://master.dl.sourceforge.net/project/waydroid-runner-apt-mirror/"
+    else
+        echo "输入错误，默认使用国内源"
+        url="http://seafile.jyx2048.com:2345/waydroid-runner/waydroid-deb-diy/"
+    fi
+fi
 rm -rf /tmp/gfdgd-xi-sources
 mkdir -p /tmp/gfdgd-xi-sources
-wget -P /tmp/gfdgd-xi-sources http://seafile.jyx2048.com:2345/waydroid-runner/waydroid-deb-diy/gpg.asc
-wget -P /tmp/gfdgd-xi-sources http://seafile.jyx2048.com:2345/waydroid-runner/waydroid-deb-diy/sources/github.list
+wget -P /tmp/gfdgd-xi-sources $url/gpg.asc
+#wget -P /tmp/gfdgd-xi-sources $url/github.list
 gpg --dearmor /tmp/gfdgd-xi-sources/gpg.asc
 #sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FD6EEA1F20CD4B27
 if [[ ! -f /etc/deepin_version ]] && [[ -f /etc/deepin-version ]]; then
@@ -93,7 +108,8 @@ if [[ ! -f /etc/deepin_version ]] && [[ -f /etc/deepin-version ]]; then
     fi
 fi
 sudo cp -v /tmp/gfdgd-xi-sources/gpg.asc.gpg /etc/apt/trusted.gpg.d/gfdgdxi-list-waydroid.gpg
-sudo cp -v /tmp/gfdgd-xi-sources/github.list /etc/apt/sources.list.d/gfdgdxi-list-waydroid.list
+#sudo cp -v /tmp/gfdgd-xi-sources/github.list /etc/apt/sources.list.d/gfdgdxi-list-waydroid.list
+sudo bash -c "echo 'deb $url ./' > /etc/apt/sources.list.d/gfdgdxi-list-waydroid.list"
 sudo apt update
 sudo apt install waydroid lxc -y
 sudo systemctl restart waydroid-container.service
