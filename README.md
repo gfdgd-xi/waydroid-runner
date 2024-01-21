@@ -206,5 +206,4 @@ make install -j4
 @casualsuek 的 `Waydroid-Script` 代码    
 @Quackdoc 的 Waydroid-Choose-gpu.sh  
 
-
-## ©2023~Now gfdgd xi、Bail、LFRon
+# ©2023~Now gfdgd xi、Bail、LFRon
