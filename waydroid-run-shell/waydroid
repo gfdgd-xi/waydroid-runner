@@ -1,4 +1,20 @@
 #!/bin/bash
+function RunSway(){
+	disabledGPU=`cat ~/.config/waydroid-runner//.config/waydroid-runner/disable-gpu`
+	isDisbledGPU=0
+	if [[ $disabledGPU == "1" ]] || [[ ! -f ~/.config/waydroid-runner/disable-gpu ]]; then
+		isDisbledGPU=1
+	fi
+	lspci | grep -i nvidia
+	if [[ $? == 0 ]] && [[ $isDisbledGPU == 1 ]]; then
+		nohup sway --unsupported-gpu > /dev/null 2>&1 &
+	else
+		nohup sway > /dev/null 2>&1 &
+	fi
+}
+function RunWeston(){
+	nohup weston > /dev/null 2>&1 &
+}
 if [[ $WAYLAND_DISPLAY == "" ]]; then
 	# 自动识别 WAYLAND（以在 X11 通过 sway 运行 Waydroid）
 	if [[ -e /run/user/$UID/wayland-0 ]]; then
@@ -11,17 +27,20 @@ if [[ $WAYLAND_DISPLAY == "" ]]; then
 			else
 				# 读取设置
 				setting=`cat ~/.config/waydroid-runner/x11-set`
+				isEnabledSway=0
+				if [[ $setting == "sway" ]] || [[ ! -f ~/.config/waydroid-runner/x11-set ]]; then
+					isEnabledSway=1
+				fi
 				which sway  > /dev/null 2>&1
-				if [[ $? == 0 ]] || [[ $setting == "sway" ]]; then
-					nohup sway > /dev/null 2>&1 &
-					sleep 2
+				if [[ $? == 0 ]] && [[ $isEnabledSway == 1 ]]; then
+					RunSway
 				else
 					which weston  > /dev/null 2>&1
 					if [[ $? == 0 ]]; then
-						nohup weston > /dev/null 2>&1 &
-						sleep 2
+						RunWeston
 					fi
 				fi
+				sleep 2
 				if [[ -e /run/user/$UID/wayland-0 ]]; then
 					export WAYLAND_DISPLAY=wayland-0
 				else
