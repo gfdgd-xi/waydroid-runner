@@ -1,5 +1,5 @@
 Source: waydroid
-Maintainer: Erfan Abdi <erfangplus@gmail.com>
+Maintainer: gfdgd xi <3025613752@qq.com>, Erfan Abdi <erfangplus@gmail.com>
 Section: misc
 Priority: optional
 Build-Depends: debhelper (>= 10),

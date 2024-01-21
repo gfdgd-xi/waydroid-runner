@@ -1,4 +1,4 @@
-waydroid (1.4.2) bullseye; urgency=medium
+waydroid (1.4.2-gfdgdxi0) bullseye; urgency=medium
 
   * Allow running a shell command as an arbitrary user and group and with an arbitrary security context (#996)
   * IHardware: Add new upgrade transaction capable of 64-bit timestamps

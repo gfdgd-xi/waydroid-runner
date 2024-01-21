@@ -9,8 +9,10 @@ if [[ $WAYLAND_DISPLAY == "" ]]; then
 			if [[ `whoami` == root ]]; then
 				echo root 用户不支持自动启动 Sway 或 Weston 以设置 WAYLAND_DISPLAY
 			else
+				# 读取设置
+				setting=`cat ~/.config/waydroid-runner/x11-set`
 				which sway  > /dev/null 2>&1
-				if [[ $? == 0 ]]; then
+				if [[ $? == 0 ]] || [[ $setting == "sway" ]]; then
 					nohup sway > /dev/null 2>&1 &
 					sleep 2
 				else
