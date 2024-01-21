@@ -1,0 +1,43 @@
+#!/bin/bash
+if [[ $WAYLAND_DISPLAY == "" ]]; then
+	# 自动识别 WAYLAND（以在 X11 通过 sway 运行 Waydroid）
+	if [[ -e /run/user/$UID/wayland-0 ]]; then
+		export WAYLAND_DISPLAY=wayland-0
+	else
+		ls /run/user/$UID/wayland-* > /dev/null 2>&1
+		if [[ $? != 0 ]]; then
+			if [[ `whoami` == root ]]; then
+				echo root 用户不支持自动启动 Sway 或 Weston 以设置 WAYLAND_DISPLAY
+			else
+				which sway  > /dev/null 2>&1
+				if [[ $? == 0 ]]; then
+					nohup sway > /dev/null 2>&1 &
+					sleep 2
+				else
+					which weston  > /dev/null 2>&1
+					if [[ $? == 0 ]]; then
+						nohup weston > /dev/null 2>&1 &
+						sleep 2
+					fi
+				fi
+				if [[ -e /run/user/$UID/wayland-0 ]]; then
+					export WAYLAND_DISPLAY=wayland-0
+				else
+					ls /run/user/$UID/wayland-* > /dev/null 2>&1
+					if [[ $? == 0 ]]; then
+						export WAYLAND_DISPLAY=`ls /run/user/$UID/wayland-* | awk '{print $NF}' | head -n1`
+						export WAYLAND_DISPLAY=`basename $WAYLAND_DISPLAY`
+					else
+						echo 无法设置默认 WAYLAND_DISPLAY，请手动设置
+					fi
+				fi
+			fi
+		else
+			export WAYLAND_DISPLAY=`ls /run/user/$UID/wayland-* | awk '{print $NF}' | head -n1`
+			export WAYLAND_DISPLAY=`basename $WAYLAND_DISPLAY`
+		fi
+	fi
+fi
+echo 当前设置 WAYLAND_DISPLAY：$WAYLAND_DISPLAY
+waydroid-session "$@"
+

@@ -37,7 +37,10 @@ install:
 	install -d $(INSTALL_APPS_DIR) $(INSTALL_METAINFO_DIR) $(INSTALL_ICONS_DIR)/hicolor/512x512/apps
 	install -d $(INSTALL_APPS_DIRECTORY_DIR) $(INSTALL_APPS_MENU_DIR)
 	cp -a data tools waydroid.py $(INSTALL_WAYDROID_DIR)
-	ln -sf $(WAYDROID_DIR)/waydroid.py $(INSTALL_BIN_DIR)/waydroid
+	ln -sf $(WAYDROID_DIR)/waydroid.py $(INSTALL_BIN_DIR)/waydroid-session
+	chmod 777 -Rv waydroid-run-shell
+	cp waydroid-run-shell/* $(INSTALL_BIN_DIR)
+	
 	mv $(INSTALL_WAYDROID_DIR)/data/AppIcon.png $(INSTALL_ICONS_DIR)/hicolor/512x512/apps/waydroid.png
 	mv $(INSTALL_WAYDROID_DIR)/data/*.desktop $(INSTALL_APPS_DIR)
 	mv $(INSTALL_WAYDROID_DIR)/data/*.menu $(INSTALL_APPS_MENU_DIR)

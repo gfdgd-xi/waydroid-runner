@@ -1,0 +1,24 @@
+#!/bin/bash
+if [[ $XDG_RUNTIME_DIR == "" ]]; then
+    export XDG_RUNTIME_DIR=/run/user/$UID
+fi
+# 判断是不是 wayland 下
+ls /run/user/$UID/wayland-*
+if [[ $? != 0 ]]; then
+    echo 非 Waydroid
+    which sway > /dev/null 2>&1
+    if [[ $? == 0 ]]; then
+        nohup sway > /dev/null 2>&1 &
+    else
+        which weston > /dev/null 2>&1
+        if [[ $? == 0 ]]; then
+            nohup weston > /dev/null 2>&1 &
+        fi
+    fi
+    
+fi
+sleep 1
+nohup waydroid session start > /dev/null 2>&1 &
+sleep 2
+waydroid app remove $1
+

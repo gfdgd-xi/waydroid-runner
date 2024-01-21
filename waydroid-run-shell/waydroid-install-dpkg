@@ -1,0 +1,38 @@
+#!/bin/bash
+timeout=300 # 超时设置，单位为 S，-1 为永不超时
+if [[ ! -f $1 ]]; then
+    echo APK 不存在！
+    exit 1
+fi
+if [[ ! -f /usr/share/waydroid/apk/`basename $1` ]]; then
+    echo 请将 APK 放置于 /usr/share/waydroid/apk/ 下并把 APK 命名为 包名.apk 的形式
+    exit 1
+fi
+packageName=`basename $1 .apk`
+if [[ $XDG_RUNTIME_DIR == "" ]]; then
+    export XDG_RUNTIME_DIR=/run/user/$UID
+fi
+# 判断是不是 wayland 下
+ls /run/user/$UID/wayland-*
+if [[ $? != 0 ]] && [[ $2 != x11 ]]; then
+    echo 非 Wayland
+    echo 不在deb安装过程安装apk
+    exit 0
+fi
+sleep 1
+nohup waydroid session start > /dev/null 2>&1 &
+sleep 2
+waydroid app install $1
+waittime=0
+while [[ $timeout -gt $waittime ]];
+do
+    waittime=$((${waittime} + 1))
+    sleep 1
+    if [[ -e $HOME/.local/share/waydroid/data/data/$packageName ]]; then
+        echo 安装完成！
+        exit
+    fi
+    echo -e "\r${waittime}S/${timeout}S"
+done
+echo 超时！
+exit 1
