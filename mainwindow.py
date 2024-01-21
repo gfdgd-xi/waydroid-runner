@@ -513,6 +513,66 @@ def SaveIconToOtherPath():
         #WriteTxt(homePath + "/.config/uengine-runner/FindApkHistory.json", str(json.dumps(ListToDictionary(findApkHistory))))  # 将历史记录的数组转换为字典并写入
         QtWidgets.QMessageBox.information(widget, "提示", "保存成功！")
 
+class X11Chooser:
+    def __init__(self):
+        pass
+
+    def show(self):
+        self.window = QtWidgets.QWidget()
+        self.layout = QtWidgets.QGridLayout()
+        self.swayOption = QtWidgets.QRadioButton("Sway")
+        self.weston = QtWidgets.QRadioButton("Weston")
+        self.disabledGPU = QtWidgets.QCheckBox("禁止 Sway 调用 GPU")
+        self.ok = QtWidgets.QPushButton("确定")
+        self.layout.addWidget(self.swayOption, 0, 0)
+        self.layout.addWidget(self.weston, 0, 1)
+        self.layout.addWidget(self.disabledGPU, 1, 0, 1, 2)
+        self.layout.addWidget(self.ok, 2, 0, 1, 2)
+        self.ok.clicked.connect(self.OkClicked)
+        self.window.setLayout(self.layout)
+        # 根据系统实际情况选择
+        if not os.system("which weston"):
+            self.weston.setChecked(True)
+        else:
+            self.weston.setEnabled(False)
+            self.disabledGPU.setEnabled(False)
+        if not os.system("which sway"):
+            self.swayOption.setChecked(True)
+        else:
+            self.swayOption.setEnabled(False)
+        # 读取内容判断选项
+        if os.path.exists(homePath + "/.config/waydroid-runner/x11-set"):
+            try:
+                things = readtxt(homePath + "/.config/waydroid-runner/x11-set").replace(" ", "").replace("\n", "")
+                if things == "sway":
+                    self.swayOption.setChecked(True)
+                else:
+                    self.weston.setChecked(True)
+            except:
+                traceback.print_exc()
+        if os.path.exists(homePath + "/.config/waydroid-runner/disable-gpu"):
+            try:
+                things = readtxt(homePath + "/.config/waydroid-runner/x11-set").replace(" ", "").replace("\n", "")
+                if things == "1":
+                    self.disabledGPU.setChecked(True)
+                else:
+                    self.disabledGPU.setChecked(False)
+            except:
+                traceback.print_exc()
+        self.window.setWindowTitle("Wayland 兼容选择")
+        self.window.show()
+
+    def OkClicked(self):
+        try:
+            WriteTxt(homePath + "/.config/waydroid-runner/x11-set", "weston" if self.weston.isChecked() else "sway"
+            if self.swayOption.isChecked() else "weston")
+            WriteTxt(homePath + "/.config/waydroid-runner/disable-gpu", "1" if self.disabledGPU.isChecked() else "0")
+            QtWidgets.QMessageBox.information(self.window, "成功", "设置已保存")
+        except:
+            traceback.print_exc()
+            QtWidgets.QMessageBox.critical(self.window, "错误", traceback.format_exc())
+        
+
 # 关于窗口
 helpWindow = None
 def showhelp():
@@ -765,7 +825,14 @@ waydroidRemoveAllDesktop = QtWidgets.QAction("移除所有 Waydroid 快捷方式
 waydroidShowFullUI = QtWidgets.QAction("显示 Waydroid Android 完整界面")
 waydroidGetAndroidId = QtWidgets.QAction("获取Waydroid的安卓id")
 waydroidChangeGPU = QtWidgets.QAction("切换 GPU")
+if os.getenv("XDG_SESSION_TYPE") == "x11":
+    waydroidRunInX11Setting = QtWidgets.QAction("X11 运行 Waydroid 设置")
+    waydroidRunInX11SettingWindow = X11Chooser()
+else:
+    waydroidRunInX11Setting = QtWidgets.QAction("X11 运行 Waydroid 设置（Wayland 无需设置）")
+    waydroidRunInX11Setting.setDisabled(True)
 waydroidMenu.addAction(waydroidAutoSetting)
+waydroidMenu.addAction(waydroidRunInX11Setting)
 waydroidMenu.addSeparator()
 waydroidMenu.addAction(installWaydroidCNAction)
 waydroidMenu.addAction(installWaydroidAction)
@@ -800,6 +867,7 @@ waydroidRemoveAllDesktop.triggered.connect(lambda: os.system("rm ~/.local/share/
 waydroidShowFullUI.triggered.connect(lambda: threading.Thread(target=os.system, args=["waydroid show-full-ui"]).start())
 waydroidChangeGPU.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"echo '请在下方输入您的sudo密码' && sudo clear && sudo bash '{programPath}/Runner_tools/SystemConfigs/waydroid-choose-gpu.sh'"]).start())
 waydroidGetAndroidId.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/Android-id-reader/android-id.py'"]).start())
+waydroidRunInX11Setting.triggered.connect(waydroidRunInX11SettingWindow.show)
 # 容器配置栏
 downloadImageCN = QtWidgets.QAction("下载 Waydroid 容器镜像")
 magiskInstall = QtWidgets.QAction("安装 Magisk")
