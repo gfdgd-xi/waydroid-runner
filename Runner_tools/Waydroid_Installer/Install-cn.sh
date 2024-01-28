@@ -72,15 +72,15 @@ echo 选择源：
 echo 1. 国内源（带宽小但是国内容易访问）
 echo 2. Sourceforge 源（带宽大但是国内较难访问）
 read choose
-url="http://seafile.jyx2048.com:2345/waydroid-runner/waydroid-deb-diy/"
+url="http://gfdgdxi.v5.idcfengye.com/waydroid-runner/waydroid-deb-diy/"
 if [[ $choose == "1" ]]; then
-    url="http://seafile.jyx2048.com:2345/waydroid-runner/waydroid-deb-diy/"
+    url="http://gfdgdxi.v5.idcfengye.com/waydroid-runner/waydroid-deb-diy/"
 else
     if [[ $choose == "2" ]]; then
         url="https://master.dl.sourceforge.net/project/waydroid-runner-apt-mirror/"
     else
         echo "输入错误，默认使用国内源"
-        url="http://seafile.jyx2048.com:2345/waydroid-runner/waydroid-deb-diy/"
+        url="http://gfdgdxi.v5.idcfengye.com/waydroid-runner/waydroid-deb-diy/"
     fi
 fi
 rm -rf /tmp/gfdgd-xi-sources
