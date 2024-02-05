@@ -14,7 +14,12 @@ import threading
 import traceback
 import webbrowser
 import subprocess
-import matplotlib
+try:
+    import matplotlib
+except:
+    os.system("python3 -m pip install --upgrade matplotlib --trusted-host https://repo.huaweicloud.com -i https://repo.huaweicloud.com/repository/pypi/simple")
+    os.system("python3 -m pip install --upgrade matplotlib --trusted-host https://repo.huaweicloud.com -i https://repo.huaweicloud.com/repository/pypi/simple --break-system-packages")
+    import matplotlib
 import updatekiller
 import urllib.parse as parse
 import PyQt5.QtGui as QtGui
