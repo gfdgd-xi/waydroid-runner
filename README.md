@@ -29,7 +29,7 @@ sudo apt autopurge
 ```
 
 ## 在 deepin 23 上安装缺失依赖？
-依赖下载地址：https://gfdgdxi.lanzv.com/b01rwfgtg 密码:648f  
+依赖下载地址：https://gfdgdxi.lanzoui.com/b01rwfgtg 密码:648f  
 
 ## 安装&使用教程
 下载安装本软件,然后按照提示执行或使用功能即可  
