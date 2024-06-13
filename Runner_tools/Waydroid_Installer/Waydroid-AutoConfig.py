@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#Please DO NOT RUNNING BY sudo!
+#DO NOT RUNNING BY ROOT!
 import os
 import sys
 import time
