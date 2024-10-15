@@ -99,7 +99,7 @@ window.setCentralWidget(widget)
 window.setWindowTitle(f"Waydroid 运行器 {version} 问题/建议反馈")
 window.setWindowIcon(QtGui.QIcon(iconPath))
 # 禁用 bug 提交
-updateThings.setText("该版本暂不支持 Bug 提交，请从下方按钮提交 Bug\nWaydroid 运行器 QQ 交流群：872491938")
+updateThings.setText("该版本暂不支持 Bug 提交，请从下方按钮提交 Bug\nWaydroid 运行器 QQ 交流群：860232259")
 #updateThings.setDisabled(True)
 updateThings.setReadOnly(True)
 nameThings.setDisabled(True)
