@@ -1,5 +1,5 @@
 #!/bin/bash
-aria2c -x 16 -s 16 https://jihulab.com/gfdgd-xi/waydroid-image/-/raw/main/houdini-install.tar.gz -d /tmp
+aria2c -x 16 -s 16 https://github.com/LFRon/libhoudini-11-for-waydroid/releases/download/11.0.1/houdini-install.tar.gz -d /tmp
 cd /tmp
 tar -xvf houdini-install.tar.gz
 cd houdini-install

@@ -872,7 +872,7 @@ waydroidRemoveAllDesktop.triggered.connect(lambda: os.system("rm ~/.local/share/
 waydroidShowFullUI.triggered.connect(lambda: threading.Thread(target=os.system, args=["waydroid show-full-ui"]).start())
 waydroidChangeGPU.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"echo '请在下方输入您的sudo密码' && sudo clear && sudo bash '{programPath}/Runner_tools/SystemConfigs/waydroid-choose-gpu.sh'"]).start())
 waydroidGetAndroidId.triggered.connect(lambda: threading.Thread(target=RunBash, args=[f"python3 '{programPath}/Runner_tools/Android-id-reader/android-id.py'"]).start())
-waydroidRunInX11Setting.triggered.connect(waydroidRunInX11SettingWindow.show)
+if (os.getenv("XDG_SESSION_TYPE") == "x11"):waydroidRunInX11Setting.triggered.connect(waydroidRunInX11SettingWindow.show)
 # 容器配置栏
 downloadImageCN = QtWidgets.QAction("下载 Waydroid 容器镜像")
 magiskInstall = QtWidgets.QAction("安装 Magisk")
