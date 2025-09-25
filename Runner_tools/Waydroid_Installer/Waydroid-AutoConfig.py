@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/bin/env python3
 # DO NOT RUNNING BY ROOT!
 
 # 250919:等deepin的treeland稳定后再做对应支持
@@ -15,12 +15,12 @@ print('本程序将默认开启以下功能:')
 print('1.开启多窗口模式')
 print('2.默认防止屏幕旋转')
 # print('3.设置语言为中文/简体')
-print('3.Deepin-v23下显示Wayland的安卓窗口光标')
+# print('3.Deepin-v23下显示Wayland的安卓窗口光标')
 print('4.开启剪切板互通功能')
 print('- 建议使用Ubuntu等国际化Debian发行版')
 print()
 
-choose = input('- 是否需要安装Magisk-Delta?是请输入y回车,不需要请直接回车:')      ## 特供版Magisk安装
+choose = input('- 是否需要安装特供版Magisk?是请输入y回车,不需要请直接回车:')      ## 特供版Magisk安装
 os.system("sudo waydroid init -f")  # 防止因为没有 init 导致无法正常识别 session start 输出
 if choose == 'y' or choose == 'Y':        
     print('- 正在安装Waydroid特供版Magisk:',end="")
@@ -93,7 +93,7 @@ if os_release.find('deepin') != -1 and os_release.find('23') != -1 and os.getenv
     else:print('失败,请自行排查问题!')
 
 print()
-print('Waydroid已自动配置完成,重启电脑后完全生效!')
-print('请按任意键退出')
+print('- Waydroid已自动配置完成,重启电脑后完全生效!')
+print('- 请按任意键退出~')
 input()
 sys.exit(0)
