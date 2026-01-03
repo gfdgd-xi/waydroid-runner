@@ -55,12 +55,10 @@ if (os.path.exists(f'{waydroid_path}/overlay/system/etc/init/magisk') or os.path
 
     # 删除原来已安装过的Magisk残留
     os.system(f'sudo rm -rf {waydroid_path}/overlay_rw/system/system/etc/init/bootanim.rc')
-    os.system(f'sudo rm -rf {waydroid_path}/overlay_rw/system/system/etc/init/hw/init.zygote32.rc')
-    os.system(f'sudo rm -rf {waydroid_path}/overlay_rw/system/system/etc/init/hw/init.zygote64_32.rc')
+    os.system(f'sudo rm -rf {waydroid_path}/overlay_rw/system/system/etc/init/hw')
     os.system(f'sudo rm -rf {waydroid_path}/overlay_rw/vendor/etc/selinux/precompiled_sepolicy')
     os.system(f'sudo rm -rf {waydroid_path}/overlay/system/etc/init/bootanim.rc')
-    os.system(f'sudo rm -rf {waydroid_path}/overlay/system/etc/init/hw/init.zygote32.rc')
-    os.system(f'sudo rm -rf {waydroid_path}/overlay/system/etc/init/hw/init.zygote64_32.rc')
+    os.system(f'sudo rm -rf {waydroid_path}/overlay/system/etc/init/hw')
     os.system(f'sudo rm -rf {waydroid_path}/overlay/vendor/etc/selinux/precompiled_sepolicy')
 
 # 必须启动Waydroid,故启动前先检查其运行状态,若不在运行则进行启动
@@ -77,6 +75,7 @@ while True:         # 循环检测Waydroid session是否已启动
     break
     
 time.sleep(1)
+
 # 预先新建系统分区待拷贝目录
 # 复制Magisk文件同时到Overlay位置和data分区以便下一步修补vendor分区的SELinux policy
 os.system(f'sudo mkdir -p {waydroid_magisk_files_in_data_path_linux} && sudo chmod 777 {waydroid_magisk_files_in_data_path_linux}')     # 预先新建用户分区待拷贝目录并设置权限
