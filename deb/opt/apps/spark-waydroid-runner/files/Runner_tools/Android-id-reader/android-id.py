@@ -1,3 +1,4 @@
+#!/bin/env python3
 #A python3 program
 #Please DO-NOT-RUNNING by root!
 import os

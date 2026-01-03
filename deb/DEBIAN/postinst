@@ -2,7 +2,6 @@
 ln -s /opt/apps/spark-waydroid-runner/files/waydroid-runner                   /usr/bin/waydroid-runner
 ln -s /opt/apps/spark-waydroid-runner/files/AutoShell/main.py                /usr/bin/waydroid-runner-auto-install-bash
 
-python3 -m pip install --upgrade pyclip  --break-system-packages   --trusted-host https://repo.huaweicloud.com -i https://repo.huaweicloud.com/repository/pypi/simple > /dev/null 2>&1 | true
 # 刷新图标缓存
 # 因为 Ubuntu 的问题，省略
 gtk-update-icon-cache /usr/share/icons/bloom > /dev/null | true

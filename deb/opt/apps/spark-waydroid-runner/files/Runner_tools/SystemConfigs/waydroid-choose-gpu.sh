@@ -2,9 +2,13 @@
 #This Script is forked from github @Quackdoc
 #分发代码时请遵守同@Quackdoc使用的GPLv3协议
 
-lspci="$(lspci -nn | grep '\[03')" # https://pci-ids.ucw.cz/read/PD/03
+set -eo pipefail
 
 echo -e "请选择您需要使Waydroid工作的GPU(输入数字序号即可):\n"
+
+lspci="$(lspci -nn | grep '\[03')" # https://pci-ids.ucw.cz/read/PD/03
+
+echo -e "Please enter the GPU number you want to pass to WayDroid:\n"
 gpus=()
 i=0
 while IFS= read lspci; do
@@ -33,8 +37,11 @@ rendernode=$(ls -l /dev/dri/by-path/ | grep -i $gpuchoice | grep -o "renderD[1-9
 echo /dev/dri/$card
 echo /dev/dri/$rendernode
 
-cp /var/lib/waydroid/lxc/waydroid/config_nodes /var/lib/waydroid/lxc/waydroid/config_nodes.bak
+cp /var/lib/waydroid/lxc/waydroid/config_nodes /var/lib/waydroid/lxc/waydroid/config_nodes_$(date +%Y-%m-%d-%H:%M).bak
+cp /var/lib/waydroid/waydroid.cfg /var/lib/waydroid/waydroid.cfg_$(date +%Y-%m-%d-%H:%M).bak
 #lxc.mount.entry = /dev/dri dev/dri none bind,create=dir,optional 0 0
-sed -i '/dri/d' /var/lib/waydroid/lxc/waydroid/config_nodes
-echo "lxc.mount.entry = /dev/dri/$rendernode dev/dri/renderD128 none bind,create=file,optional 0 0" >> /var/lib/waydroid/lxc/waydroid/config_nodes
+sed -i '/drm_device/d' /var/lib/waydroid/waydroid.cfg
+sed -i "/^\[waydroid\]/a drm_device = /dev/dri/$rendernode" /var/lib/waydroid/waydroid.cfg
+waydroid upgrade --offline
+
 echo "GPU切换完成!"

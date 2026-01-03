@@ -34,7 +34,7 @@ os.system('sudo echo -提权成功! && clear')
 if os.path.exists(waydroid_data_mount) == False: os.system(f'sudo mkdir -p "{waydroid_data_mount}"')
 print('-开始安装Magisk:')     
 # 先检查文件完整性
-if os.path.exists('data.img') == False: 
+if os.path.exists('data.img') == False:
     print('-关键文件缺失!请重新安装运行器!')
     sys.exit(1)
 

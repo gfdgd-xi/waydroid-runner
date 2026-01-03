@@ -1,4 +1,5 @@
-#Please running it by root!
+#!/bin/env python3
+# Please running it by root!
 import os
 import sys
 user = os.getlogin()
