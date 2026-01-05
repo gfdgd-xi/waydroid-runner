@@ -22,7 +22,7 @@ waydroid_magisk_files_in_data_path_linux = f'/home/{user}/.local/share/waydroid/
 waydroid_magisk_files_in_data_path_android = '/data/media/magisk_tmp'
 
 
-def Cleaner():   # 清理安装目录产生的Cache
+def Cleaner():   # 清理安装目录产生的残留
     os.system(f'sudo rm -rf {waydroid_magisk_files_in_data_path_linux}')
     os.system(f'sudo umount {waydroid_data_mount} && sudo rm -r {waydroid_data_mount}')
 
