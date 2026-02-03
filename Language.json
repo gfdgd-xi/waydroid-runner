@@ -1,4 +1,176 @@
 {
+    "en_US.UTF-8": {
+        "Main": {
+            "MainWindow": {
+                "Title": "Waydroid Runner",
+                "LabApkPath": "Install/Uninstall APK:",
+                "LabUninstallPath": "Uninstall APK:",
+                "BtnFindApk": "Browse",
+                "BtnInstall": "Install",
+                "BtnShowWaydroidApp": "Open Waydroid App List",
+                "BtnUninstallApkBrowser": "Browse",
+                "BtnUninstall": "Uninstall",
+                "Btngeticon": "Save Icon",
+                "BtnSaveApk": "Save APK",
+                "BtnApkInformation": "APK Information",
+                "Error": {
+                    "InstallError": "Information is incomplete, cannot continue installing APK",
+                    "UninstallError": "Information is incomplete, cannot continue uninstalling APK",
+                    "BackApkError": "Cannot restore installation package\nNote: Newer versions automatically delete installation packages after installation. Backup APK is at /tmp/waydroid-runner/bak.apk and will be lost after reboot.",
+                    "ChooseApkError": "You have not selected an APK file",
+                    "SaveApkIconError": "This program does not support saving this APK icon",
+                    "PathError": "Path does not exist, please try again",
+                    "SettingReadError": "Error reading settings. Cannot open settings window",
+                    "SettingSaveError": "Error saving settings",
+                    "ConnectServerError": "Cannot connect to server",
+                    "ConnectServerStarError": "Cannot connect to server. Cannot submit rating",
+                    "ApkFileError": "This application package is abnormal, cannot query related data",
+                    "InputDataError": "The value you entered is incorrect"
+                },
+                "Information": {
+                    "Title": "Notice",
+                    "CompleteInformation": "Complete"
+                },
+                "Answer": {
+                    "Title": "Notice",
+                    "AllowOrDisallowUpdateAndroidAppAnswer": [
+                        "Are you sure you want to enable Waydroid to install and use the default updater to upgrade apps (allow unknown sources)?",
+                        "Are you sure you want to disable Waydroid from installing and using the default updater to upgrade apps (disallow unknown sources)?"
+                    ],
+                    "UseAdbPackageAnswer": "You have not installed the adb patch, which must be installed to continue. Do you want to install it?",
+                    "CompleteInformation": "Setup complete"
+                },
+                "Menu": [
+                    {
+                        "Name": "Program",
+                        "Menu": [
+                            "Clear Program History",
+                            "Exit Program",
+                            "Program Settings"
+                        ]
+                    },
+                    {
+                        "Name": "adb",
+                        "Menu": [
+                            "Connect Waydroid with Adb",
+                            {
+                                "Name": "Adb Service",
+                                "Menu": [
+                                    "Start Adb Service",
+                                    "Stop Adb Service",
+                                    "Kill Adb Process"
+                                ]
+                            },
+                            "Show Adb Connected Devices",
+                            "Change Waydroid Resolution with Adb",
+                            "View Waydroid App List with Adb",
+                            "View Waydroid Resource Usage with Adb",
+                            "Open Terminal with Adb Connected to Waydroid",
+                            "Connect to Waydroid with Scrcpy (Snap version only)",
+                            {
+                                "Name": "Waydroid Use Adb",
+                                "Menu": [
+                                    "Connect Waydroid with Adb",
+                                    "Allow This Device to Connect to Waydroid with Adb (Requires Root)",
+                                    "Disallow Any Device to Connect to Waydroid with Adb (Requires Root)"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Name": "Waydroid",
+                        "Menu": [
+                            "Waydroid System Settings",
+                            "Waydroid App Packaging",
+                            {
+                                "Name": "Waydroid Service",
+                                "Menu": [
+                                    "Start Waydroid Service (Requires Root)",
+                                    "Stop Waydroid Service (Requires Root)",
+                                    "Restart Waydroid Service (Requires Root)"
+                                ]
+                            },
+                            {
+                                "Name": "Waydroid Network Bridge",
+                                "Menu": [
+                                    "Start Waydroid Network Bridge (Requires Root)",
+                                    "Stop Waydroid Network Bridge (Requires Root)",
+                                    "Restart Waydroid Network Bridge (Requires Root)",
+                                    "Load Waydroid Network Bridge (Requires Root)",
+                                    "Force Load Waydroid Network Bridge (Requires Root)"
+                                ]
+                            },
+                            {
+                                "Name": "Waydroid Shortcuts",
+                                "Menu": [
+                                    "Send Waydroid App List to Desktop",
+                                    "Send Waydroid App List to Launcher",
+                                    "Add/Remove Specific Waydroid Shortcuts",
+                                    "Clear All Waydroid Shortcuts"
+                                ]
+                            },
+                            {
+                                "Name": "Waydroid Use Adb",
+                                "Menu": null 
+                            },
+                            {
+                                "Name": "Waydroid Data",
+                                "Menu": [
+                                    "Open Waydroid Root Directory",
+                                    "Open Waydroid User Data Directory",
+                                    "Clear Waydroid Data (Requires Root)"
+                                ]
+                            },
+                            "Waydroid Keyboard Mapping",
+                            "Check if CPU Supports Running Waydroid",
+                            "Remove Waydroid Run Check",
+                            "Reinstall Waydroid",
+                            {
+                                "Name": "Get Waydroid Root Access",
+                                "Menu": [
+                                    "Install Pre-made Waydroid Image with Root Access",
+                                    "Build Waydroid Image with Root Access to User Home Directory",
+                                    "Install Default Waydroid Image"
+                                ]
+                            },
+                            "Install Waydroid on Ubuntu",
+                            "Enable/Disable Waydroid Installed Android App Updates (Requires adb patch)",
+                            "Install Waydroid on Ubuntu",
+                            "Set Waydroid Proxy (Requires adb patch)",
+                            "Set Waydroid Specific App Window Size"
+                        ]
+                    },
+                    {
+                        "Name": "About",
+                        "Menu": [
+                            "Program Website",
+                            "About",
+                            "Report Issues and Suggestions",
+                            "Check for Updates",
+                            "More Help",
+                            "About Qt"
+                        ]
+                    }
+                ]
+            }
+        },
+        "Waydroid Apk Builder": {
+            "Title": "Waydroid APK Application Packager",
+            "label1": "APK path to package:",
+            "button2": "Browse",
+            "button3": " Package",
+            "check": "Use prefix \"waydroid-dc\"",
+            "size": "Import program size settings from Waydroid (if configured)",
+            "Menu": [
+                {
+                    "Name": "Program",
+                    "Menu": [
+                        "Exit Program"
+                    ]
+                }
+            ]
+        }
+    },
     "zh_CN.UTF-8": {
         "Main": {
             "MainWindow": {
