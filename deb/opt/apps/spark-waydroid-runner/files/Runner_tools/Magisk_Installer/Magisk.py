@@ -106,6 +106,8 @@ print('- 正在清理目录')
 Cleaner()
 
 # 脚本收尾
-print('- 安装完成,您可以重启Waydroid了!')
+print('- 正在停止Waydroid Session')
+os.system('waydroid session stop')
+print('- 安装完成,您可以启动Waydroid了!')
 print('- 程序运行结束!')
 sys.exit(0)

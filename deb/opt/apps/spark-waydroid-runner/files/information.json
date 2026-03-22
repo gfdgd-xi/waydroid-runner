@@ -4,7 +4,7 @@
         "https://gitee.com/gfdgd-xi/waydroid-runner",
         "https://gitee.com/gfdgd-xi/waydroid-runner"
     ],
-    "Version": "1.2.1.0~260106",
+    "Version": "1.2.2.0~260314",
     "System": "Linux",
     "Tips": [
         "如果您是先在安装Waydroid然后安装运行器的,推荐按照以下顺序操作以更好地使用 Waydroid：",
@@ -17,6 +17,8 @@
         "<b>也可以在 菜单栏->Waydroid->一键优化Waydroid 处理</b>"
     ],
     "Update": [
+        "<b>V1.2.2：</b>",
+        "※1、升级Magisk版本至30.7主线版本",
         "<b>V1.2.1：</b>",
         "※1、适配基线提升至安卓13,目前libhoudini和widevine已完成适配",
         "※2、升级Magisk版本至30.6主线版本",
@@ -53,7 +55,7 @@
     "Use": [
         ""
     ],
-    "Time": "2026-01-06 17:35:51 Linux-6.18.3-x64v4_cachyos2.lto.fc43.x86_64-x86_64-with-glibc2.42",
+    "Time": "2026-03-22 16:03:27 Linux-6.18.19-cachyos-x86_64-with-glibc2.38",
     "Contribute": [
         "<b>排名不分先后</b>",
         "gfdgd xi（https://gitee.com/gfdgd-xi）",

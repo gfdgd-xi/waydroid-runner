@@ -102,6 +102,11 @@ else: print('- 拷贝文件至用户分区失败,请查找自身环境问题!')
 print('- 已调用Waydroid安装Magisk应用本体')
 os.system(f'waydroid app install {cur_dir}/app-release.apk')
 
+# 设置Magisk二进制文件可执行权限
+print('- 正在设置Magisk二进制文件可执行权限:')
+if os.system(f'sudo chmod -R 755 {waydroid_path}/overlay/system/etc/init/magisk')==0: print('- 完成!')
+else: print('- 设置权限失败,请查找自身环境问题!')
+
 print('- 正在清理目录')
 Cleaner()
 
