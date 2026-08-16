@@ -2,11 +2,11 @@
 
 # Form implementation generated from reading ui file 'AutoConfig.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt6 UI code generator 6.x
 #
 # WARNING! All changes made in this file will be lost!
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -33,7 +33,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addWidget(self.searchList)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
         self.getInfoButton = QtWidgets.QPushButton(self.centralwidget)
         self.getInfoButton.setObjectName("getInfoButton")
@@ -54,35 +54,35 @@ class Ui_MainWindow(object):
         self.menu_2 = QtWidgets.QMenu(self.menubar)
         self.menu_2.setObjectName("menu_2")
         MainWindow.setMenuBar(self.menubar)
-        self.about = QtWidgets.QAction(MainWindow)
+        self.about = QtGui.QAction(MainWindow)
         self.about.setObjectName("about")
-        self.exitProgram = QtWidgets.QAction(MainWindow)
+        self.exitProgram = QtGui.QAction(MainWindow)
         self.exitProgram.setObjectName("exitProgram")
-        self.help = QtWidgets.QAction(MainWindow)
+        self.help = QtGui.QAction(MainWindow)
         self.help.setObjectName("help")
-        self.openFile = QtWidgets.QAction(MainWindow)
+        self.openFile = QtGui.QAction(MainWindow)
         self.openFile.setObjectName("openFile")
-        self.actionGitlink = QtWidgets.QAction(MainWindow)
+        self.actionGitlink = QtGui.QAction(MainWindow)
         self.actionGitlink.setCheckable(True)
         self.actionGitlink.setObjectName("actionGitlink")
-        self.actionGitee = QtWidgets.QAction(MainWindow)
+        self.actionGitee = QtGui.QAction(MainWindow)
         self.actionGitee.setCheckable(True)
         self.actionGitee.setObjectName("actionGitee")
-        self.actionGithub = QtWidgets.QAction(MainWindow)
+        self.actionGithub = QtGui.QAction(MainWindow)
         self.actionGithub.setCheckable(True)
         self.actionGithub.setChecked(True)
         self.actionGithub.setObjectName("actionGithub")
-        self.action_IPv6 = QtWidgets.QAction(MainWindow)
+        self.action_IPv6 = QtGui.QAction(MainWindow)
         self.action_IPv6.setCheckable(True)
         self.action_IPv6.setObjectName("action_IPv6")
-        self.action = QtWidgets.QAction(MainWindow)
+        self.action = QtGui.QAction(MainWindow)
         self.action.setCheckable(True)
         self.action.setObjectName("action")
-        self.action_2 = QtWidgets.QAction(MainWindow)
+        self.action_2 = QtGui.QAction(MainWindow)
         self.action_2.setCheckable(True)
         self.action_2.setChecked(False)
         self.action_2.setObjectName("action_2")
-        self.action_3 = QtWidgets.QAction(MainWindow)
+        self.action_3 = QtGui.QAction(MainWindow)
         self.action_3.setCheckable(True)
         self.action_3.setObjectName("action_3")
         self.menu.addAction(self.openFile)

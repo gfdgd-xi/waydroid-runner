@@ -5,7 +5,7 @@
 # 版本：1.8.1
 # 更新时间：2022年08月01日
 # 感谢：anbox、deepin 和 统信
-# 基于 Python3 的 PyQt5 构建
+# 基于 Python3 的 PyQt6 构建
 ###########################################################################################
 #################
 # 引入所需的库
@@ -19,9 +19,9 @@ import zipfile
 import traceback
 import subprocess
 import updatekiller
-import PyQt5.QtGui as QtGui
-import PyQt5.QtCore as QtCore
-import PyQt5.QtWidgets as QtWidgets
+import PyQt6.QtGui as QtGui
+import PyQt6.QtCore as QtCore
+import PyQt6.QtWidgets as QtWidgets
 from getxmlimg import getsavexml
 
 print("""南安军
@@ -476,9 +476,9 @@ findApkHistory = list(json.loads(readtxt(get_home() + "/.config/uengine-runner/F
 app = QtWidgets.QApplication(sys.argv)
 # 权重
 size = QtWidgets.QSizePolicy()
-size.setHorizontalPolicy(0)
+size.setHorizontalPolicy(QtWidgets.QSizePolicy.Policy.Fixed)
 widgetSize = QtWidgets.QSizePolicy()
-widgetSize.setVerticalPolicy(0)
+widgetSize.setVerticalPolicy(QtWidgets.QSizePolicy.Policy.Fixed)
 #
 window = QtWidgets.QMainWindow()
 widget = QtWidgets.QWidget()
@@ -534,7 +534,7 @@ widgetLayout.addWidget(textbox1, 9, 0, 1, 3)
 # 菜单栏
 menu = window.menuBar()
 programmenu = menu.addMenu(langFile[lang]["Uengine Apk Builder"]["Menu"][0]["Name"])
-exitProgram = QtWidgets.QAction(langFile[lang]["Uengine Apk Builder"]["Menu"][0]["Menu"][0])
+exitProgram = QtGui.QAction(langFile[lang]["Uengine Apk Builder"]["Menu"][0]["Menu"][0])
 exitProgram.triggered.connect(window.close)
 programmenu.addAction(exitProgram)
 #
@@ -560,4 +560,4 @@ textList = [
         nameText, 
         iconText
         ]
-sys.exit(app.exec_())
+sys.exit(app.exec())

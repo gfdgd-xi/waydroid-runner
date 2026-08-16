@@ -59,7 +59,7 @@ depend:
 	sudo apt install python3 python3-tk python3-pip aapt \
 	python3-setuptools deepin-terminal curl python3-pil\
 	 python3-requests adb fonts-noto-cjk python3-numpy\
-	  python3-matplotlib wget inotify-tools aria2 python3-pyqt5
+	  python3-matplotlib wget inotify-tools aria2 python3-pyqt6
 	python3 -m pip install --upgrade pip          --trusted-host https://repo.huaweicloud.com -i https://repo.huaweicloud.com/repository/pypi/simple
 	python3 -m pip install --upgrade ttkthemes    --trusted-host https://repo.huaweicloud.com -i https://repo.huaweicloud.com/repository/pypi/simple
 	python3 -m pip install --upgrade pyautogui    --trusted-host https://repo.huaweicloud.com -i https://repo.huaweicloud.com/repository/pypi/simple

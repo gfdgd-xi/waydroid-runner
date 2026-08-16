@@ -17,7 +17,7 @@ import platform
 import traceback
 import webbrowser
 import subprocess
-import PyQt5.QtWidgets as QtWidgets
+import PyQt6.QtWidgets as QtWidgets
 # 读取文本文档
 def readtxt(path):
     f = open(path, "r") # 设置文件对象

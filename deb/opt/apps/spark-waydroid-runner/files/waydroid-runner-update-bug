@@ -8,8 +8,9 @@ import traceback
 import webbrowser
 import updatekiller
 import urllib.parse as parse
-import PyQt5.QtGui as QtGui
-import PyQt5.QtWidgets as QtWidgets
+import PyQt6.QtGui as QtGui
+import PyQt6.QtCore as QtCore
+import PyQt6.QtWidgets as QtWidgets
 
 # 读取文本文档
 def readtxt(path: "路径")->"读取文本文档":
@@ -79,7 +80,7 @@ otherUpload.addWidget(giteeButton)
 otherUpload.addWidget(githubButton)
 #otherUpload.addWidget(gitlinkButton)
 #otherUpload.addWidget(forumButton)
-otherUpload.addSpacerItem(QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum))
+otherUpload.addSpacerItem(QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum))
 starMenu.addItems(["5分", "4分", "3分", "2分", "1分"])
 widgetLayout.addWidget(QtWidgets.QLabel("你的昵称："), 0, 0, 1, 1)
 widgetLayout.addWidget(QtWidgets.QLabel("联系方式（电子邮箱）："), 0, 2, 1, 1)
@@ -107,4 +108,4 @@ updateButton.setDisabled(True)
 starMenu.setDisabled(True)
 contactThings.setDisabled(True)
 window.show()
-sys.exit(app.exec_())
+sys.exit(app.exec())

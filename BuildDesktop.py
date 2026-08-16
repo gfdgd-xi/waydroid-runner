@@ -5,7 +5,7 @@
 # 版本：2.5.0
 # 更新时间：2022年11月20日
 # 感谢：感谢 wine、deepin-wine 以及星火团队，提供了 wine、deepin-wine、spark-wine-devel 给大家使用，让我能做这个程序
-# 基于 Python3 的 PyQt5 构建
+# 基于 Python3 的 PyQt6 构建
 #################################################################################################################
 #################
 # 引入所需的库
@@ -14,9 +14,9 @@ import os
 import sys
 import traceback
 import updatekiller
-import PyQt5.QtGui as QtGui
-import PyQt5.QtCore as QtCore
-import PyQt5.QtWidgets as QtWidgets
+import PyQt6.QtGui as QtGui
+import PyQt6.QtCore as QtCore
+import PyQt6.QtWidgets as QtWidgets
 
 desktopList = []
 desktopUsrList = []
@@ -34,7 +34,7 @@ def GetDesktopList(path):
                         if not "=" in k:
                             continue
                         desktop[k[:k.index("=")].lower()] = k[k.index("=") + 1:]
-                desktopList.append([desktop["Name".lower()], desktop["Icon".lower()], desktop["Exec".lower()], f"{path}/{i}"])
+                desktopList.append([desktop.get("name", ""), desktop.get("icon", ""), desktop.get("exec", ""), f"{path}/{i}"])
             except:
                 traceback.print_exc()
     delButton.setEnabled(len(desktopList))
@@ -65,9 +65,9 @@ def ShowDesktop(temp):
         nmodel.setItem(y, 1, QtGui.QStandardItem(i[2]))
         nmodel.setItem(y, 2, QtGui.QStandardItem(i[3]))
         y += 1
-    nmodel.setHeaderData(0, QtCore.Qt.Horizontal, "程序名")
-    nmodel.setHeaderData(1, QtCore.Qt.Horizontal, "运行路径")
-    nmodel.setHeaderData(2, QtCore.Qt.Horizontal, ".desktop 文件所在路径")
+    nmodel.setHeaderData(0, QtCore.Qt.Orientation.Horizontal, "程序名")
+    nmodel.setHeaderData(1, QtCore.Qt.Orientation.Horizontal, "运行路径")
+    nmodel.setHeaderData(2, QtCore.Qt.Orientation.Horizontal, ".desktop 文件所在路径")
     nmodel.setColumnCount(3)
     desktopListView.setModel(nmodel)   
 
@@ -109,8 +109,8 @@ delButton = QtWidgets.QPushButton("删除指定图标")
 delButton.clicked.connect(DeleteButton)
 #desktopListView = QtWidgets.QListView()
 desktopListView = QtWidgets.QTableView()
-desktopListView.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-desktopListView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)#(QAbstractItemView::SelectRows)
+desktopListView.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
+desktopListView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)#(QAbstractItemView::SelectRows)
 layout.addWidget(desktopListView, 0, 0, 1, 4)
 layout.addWidget(delButton, 1, 3, 1, 1)
 widget.setLayout(layout)
@@ -120,4 +120,4 @@ window.resize(int(window.frameGeometry().width() * 1.5), int(window.frameGeometr
 window.setWindowIcon(QtGui.QIcon(f"{programPath}/deepin-wine-runner.svg"))
 window.show()
 GetDesktopThread()
-app.exec_()
+app.exec()

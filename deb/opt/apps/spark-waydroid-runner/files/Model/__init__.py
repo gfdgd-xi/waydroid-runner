@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
 import sys
-import PyQt5.QtWidgets as QtWidgets
+import PyQt6.QtWidgets as QtWidgets
 def OpenTerminal(command):
     if terminalEnd[terminal][1]:
         os.system(f"\"{terminal}\" \"{terminalEnd[terminal][0]}\" \"{command}\"")
